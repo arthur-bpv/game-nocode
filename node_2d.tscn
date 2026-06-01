@@ -1,0 +1,395 @@
+[gd_scene load_steps=49 format=3 uid="uid://1j3opshopbhc"]
+
+[ext_resource type="Script" uid="uid://cumxsbxj56dmk" path="res://addons/block_code/block_code_node/block_code.gd" id="1_kdubu"]
+[ext_resource type="Texture2D" uid="uid://bgd0g2iwga1ll" path="res://Cafeteria.png" id="1_rj586"]
+[ext_resource type="Script" uid="uid://brx1cabdmgu38" path="res://addons/block_code/serialization/block_serialization_tree.gd" id="4_rj586"]
+[ext_resource type="Script" uid="uid://u035wsjd5tpj" path="res://addons/block_code/serialization/block_serialization.gd" id="5_4d7sh"]
+[ext_resource type="Script" uid="uid://duvgxorhfitb7" path="res://addons/block_code/serialization/value_block_serialization.gd" id="6_4d7sh"]
+[ext_resource type="Texture2D" uid="uid://df18l7sp8crhc" path="res://Android.png" id="6_hqns4"]
+[ext_resource type="Script" uid="uid://tlsvrkc3fubl" path="res://addons/block_code/serialization/block_script_serialization.gd" id="6_ir8iy"]
+[ext_resource type="Script" uid="uid://bwkinr8omutpw" path="res://addons/block_code/code_generation/variable_definition.gd" id="7_hqns4"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rj586"]
+radius = 76.0
+height = 256.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4d7sh"]
+radius = 16.0
+height = 60.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4d7sh"]
+atlas = ExtResource("6_hqns4")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ir8iy"]
+atlas = ExtResource("6_hqns4")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hqns4"]
+atlas = ExtResource("6_hqns4")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ta5nu"]
+atlas = ExtResource("6_hqns4")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_flf07"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4d7sh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ir8iy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hqns4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ta5nu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_gt76g"]
+script = ExtResource("6_4d7sh")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"left"
+}
+
+[sub_resource type="Resource" id="Resource_1fr6y"]
+script = ExtResource("5_4d7sh")
+name = &"Node2D_set_scale"
+children = Array[ExtResource("5_4d7sh")]([])
+arguments = {
+"value": Vector2(-1, 1)
+}
+
+[sub_resource type="Resource" id="Resource_2hxjc"]
+script = ExtResource("5_4d7sh")
+name = &"if"
+children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_1fr6y")])
+arguments = {
+"condition": SubResource("Resource_gt76g")
+}
+
+[sub_resource type="Resource" id="Resource_ebxd8"]
+script = ExtResource("6_4d7sh")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"right"
+}
+
+[sub_resource type="Resource" id="Resource_2u7jv"]
+script = ExtResource("5_4d7sh")
+name = &"Node2D_set_scale"
+children = Array[ExtResource("5_4d7sh")]([])
+arguments = {
+"value": Vector2(1, 1)
+}
+
+[sub_resource type="Resource" id="Resource_24dk6"]
+script = ExtResource("5_4d7sh")
+name = &"if"
+children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_2u7jv")])
+arguments = {
+"condition": SubResource("Resource_ebxd8")
+}
+
+[sub_resource type="Resource" id="Resource_mryly"]
+script = ExtResource("5_4d7sh")
+name = &"process"
+children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_2hxjc"), SubResource("Resource_24dk6")])
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_kq1c5"]
+script = ExtResource("4_rj586")
+root = SubResource("Resource_mryly")
+canvas_position = Vector2(150, 50)
+
+[sub_resource type="Resource" id="Resource_ornx7"]
+script = ExtResource("6_ir8iy")
+script_inherits = "AnimatedSprite2D"
+block_serialization_trees = Array[ExtResource("4_rj586")]([SubResource("Resource_kq1c5")])
+variables = Array[ExtResource("7_hqns4")]([])
+generated_script = "extends AnimatedSprite2D
+
+
+func _process(delta):
+	if (Input.is_action_pressed('left')):
+		scale = Vector2(-1.0, 1.0)
+	if (Input.is_action_pressed('right')):
+		scale = Vector2(1.0, 1.0)
+
+"
+version = 0
+
+[sub_resource type="Resource" id="Resource_4d7sh"]
+script = ExtResource("5_4d7sh")
+name = &"CharacterBody2D_set_velocity"
+children = Array[ExtResource("5_4d7sh")]([])
+arguments = {
+"value": Vector2(0, 0)
+}
+
+[sub_resource type="Resource" id="Resource_ir8iy"]
+script = ExtResource("6_4d7sh")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"right"
+}
+
+[sub_resource type="Resource" id="Resource_hqns4"]
+script = ExtResource("5_4d7sh")
+name = &"CharacterBody2D_change_velocity"
+children = Array[ExtResource("5_4d7sh")]([])
+arguments = {
+"value": Vector2(500, 0)
+}
+
+[sub_resource type="Resource" id="Resource_x0ka3"]
+script = ExtResource("5_4d7sh")
+name = &"if"
+children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_hqns4")])
+arguments = {
+"condition": SubResource("Resource_ir8iy")
+}
+
+[sub_resource type="Resource" id="Resource_0h7mo"]
+script = ExtResource("6_4d7sh")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"left"
+}
+
+[sub_resource type="Resource" id="Resource_nr8wp"]
+script = ExtResource("5_4d7sh")
+name = &"CharacterBody2D_change_velocity"
+children = Array[ExtResource("5_4d7sh")]([])
+arguments = {
+"value": Vector2(-500, 0)
+}
+
+[sub_resource type="Resource" id="Resource_d2bti"]
+script = ExtResource("5_4d7sh")
+name = &"if"
+children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_nr8wp")])
+arguments = {
+"condition": SubResource("Resource_0h7mo")
+}
+
+[sub_resource type="Resource" id="Resource_ta5nu"]
+script = ExtResource("6_4d7sh")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"up"
+}
+
+[sub_resource type="Resource" id="Resource_k73cj"]
+script = ExtResource("5_4d7sh")
+name = &"CharacterBody2D_change_velocity"
+children = Array[ExtResource("5_4d7sh")]([])
+arguments = {
+"value": Vector2(0, -500)
+}
+
+[sub_resource type="Resource" id="Resource_rjqkl"]
+script = ExtResource("5_4d7sh")
+name = &"if"
+children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_k73cj")])
+arguments = {
+"condition": SubResource("Resource_ta5nu")
+}
+
+[sub_resource type="Resource" id="Resource_fs4d3"]
+script = ExtResource("6_4d7sh")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"down"
+}
+
+[sub_resource type="Resource" id="Resource_7vxoj"]
+script = ExtResource("5_4d7sh")
+name = &"CharacterBody2D_change_velocity"
+children = Array[ExtResource("5_4d7sh")]([])
+arguments = {
+"value": Vector2(0, 500)
+}
+
+[sub_resource type="Resource" id="Resource_ei405"]
+script = ExtResource("5_4d7sh")
+name = &"if"
+children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_7vxoj")])
+arguments = {
+"condition": SubResource("Resource_fs4d3")
+}
+
+[sub_resource type="Resource" id="Resource_e8dv2"]
+script = ExtResource("5_4d7sh")
+name = &"characterbody2d_move_and_slide"
+children = Array[ExtResource("5_4d7sh")]([])
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_2nhjh"]
+script = ExtResource("5_4d7sh")
+name = &"process"
+children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_4d7sh"), SubResource("Resource_x0ka3"), SubResource("Resource_d2bti"), SubResource("Resource_rjqkl"), SubResource("Resource_ei405"), SubResource("Resource_e8dv2")])
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_bjha6"]
+script = ExtResource("4_rj586")
+root = SubResource("Resource_2nhjh")
+canvas_position = Vector2(275, 50)
+
+[sub_resource type="Resource" id="Resource_cnnru"]
+script = ExtResource("5_4d7sh")
+name = &"ready"
+children = Array[ExtResource("5_4d7sh")]([])
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_540hr"]
+script = ExtResource("4_rj586")
+root = SubResource("Resource_cnnru")
+canvas_position = Vector2(0, 50)
+
+[sub_resource type="Resource" id="Resource_6ip5v"]
+script = ExtResource("5_4d7sh")
+name = &"Node2D_change_position"
+children = Array[ExtResource("5_4d7sh")]([])
+arguments = {
+"value": Vector2(5, 0)
+}
+
+[sub_resource type="Resource" id="Resource_fbwgr"]
+script = ExtResource("4_rj586")
+root = SubResource("Resource_6ip5v")
+canvas_position = Vector2(697.627, 32.7721)
+
+[sub_resource type="Resource" id="Resource_c4wnb"]
+script = ExtResource("7_hqns4")
+var_name = "x"
+var_type = 2
+
+[sub_resource type="Resource" id="Resource_7plk7"]
+script = ExtResource("7_hqns4")
+var_name = "y"
+var_type = 2
+
+[sub_resource type="Resource" id="Resource_q5dlx"]
+script = ExtResource("7_hqns4")
+var_name = "Virado"
+var_type = 1
+
+[sub_resource type="Resource" id="Resource_flf07"]
+script = ExtResource("6_ir8iy")
+script_inherits = "CharacterBody2D"
+block_serialization_trees = Array[ExtResource("4_rj586")]([SubResource("Resource_bjha6"), SubResource("Resource_540hr"), SubResource("Resource_fbwgr")])
+variables = Array[ExtResource("7_hqns4")]([SubResource("Resource_c4wnb"), SubResource("Resource_7plk7"), SubResource("Resource_q5dlx")])
+generated_script = "extends CharacterBody2D
+
+var x: int
+
+var y: int
+
+var Virado: bool
+
+
+func _process(delta):
+	velocity = Vector2(0.0, 0.0)
+	if (Input.is_action_pressed('right')):
+		velocity += Vector2(500.0, 0.0)
+	if (Input.is_action_pressed('left')):
+		velocity += Vector2(-500.0, 0.0)
+	if (Input.is_action_pressed('up')):
+		velocity += Vector2(0.0, -500.0)
+	if (Input.is_action_pressed('down')):
+		velocity += Vector2(0.0, 500.0)
+	move_and_slide()
+
+func _ready():
+	pass
+
+"
+version = 0
+
+[node name="Node2D" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(594, 474)
+scale = Vector2(1.84688, 1.41053)
+texture = ExtResource("1_rj586")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(526, 861, 290, 861, 43, 672, 43, 490, 1, 490, 4, 943, 526, 943)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(577, 459)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_rj586")
+one_way_collision_margin = 0.0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(823, 256)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_rj586")
+one_way_collision_margin = 0.0
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(323, 263)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_rj586")
+one_way_collision_margin = 0.0
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(325, 655)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_rj586")
+one_way_collision_margin = 0.0
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(820, 655)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_rj586")
+one_way_collision_margin = 0.0
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(685.284, 6.34472)
+rotation = 6.2815
+scale = Vector2(0.968267, 1.03202)
+polygon = PackedVector2Array(513.813, 908.193, 514.598, 470.15, 481.344, 470.097, 479.953, 636.923, 217.868, 827.917, -34.7404, 829.1, -34.8806, 907.322)
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(585, 341)
+shape = SubResource("CapsuleShape2D_4d7sh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+position = Vector2(585, 341)
+sprite_frames = SubResource("SpriteFrames_flf07")
+autoplay = "default"
+
+[node name="BlockCode" type="Node" parent="CharacterBody2D/AnimatedSprite2D"]
+script = ExtResource("1_kdubu")
+block_script = SubResource("Resource_ornx7")
+metadata/_custom_type_script = "uid://cumxsbxj56dmk"
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+position = Vector2(586, 330)
+zoom = Vector2(2, 2)
+
+[node name="BlockCode" type="Node" parent="CharacterBody2D"]
+script = ExtResource("1_kdubu")
+block_script = SubResource("Resource_flf07")
+metadata/_custom_type_script = "uid://cumxsbxj56dmk"
