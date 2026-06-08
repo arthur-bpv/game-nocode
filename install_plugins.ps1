@@ -13,11 +13,12 @@ try {
         throw "project.godot nao encontrado. Execute o script dentro da pasta do projeto."
     }
 
-    $ORCHESTRATOR_VERSION = "v2.4.3.stable"
+    $ORCHESTRATOR_TAG = "v2.4.3.stable"
+    $ORCHESTRATOR_FILE = "v2.4.3-stable"
     $TMP = "$env:TEMP\orchestrator.zip"
-    $URL = "https://github.com/CraterCrash/godot-orchestrator/releases/download/$ORCHESTRATOR_VERSION/godot-orchestrator-$ORCHESTRATOR_VERSION-plugin.zip"
+    $URL = "https://github.com/CraterCrash/godot-orchestrator/releases/download/$ORCHESTRATOR_TAG/godot-orchestrator-$ORCHESTRATOR_FILE-plugin.zip"
 
-    Write-Host "Instalando Orchestrator $ORCHESTRATOR_VERSION em: $scriptDir"
+    Write-Host "Instalando Orchestrator $ORCHESTRATOR_TAG em: $scriptDir"
     Write-Host "Baixando..."
     Invoke-WebRequest -Uri $URL -OutFile $TMP -UseBasicParsing
     Write-Host "Extraindo..."
