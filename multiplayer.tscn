@@ -1,0 +1,324 @@
+[gd_scene load_steps=43 format=3 uid="uid://51q8q3mvifkx"]
+
+[ext_resource type="Texture2D" uid="uid://dt7gnsfldukqr" path="res://icon.svg" id="1_56a3p"]
+[ext_resource type="Texture2D" uid="uid://d3f5nrltw0ixc" path="res://grama.png" id="2_otwdb"]
+[ext_resource type="Texture2D" uid="uid://cu0fpra77lkij" path="res://cavalo-saltando-cdc.jpg" id="3_xwa7x"]
+[ext_resource type="Script" uid="uid://cumxsbxj56dmk" path="res://addons/block_code/block_code_node/block_code.gd" id="4_o22nx"]
+[ext_resource type="Script" uid="uid://brx1cabdmgu38" path="res://addons/block_code/serialization/block_serialization_tree.gd" id="5_6pbve"]
+[ext_resource type="Script" uid="uid://u035wsjd5tpj" path="res://addons/block_code/serialization/block_serialization.gd" id="6_tu0dv"]
+[ext_resource type="Script" uid="uid://duvgxorhfitb7" path="res://addons/block_code/serialization/value_block_serialization.gd" id="7_k56kg"]
+[ext_resource type="Script" uid="uid://tlsvrkc3fubl" path="res://addons/block_code/serialization/block_script_serialization.gd" id="8_hjypd"]
+[ext_resource type="Script" uid="uid://bwkinr8omutpw" path="res://addons/block_code/code_generation/variable_definition.gd" id="9_7pc6l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4d7sh"]
+size = Vector2(1260, 207)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4d7sh"]
+atlas = ExtResource("3_xwa7x")
+region = Rect2(0, 250, 375, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rj586"]
+atlas = ExtResource("3_xwa7x")
+region = Rect2(375, 0, 375, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d21ai"]
+atlas = ExtResource("3_xwa7x")
+region = Rect2(0, 0, 375, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ir8iy"]
+atlas = ExtResource("3_xwa7x")
+region = Rect2(375, 250, 375, 250)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hqns4"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4d7sh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rj586")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d21ai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ir8iy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_4d7sh"]
+script = ExtResource("7_k56kg")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"left"
+}
+
+[sub_resource type="Resource" id="Resource_ir8iy"]
+script = ExtResource("6_tu0dv")
+name = &"Node2D_set_scale"
+children = Array[ExtResource("6_tu0dv")]([])
+arguments = {
+"value": Vector2(-1, 1)
+}
+
+[sub_resource type="Resource" id="Resource_hqns4"]
+script = ExtResource("6_tu0dv")
+name = &"if"
+children = Array[ExtResource("6_tu0dv")]([SubResource("Resource_ir8iy")])
+arguments = {
+"condition": SubResource("Resource_4d7sh")
+}
+
+[sub_resource type="Resource" id="Resource_x0ka3"]
+script = ExtResource("7_k56kg")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"right"
+}
+
+[sub_resource type="Resource" id="Resource_0h7mo"]
+script = ExtResource("6_tu0dv")
+name = &"Node2D_set_scale"
+children = Array[ExtResource("6_tu0dv")]([])
+arguments = {
+"value": Vector2(1, 1)
+}
+
+[sub_resource type="Resource" id="Resource_d2bti"]
+script = ExtResource("6_tu0dv")
+name = &"if"
+children = Array[ExtResource("6_tu0dv")]([SubResource("Resource_0h7mo")])
+arguments = {
+"condition": SubResource("Resource_x0ka3")
+}
+
+[sub_resource type="Resource" id="Resource_ta5nu"]
+script = ExtResource("6_tu0dv")
+name = &"process"
+children = Array[ExtResource("6_tu0dv")]([SubResource("Resource_hqns4"), SubResource("Resource_d2bti")])
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_k73cj"]
+script = ExtResource("5_6pbve")
+root = SubResource("Resource_ta5nu")
+canvas_position = Vector2(225, 25)
+
+[sub_resource type="Resource" id="Resource_nr8wp"]
+script = ExtResource("8_hjypd")
+script_inherits = "AnimatedSprite2D"
+block_serialization_trees = Array[ExtResource("5_6pbve")]([SubResource("Resource_k73cj")])
+variables = Array[ExtResource("9_7pc6l")]([])
+generated_script = "extends AnimatedSprite2D
+
+
+func _process(delta):
+	if (Input.is_action_pressed('left')):
+		scale = Vector2(-1.0, 1.0)
+	if (Input.is_action_pressed('right')):
+		scale = Vector2(1.0, 1.0)
+
+"
+version = 0
+
+[sub_resource type="Resource" id="Resource_rjqkl"]
+script = ExtResource("6_tu0dv")
+name = &"CharacterBody2D_set_velocity"
+children = Array[ExtResource("6_tu0dv")]([])
+arguments = {
+"value": Vector2(0, 0)
+}
+
+[sub_resource type="Resource" id="Resource_fs4d3"]
+script = ExtResource("7_k56kg")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"left"
+}
+
+[sub_resource type="Resource" id="Resource_7vxoj"]
+script = ExtResource("6_tu0dv")
+name = &"CharacterBody2D_change_velocity"
+children = Array[ExtResource("6_tu0dv")]([])
+arguments = {
+"value": Vector2(-400, 0)
+}
+
+[sub_resource type="Resource" id="Resource_ei405"]
+script = ExtResource("6_tu0dv")
+name = &"if"
+children = Array[ExtResource("6_tu0dv")]([SubResource("Resource_7vxoj")])
+arguments = {
+"condition": SubResource("Resource_fs4d3")
+}
+
+[sub_resource type="Resource" id="Resource_e8dv2"]
+script = ExtResource("7_k56kg")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"right"
+}
+
+[sub_resource type="Resource" id="Resource_2nhjh"]
+script = ExtResource("6_tu0dv")
+name = &"CharacterBody2D_change_velocity"
+children = Array[ExtResource("6_tu0dv")]([])
+arguments = {
+"value": Vector2(400, 0)
+}
+
+[sub_resource type="Resource" id="Resource_bjha6"]
+script = ExtResource("6_tu0dv")
+name = &"if"
+children = Array[ExtResource("6_tu0dv")]([SubResource("Resource_2nhjh")])
+arguments = {
+"condition": SubResource("Resource_e8dv2")
+}
+
+[sub_resource type="Resource" id="Resource_gt76g"]
+script = ExtResource("7_k56kg")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"up"
+}
+
+[sub_resource type="Resource" id="Resource_1fr6y"]
+script = ExtResource("6_tu0dv")
+name = &"CharacterBody2D_change_velocity"
+children = Array[ExtResource("6_tu0dv")]([])
+arguments = {
+"value": Vector2(0, -400)
+}
+
+[sub_resource type="Resource" id="Resource_2hxjc"]
+script = ExtResource("6_tu0dv")
+name = &"if"
+children = Array[ExtResource("6_tu0dv")]([SubResource("Resource_1fr6y")])
+arguments = {
+"condition": SubResource("Resource_gt76g")
+}
+
+[sub_resource type="Resource" id="Resource_ebxd8"]
+script = ExtResource("7_k56kg")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"down"
+}
+
+[sub_resource type="Resource" id="Resource_2u7jv"]
+script = ExtResource("6_tu0dv")
+name = &"CharacterBody2D_change_velocity"
+children = Array[ExtResource("6_tu0dv")]([])
+arguments = {
+"value": Vector2(0, 400)
+}
+
+[sub_resource type="Resource" id="Resource_24dk6"]
+script = ExtResource("6_tu0dv")
+name = &"if"
+children = Array[ExtResource("6_tu0dv")]([SubResource("Resource_2u7jv")])
+arguments = {
+"condition": SubResource("Resource_ebxd8")
+}
+
+[sub_resource type="Resource" id="Resource_mryly"]
+script = ExtResource("6_tu0dv")
+name = &"characterbody2d_move_and_slide"
+children = Array[ExtResource("6_tu0dv")]([])
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_kq1c5"]
+script = ExtResource("6_tu0dv")
+name = &"process"
+children = Array[ExtResource("6_tu0dv")]([SubResource("Resource_rjqkl"), SubResource("Resource_ei405"), SubResource("Resource_bjha6"), SubResource("Resource_2hxjc"), SubResource("Resource_24dk6"), SubResource("Resource_mryly")])
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_ornx7"]
+script = ExtResource("5_6pbve")
+root = SubResource("Resource_kq1c5")
+canvas_position = Vector2(475, 25)
+
+[sub_resource type="Resource" id="Resource_flf07"]
+script = ExtResource("8_hjypd")
+script_inherits = "CharacterBody2D"
+block_serialization_trees = Array[ExtResource("5_6pbve")]([SubResource("Resource_ornx7")])
+variables = Array[ExtResource("9_7pc6l")]([])
+generated_script = "extends CharacterBody2D
+
+
+func _process(delta):
+	velocity = Vector2(0.0, 0.0)
+	if (Input.is_action_pressed('left')):
+		velocity += Vector2(-400.0, 0.0)
+	if (Input.is_action_pressed('right')):
+		velocity += Vector2(400.0, 0.0)
+	if (Input.is_action_pressed('up')):
+		velocity += Vector2(0.0, -400.0)
+	if (Input.is_action_pressed('down')):
+		velocity += Vector2(0.0, 400.0)
+	move_and_slide()
+
+"
+version = 0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ir8iy"]
+size = Vector2(372, 245)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(567, 228)
+scale = Vector2(9.13281, 3.69141)
+texture = ExtResource("1_56a3p")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(601, 543.872)
+scale = Vector2(1.88125, 0.801472)
+texture = ExtResource("2_otwdb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(601, 589.5)
+shape = SubResource("RectangleShape2D_4d7sh")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(536, 168)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+position = Vector2(68, -76)
+sprite_frames = SubResource("SpriteFrames_hqns4")
+autoplay = "default"
+
+[node name="BlockCode" type="Node" parent="CharacterBody2D/AnimatedSprite2D"]
+script = ExtResource("4_o22nx")
+block_script = SubResource("Resource_nr8wp")
+metadata/_custom_type_script = "uid://cumxsbxj56dmk"
+
+[node name="BlockCode" type="Node" parent="CharacterBody2D"]
+script = ExtResource("4_o22nx")
+block_script = SubResource("Resource_flf07")
+metadata/_custom_type_script = "uid://cumxsbxj56dmk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(67, -76.5)
+shape = SubResource("RectangleShape2D_ir8iy")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+position = Vector2(68, -89)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 538.0
+offset_top = 319.0
+offset_right = 627.0
+offset_bottom = 342.0
+text = "Multiplayer"

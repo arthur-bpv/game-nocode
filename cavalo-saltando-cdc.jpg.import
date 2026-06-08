@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pqnefbxg0ioj"
-valid=false
+uid="uid://cu0fpra77lkij"
+path="res://.godot/imported/cavalo-saltando-cdc.jpg-a3b2f00646bca4016973392e15450f6a.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
-source_file="res://Sprites/Ponto.png"
+source_file="res://cavalo-saltando-cdc.jpg"
+dest_files=["res://.godot/imported/cavalo-saltando-cdc.jpg-a3b2f00646bca4016973392e15450f6a.ctex"]
 
 [params]
 

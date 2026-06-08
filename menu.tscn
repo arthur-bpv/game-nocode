@@ -1,0 +1,115 @@
+[gd_scene load_steps=15 format=3 uid="uid://bp4ox7p2c3ret"]
+
+[ext_resource type="Script" uid="uid://cumxsbxj56dmk" path="res://addons/block_code/block_code_node/block_code.gd" id="1_ytr4m"]
+[ext_resource type="Script" uid="uid://brx1cabdmgu38" path="res://addons/block_code/serialization/block_serialization_tree.gd" id="2_l48gv"]
+[ext_resource type="Script" uid="uid://u035wsjd5tpj" path="res://addons/block_code/serialization/block_serialization.gd" id="3_ecwwl"]
+[ext_resource type="Script" uid="uid://tlsvrkc3fubl" path="res://addons/block_code/serialization/block_script_serialization.gd" id="4_kk3ma"]
+[ext_resource type="Script" uid="uid://duvgxorhfitb7" path="res://addons/block_code/serialization/value_block_serialization.gd" id="4_l48gv"]
+[ext_resource type="Script" uid="uid://bwkinr8omutpw" path="res://addons/block_code/code_generation/variable_definition.gd" id="5_nrnbx"]
+
+[sub_resource type="Resource" id="Resource_l48gv"]
+script = ExtResource("4_l48gv")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"ui_accept"
+}
+
+[sub_resource type="Resource" id="Resource_ecwwl"]
+script = ExtResource("3_ecwwl")
+name = &"switch_scene"
+children = Array[ExtResource("3_ecwwl")]([])
+arguments = {
+"file_path": "res://escolha.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_kk3ma"]
+script = ExtResource("3_ecwwl")
+name = &"if"
+children = Array[ExtResource("3_ecwwl")]([SubResource("Resource_ecwwl")])
+arguments = {
+"condition": SubResource("Resource_l48gv")
+}
+
+[sub_resource type="Resource" id="Resource_nrnbx"]
+script = ExtResource("3_ecwwl")
+name = &"process"
+children = Array[ExtResource("3_ecwwl")]([SubResource("Resource_kk3ma")])
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_iqepy"]
+script = ExtResource("2_l48gv")
+root = SubResource("Resource_nrnbx")
+canvas_position = Vector2(175, 25)
+
+[sub_resource type="Resource" id="Resource_h1wq0"]
+script = ExtResource("3_ecwwl")
+name = &"await_scene_ready"
+children = Array[ExtResource("3_ecwwl")]([])
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_dwrpx"]
+script = ExtResource("2_l48gv")
+root = SubResource("Resource_h1wq0")
+canvas_position = Vector2(1324, 46)
+
+[sub_resource type="Resource" id="Resource_g7jxm"]
+script = ExtResource("4_kk3ma")
+script_inherits = "Button"
+block_serialization_trees = Array[ExtResource("2_l48gv")]([SubResource("Resource_iqepy"), SubResource("Resource_dwrpx")])
+variables = Array[ExtResource("5_nrnbx")]([])
+generated_script = "extends Button
+
+
+func _process(delta):
+	if (Input.is_action_pressed('ui_accept')):
+		get_tree().change_scene_to_file('res://escolha.tscn')
+
+
+"
+version = 0
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 310.0
+offset_top = 204.0
+offset_right = 829.0
+offset_bottom = 480.0
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 179.0
+offset_top = 101.0
+offset_right = 323.0
+offset_bottom = 132.0
+action_mode = 0
+text = "JOGAR"
+
+[node name="BlockCode" type="Node" parent="Button"]
+script = ExtResource("1_ytr4m")
+block_script = SubResource("Resource_g7jxm")
+metadata/_custom_type_script = "uid://cumxsbxj56dmk"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.019
+anchor_right = 0.034
+anchor_bottom = 0.045
+offset_left = 210.405
+offset_top = 2.0
+offset_right = 280.17
+offset_bottom = 21.12
+text = "JOGO LEGAL"
+
+[node name="Button2" type="Button" parent="." node_paths=PackedStringArray("shortcut_context")]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 157.0
+offset_right = 325.0
+offset_bottom = 188.0
+shortcut_context = NodePath("../Button/BlockCode")
+text = "OPÇÕES"
+
+[connection signal="pressed" from="Button" to="Button/BlockCode" method="_on_button_pressed"]

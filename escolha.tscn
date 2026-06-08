@@ -1,0 +1,439 @@
+[gd_scene load_steps=53 format=3 uid="uid://8rk3tasgfkvg"]
+
+[ext_resource type="Script" uid="uid://cumxsbxj56dmk" path="res://addons/block_code/block_code_node/block_code.gd" id="1_kxeam"]
+[ext_resource type="Script" uid="uid://brx1cabdmgu38" path="res://addons/block_code/serialization/block_serialization_tree.gd" id="2_fd0nw"]
+[ext_resource type="Script" uid="uid://u035wsjd5tpj" path="res://addons/block_code/serialization/block_serialization.gd" id="3_008yv"]
+[ext_resource type="Script" uid="uid://duvgxorhfitb7" path="res://addons/block_code/serialization/value_block_serialization.gd" id="4_5yvy0"]
+[ext_resource type="Script" uid="uid://tlsvrkc3fubl" path="res://addons/block_code/serialization/block_script_serialization.gd" id="5_a74ub"]
+[ext_resource type="Script" uid="uid://bwkinr8omutpw" path="res://addons/block_code/code_generation/variable_definition.gd" id="6_7r3qh"]
+
+[sub_resource type="Resource" id="Resource_kxeam"]
+script = ExtResource("4_5yvy0")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"up"
+}
+
+[sub_resource type="Resource" id="Resource_fd0nw"]
+script = ExtResource("3_008yv")
+name = &"set_var_bomba"
+children = Array[ExtResource("3_008yv")]([])
+arguments = {
+"value": 1
+}
+
+[sub_resource type="Resource" id="Resource_008yv"]
+script = ExtResource("3_008yv")
+name = &"CanvasItem_set_visible"
+children = Array[ExtResource("3_008yv")]([])
+arguments = {
+"value": true
+}
+
+[sub_resource type="Resource" id="Resource_5yvy0"]
+script = ExtResource("3_008yv")
+name = &"if"
+children = Array[ExtResource("3_008yv")]([SubResource("Resource_fd0nw"), SubResource("Resource_008yv")])
+arguments = {
+"condition": SubResource("Resource_kxeam")
+}
+
+[sub_resource type="Resource" id="Resource_a74ub"]
+script = ExtResource("4_5yvy0")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"down"
+}
+
+[sub_resource type="Resource" id="Resource_7r3qh"]
+script = ExtResource("3_008yv")
+name = &"set_var_bomba"
+children = Array[ExtResource("3_008yv")]([])
+arguments = {
+"value": 2
+}
+
+[sub_resource type="Resource" id="Resource_w7ey3"]
+script = ExtResource("3_008yv")
+name = &"CanvasItem_set_visible"
+children = Array[ExtResource("3_008yv")]([])
+arguments = {
+"value": false
+}
+
+[sub_resource type="Resource" id="Resource_38ffs"]
+script = ExtResource("3_008yv")
+name = &"if"
+children = Array[ExtResource("3_008yv")]([SubResource("Resource_7r3qh"), SubResource("Resource_w7ey3")])
+arguments = {
+"condition": SubResource("Resource_a74ub")
+}
+
+[sub_resource type="Resource" id="Resource_w8n2m"]
+script = ExtResource("3_008yv")
+name = &"process"
+children = Array[ExtResource("3_008yv")]([SubResource("Resource_5yvy0"), SubResource("Resource_38ffs")])
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_4mild"]
+script = ExtResource("2_fd0nw")
+root = SubResource("Resource_w8n2m")
+canvas_position = Vector2(-125, 75)
+
+[sub_resource type="Resource" id="Resource_qxsve"]
+script = ExtResource("6_7r3qh")
+var_name = "bomba"
+var_type = 2
+
+[sub_resource type="Resource" id="Resource_gjsju"]
+script = ExtResource("5_a74ub")
+script_inherits = "Label"
+block_serialization_trees = Array[ExtResource("2_fd0nw")]([SubResource("Resource_4mild")])
+variables = Array[ExtResource("6_7r3qh")]([SubResource("Resource_qxsve")])
+generated_script = "extends Label
+
+var bomba: int
+
+
+func _process(delta):
+	if (Input.is_action_pressed('up')):
+		bomba = 1
+		visible = true
+	if (Input.is_action_pressed('down')):
+		bomba = 2
+		visible = false
+
+"
+version = 0
+
+[sub_resource type="Resource" id="Resource_tjlpw"]
+script = ExtResource("4_5yvy0")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"up"
+}
+
+[sub_resource type="Resource" id="Resource_1ndyv"]
+script = ExtResource("3_008yv")
+name = &"set_var_bomba"
+children = Array[ExtResource("3_008yv")]([])
+arguments = {
+"value": 1
+}
+
+[sub_resource type="Resource" id="Resource_jfdog"]
+script = ExtResource("3_008yv")
+name = &"CanvasItem_set_visible"
+children = Array[ExtResource("3_008yv")]([])
+arguments = {
+"value": false
+}
+
+[sub_resource type="Resource" id="Resource_37wd3"]
+script = ExtResource("3_008yv")
+name = &"if"
+children = Array[ExtResource("3_008yv")]([SubResource("Resource_1ndyv"), SubResource("Resource_jfdog")])
+arguments = {
+"condition": SubResource("Resource_tjlpw")
+}
+
+[sub_resource type="Resource" id="Resource_8ey4j"]
+script = ExtResource("4_5yvy0")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"down"
+}
+
+[sub_resource type="Resource" id="Resource_0ss2j"]
+script = ExtResource("3_008yv")
+name = &"set_var_bomba"
+children = Array[ExtResource("3_008yv")]([])
+arguments = {
+"value": 2
+}
+
+[sub_resource type="Resource" id="Resource_fhq7i"]
+script = ExtResource("3_008yv")
+name = &"CanvasItem_set_visible"
+children = Array[ExtResource("3_008yv")]([])
+arguments = {
+"value": true
+}
+
+[sub_resource type="Resource" id="Resource_enk6e"]
+script = ExtResource("3_008yv")
+name = &"if"
+children = Array[ExtResource("3_008yv")]([SubResource("Resource_0ss2j"), SubResource("Resource_fhq7i")])
+arguments = {
+"condition": SubResource("Resource_8ey4j")
+}
+
+[sub_resource type="Resource" id="Resource_s833b"]
+script = ExtResource("3_008yv")
+name = &"process"
+children = Array[ExtResource("3_008yv")]([SubResource("Resource_37wd3"), SubResource("Resource_enk6e")])
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_cmg4i"]
+script = ExtResource("2_fd0nw")
+root = SubResource("Resource_s833b")
+canvas_position = Vector2(275, 50)
+
+[sub_resource type="Resource" id="Resource_2cou8"]
+script = ExtResource("6_7r3qh")
+var_name = "bomba"
+var_type = 2
+
+[sub_resource type="Resource" id="Resource_clupc"]
+script = ExtResource("5_a74ub")
+script_inherits = "Label"
+block_serialization_trees = Array[ExtResource("2_fd0nw")]([SubResource("Resource_cmg4i")])
+variables = Array[ExtResource("6_7r3qh")]([SubResource("Resource_2cou8")])
+generated_script = "extends Label
+
+var bomba: int
+
+
+func _process(delta):
+	if (Input.is_action_pressed('up')):
+		bomba = 1
+		visible = false
+	if (Input.is_action_pressed('down')):
+		bomba = 2
+		visible = true
+
+"
+version = 0
+
+[sub_resource type="Resource" id="Resource_m2b4h"]
+script = ExtResource("4_5yvy0")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"up"
+}
+
+[sub_resource type="Resource" id="Resource_cn2d0"]
+script = ExtResource("3_008yv")
+name = &"set_var_bomba"
+children = Array[ExtResource("3_008yv")]([])
+arguments = {
+"value": 1
+}
+
+[sub_resource type="Resource" id="Resource_1f4ow"]
+script = ExtResource("3_008yv")
+name = &"if"
+children = Array[ExtResource("3_008yv")]([SubResource("Resource_cn2d0")])
+arguments = {
+"condition": SubResource("Resource_m2b4h")
+}
+
+[sub_resource type="Resource" id="Resource_otaic"]
+script = ExtResource("4_5yvy0")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"down"
+}
+
+[sub_resource type="Resource" id="Resource_7audw"]
+script = ExtResource("3_008yv")
+name = &"set_var_bomba"
+children = Array[ExtResource("3_008yv")]([])
+arguments = {
+"value": 2
+}
+
+[sub_resource type="Resource" id="Resource_0r403"]
+script = ExtResource("3_008yv")
+name = &"if"
+children = Array[ExtResource("3_008yv")]([SubResource("Resource_7audw")])
+arguments = {
+"condition": SubResource("Resource_otaic")
+}
+
+[sub_resource type="Resource" id="Resource_tdm62"]
+script = ExtResource("4_5yvy0")
+name = &"get_var_bomba"
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_gb5wt"]
+script = ExtResource("4_5yvy0")
+name = &"compare"
+arguments = {
+"float1": SubResource("Resource_tdm62"),
+"float2": 1.0,
+"op": "=="
+}
+
+[sub_resource type="Resource" id="Resource_vwq8g"]
+script = ExtResource("4_5yvy0")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"ui_accept"
+}
+
+[sub_resource type="Resource" id="Resource_vmsj3"]
+script = ExtResource("4_5yvy0")
+name = &"and"
+arguments = {
+"bool1": SubResource("Resource_gb5wt"),
+"bool2": SubResource("Resource_vwq8g")
+}
+
+[sub_resource type="Resource" id="Resource_twjwr"]
+script = ExtResource("3_008yv")
+name = &"switch_scene"
+children = Array[ExtResource("3_008yv")]([])
+arguments = {
+"file_path": "res://node_2d.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_htn1u"]
+script = ExtResource("3_008yv")
+name = &"if"
+children = Array[ExtResource("3_008yv")]([SubResource("Resource_twjwr")])
+arguments = {
+"condition": SubResource("Resource_vmsj3")
+}
+
+[sub_resource type="Resource" id="Resource_bwrg2"]
+script = ExtResource("4_5yvy0")
+name = &"get_var_bomba"
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_5hxp5"]
+script = ExtResource("4_5yvy0")
+name = &"compare"
+arguments = {
+"float1": SubResource("Resource_bwrg2"),
+"float2": 2.0,
+"op": "=="
+}
+
+[sub_resource type="Resource" id="Resource_exwti"]
+script = ExtResource("4_5yvy0")
+name = &"is_input_actioned"
+arguments = {
+"action": "pressed",
+"action_name": &"ui_accept"
+}
+
+[sub_resource type="Resource" id="Resource_qjlc0"]
+script = ExtResource("4_5yvy0")
+name = &"and"
+arguments = {
+"bool1": SubResource("Resource_5hxp5"),
+"bool2": SubResource("Resource_exwti")
+}
+
+[sub_resource type="Resource" id="Resource_ccvs0"]
+script = ExtResource("3_008yv")
+name = &"switch_scene"
+children = Array[ExtResource("3_008yv")]([])
+arguments = {
+"file_path": "res://multiplayer.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_t1ks2"]
+script = ExtResource("3_008yv")
+name = &"if"
+children = Array[ExtResource("3_008yv")]([SubResource("Resource_ccvs0")])
+arguments = {
+"condition": SubResource("Resource_qjlc0")
+}
+
+[sub_resource type="Resource" id="Resource_hio53"]
+script = ExtResource("3_008yv")
+name = &"process"
+children = Array[ExtResource("3_008yv")]([SubResource("Resource_1f4ow"), SubResource("Resource_0r403"), SubResource("Resource_htn1u"), SubResource("Resource_t1ks2")])
+arguments = {}
+
+[sub_resource type="Resource" id="Resource_ka8io"]
+script = ExtResource("2_fd0nw")
+root = SubResource("Resource_hio53")
+canvas_position = Vector2(300, 75)
+
+[sub_resource type="Resource" id="Resource_r84qt"]
+script = ExtResource("6_7r3qh")
+var_name = "bomba"
+var_type = 2
+
+[sub_resource type="Resource" id="Resource_u2hk7"]
+script = ExtResource("5_a74ub")
+script_inherits = "Control"
+block_serialization_trees = Array[ExtResource("2_fd0nw")]([SubResource("Resource_ka8io")])
+variables = Array[ExtResource("6_7r3qh")]([SubResource("Resource_r84qt")])
+generated_script = "extends Control
+
+var bomba: int
+
+
+func _process(delta):
+	if (Input.is_action_pressed('up')):
+		bomba = 1
+	if (Input.is_action_pressed('down')):
+		bomba = 2
+	if (((bomba) == 1.0) and (Input.is_action_pressed('ui_accept'))):
+		get_tree().change_scene_to_file('res://node_2d.tscn')
+
+	if (((bomba) == 2.0) and (Input.is_action_pressed('ui_accept'))):
+		get_tree().change_scene_to_file('res://multiplayer.tscn')
+
+
+"
+version = 0
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.851
+anchor_bottom = 0.63
+offset_left = 498.0
+offset_top = 397.0
+offset_right = 578.96
+offset_bottom = 402.8
+text = "Jogar"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 513.0
+offset_top = 241.0
+offset_right = 608.0
+offset_bottom = 264.0
+text = "Singleplayer"
+
+[node name="BlockCode" type="Node" parent="Label"]
+script = ExtResource("1_kxeam")
+block_script = SubResource("Resource_gjsju")
+metadata/_custom_type_script = "uid://cumxsbxj56dmk"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 511.0
+offset_top = 267.0
+offset_right = 600.0
+offset_bottom = 290.0
+text = "Multiplayer"
+
+[node name="BlockCode" type="Node" parent="Label2"]
+script = ExtResource("1_kxeam")
+block_script = SubResource("Resource_clupc")
+metadata/_custom_type_script = "uid://cumxsbxj56dmk"
+
+[node name="BlockCode" type="Node" parent="."]
+script = ExtResource("1_kxeam")
+block_script = SubResource("Resource_u2hk7")
+metadata/_custom_type_script = "uid://cumxsbxj56dmk"

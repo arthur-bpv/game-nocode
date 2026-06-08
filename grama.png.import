@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgd0g2iwga1ll"
-path="res://.godot/imported/Cafeteria.png-09075a3c0e45b29826fdcb63e7d03c34.ctex"
+uid="uid://d3f5nrltw0ixc"
+path="res://.godot/imported/grama.png-8c62654584fa033a62fda075716af071.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cafeteria.png"
-dest_files=["res://.godot/imported/Cafeteria.png-09075a3c0e45b29826fdcb63e7d03c34.ctex"]
+source_file="res://grama.png"
+dest_files=["res://.godot/imported/grama.png-8c62654584fa033a62fda075716af071.ctex"]
 
 [params]
 

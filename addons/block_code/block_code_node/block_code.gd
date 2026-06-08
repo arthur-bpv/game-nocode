@@ -33,19 +33,38 @@ func _enter_tree():
 	# Create script
 	if block_script == null:
 		var new_block_script: BlockScriptSerialization = load("res://addons/block_code/serialization/default_block_script.tres").duplicate(true)
+
 		new_block_script.script_inherits = _get_custom_or_native_class(get_parent())
-		new_block_script.generated_script = new_block_script.generated_script.replace("INHERIT_DEFAULT", new_block_script.script_inherits)
+
+		new_block_script.generated_script = """
+extends CharacterBody2D
+
+@onready var sprite = $Sprite2D
+
+var speed = 200
+
+func _process(delta):
+
+	# Movimento
+	if Input.is_action_pressed("left"):
+		position.x -= speed * delta
+		sprite.scale.x = -1
+
+	if Input.is_action_pressed("right"):
+		position.x += speed * delta
+		sprite.scale.x = 1
+"""
+
 		block_script = new_block_script
 
 
 func _set_block_script(value):
 	if value == null:
-		# Wipe out the bidirectional link between this block code node and the
-		# block script
 		if block_script:
 			block_script.block_code_node = null
 	else:
 		value.block_code_node = self
+
 	block_script = value
 
 
@@ -55,13 +74,16 @@ func _update_parent_script():
 		return
 
 	var parent: Node = get_parent()
+
 	var script := GDScript.new()
 	script.set_source_code(block_script.generated_script)
 	script.reload()
 
-	# Persist export script variables (like SimpleCharacter exported texture)
+	# Persist export script variables
 	var persist_properties = {}
+
 	var old_property_list = parent.get_property_list()
+
 	for property in old_property_list:
 		if property.usage & PROPERTY_USAGE_SCRIPT_VARIABLE:
 			persist_properties[property.name] = parent.get(property.name)
@@ -69,30 +91,37 @@ func _update_parent_script():
 	parent.set_script(script)
 	parent.set_process(true)
 
-	# Set persisted script variables in new script
+	# Restore properties
 	for property_name in persist_properties:
 		parent.set(property_name, persist_properties.get(property_name))
 
-	# Run simple setup after node is ready
+	# Setup
 	if parent.has_method("simple_setup"):
 		parent.call_deferred("simple_setup")
 
 
 func _get_configuration_warnings():
 	var warnings = []
+
 	if self.owner == null:
 		warnings.append("A BlockCode must not be a root node.")
+
 	if get_parent() is BlockCode:
 		warnings.append("The parent must not be a BlockCode.")
+
 	if get_parent().script:
 		var parent_script_name: StringName = get_parent().script.get_global_name()
+
 		if not (parent_script_name and block_script and parent_script_name == block_script.script_inherits):
 			warnings.append("This BlockCode will override the existing script in the parent node.")
+
 	if get_parent().find_children("*", "BlockCode", false).size() > 1:
 		warnings.append("The parent should only contain one BlockCode.")
+
 	if block_script and _get_custom_or_native_class(get_parent()) != block_script.script_inherits:
 		var warning = "The parent is not a %s. Create a new BlockCode node and reattach." % block_script.script_inherits
 		warnings.append(warning)
+
 	return warnings
 
 
