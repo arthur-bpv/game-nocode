@@ -1,0 +1,19 @@
+# Godot
+.godot/
+*.uid
+
+# Orchestrator binários compilados (baixar via install_plugins.sh)
+addons/orchestrator/*.so
+addons/orchestrator/*.dll
+addons/orchestrator/*.lib
+addons/orchestrator/*.exp
+addons/orchestrator/*.dylib
+addons/orchestrator/*.wasm
+addons/orchestrator/*.import
+
+# Exports
+export/
+*.pck
+*.exe
+*.apk
+*.aab
