@@ -34,10 +34,6 @@ window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep"
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/orchestrator/plugin.cfg")
-
 [input]
 
 move_up={
