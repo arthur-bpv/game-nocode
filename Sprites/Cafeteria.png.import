@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8evlvabb8uq4"
-path="res://.godot/imported/nuvem-no-ceu-com-estilo-pixel-art_475147-110.png-c9d1542794fd5cfa107ba3164c0f6abc.ctex"
+uid="uid://bgd0g2iwga1ll"
+path="res://.godot/imported/Cafeteria.png-09075a3c0e45b29826fdcb63e7d03c34.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://nuvem-no-ceu-com-estilo-pixel-art_475147-110.png"
-dest_files=["res://.godot/imported/nuvem-no-ceu-com-estilo-pixel-art_475147-110.png-c9d1542794fd5cfa107ba3164c0f6abc.ctex"]
+source_file="res://Sprites/Cafeteria.png"
+dest_files=["res://.godot/imported/Cafeteria.png-09075a3c0e45b29826fdcb63e7d03c34.ctex"]
 
 [params]
 

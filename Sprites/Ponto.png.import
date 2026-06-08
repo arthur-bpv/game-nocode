@@ -2,16 +2,12 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgd0g2iwga1ll"
-path="res://.godot/imported/Cafeteria.png-682ff0ee4f77cf16f59d03868e6c77d9.ctex"
-metadata={
-"vram_texture": false
-}
+uid="uid://pqnefbxg0ioj"
+valid=false
 
 [deps]
 
-source_file="res://Cafeteria.png"
-dest_files=["res://.godot/imported/Cafeteria.png-682ff0ee4f77cf16f59d03868e6c77d9.ctex"]
+source_file="res://Sprites/Ponto.png"
 
 [params]
 

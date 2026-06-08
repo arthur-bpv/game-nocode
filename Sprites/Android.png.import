@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3j5wq5iw0pa6"
-path="res://.godot/imported/Chao.jpg-e4e2b17d2f5a72ba63f61b23e61290fc.ctex"
+uid="uid://df18l7sp8crhc"
+path="res://.godot/imported/Android.png-0208c3f8a5e6222beb638a33e58f6607.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Chao.jpg"
-dest_files=["res://.godot/imported/Chao.jpg-e4e2b17d2f5a72ba63f61b23e61290fc.ctex"]
+source_file="res://Sprites/Android.png"
+dest_files=["res://.godot/imported/Android.png-0208c3f8a5e6222beb638a33e58f6607.ctex"]
 
 [params]
 

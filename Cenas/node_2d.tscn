@@ -1,13 +1,13 @@
 [gd_scene load_steps=49 format=3 uid="uid://1j3opshopbhc"]
 
-[ext_resource type="Script" uid="uid://cumxsbxj56dmk" path="res://addons/block_code/block_code_node/block_code.gd" id="1_kdubu"]
-[ext_resource type="Texture2D" uid="uid://bgd0g2iwga1ll" path="res://Cafeteria.png" id="1_rj586"]
-[ext_resource type="Script" uid="uid://brx1cabdmgu38" path="res://addons/block_code/serialization/block_serialization_tree.gd" id="4_rj586"]
-[ext_resource type="Script" uid="uid://u035wsjd5tpj" path="res://addons/block_code/serialization/block_serialization.gd" id="5_4d7sh"]
-[ext_resource type="Script" uid="uid://duvgxorhfitb7" path="res://addons/block_code/serialization/value_block_serialization.gd" id="6_4d7sh"]
-[ext_resource type="Texture2D" uid="uid://df18l7sp8crhc" path="res://Android.png" id="6_hqns4"]
-[ext_resource type="Script" uid="uid://tlsvrkc3fubl" path="res://addons/block_code/serialization/block_script_serialization.gd" id="6_ir8iy"]
-[ext_resource type="Script" uid="uid://bwkinr8omutpw" path="res://addons/block_code/code_generation/variable_definition.gd" id="7_hqns4"]
+[ext_resource type="Texture2D" uid="uid://bgd0g2iwga1ll" path="res://Sprites/Cafeteria.png" id="1_vevm7"]
+[ext_resource type="Texture2D" uid="uid://df18l7sp8crhc" path="res://Sprites/Android.png" id="2_xedcl"]
+[ext_resource type="Script" uid="uid://cumxsbxj56dmk" path="res://addons/block_code/block_code_node/block_code.gd" id="3_gcajn"]
+[ext_resource type="Script" uid="uid://brx1cabdmgu38" path="res://addons/block_code/serialization/block_serialization_tree.gd" id="4_bmpg3"]
+[ext_resource type="Script" uid="uid://u035wsjd5tpj" path="res://addons/block_code/serialization/block_serialization.gd" id="5_2yywg"]
+[ext_resource type="Script" uid="uid://duvgxorhfitb7" path="res://addons/block_code/serialization/value_block_serialization.gd" id="6_j6xpk"]
+[ext_resource type="Script" uid="uid://tlsvrkc3fubl" path="res://addons/block_code/serialization/block_script_serialization.gd" id="7_k1emr"]
+[ext_resource type="Script" uid="uid://bwkinr8omutpw" path="res://addons/block_code/code_generation/variable_definition.gd" id="8_kw8ga"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rj586"]
 radius = 76.0
@@ -18,19 +18,19 @@ radius = 16.0
 height = 60.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4d7sh"]
-atlas = ExtResource("6_hqns4")
+atlas = ExtResource("2_xedcl")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ir8iy"]
-atlas = ExtResource("6_hqns4")
+atlas = ExtResource("2_xedcl")
 region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hqns4"]
-atlas = ExtResource("6_hqns4")
+atlas = ExtResource("2_xedcl")
 region = Rect2(0, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ta5nu"]
-atlas = ExtResource("6_hqns4")
+atlas = ExtResource("2_xedcl")
 region = Rect2(64, 64, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_flf07"]
@@ -54,7 +54,7 @@ animations = [{
 }]
 
 [sub_resource type="Resource" id="Resource_gt76g"]
-script = ExtResource("6_4d7sh")
+script = ExtResource("6_j6xpk")
 name = &"is_input_actioned"
 arguments = {
 "action": "pressed",
@@ -62,23 +62,23 @@ arguments = {
 }
 
 [sub_resource type="Resource" id="Resource_1fr6y"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"Node2D_set_scale"
-children = Array[ExtResource("5_4d7sh")]([])
+children = Array[ExtResource("5_2yywg")]([])
 arguments = {
 "value": Vector2(-1, 1)
 }
 
 [sub_resource type="Resource" id="Resource_2hxjc"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"if"
-children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_1fr6y")])
+children = Array[ExtResource("5_2yywg")]([SubResource("Resource_1fr6y")])
 arguments = {
 "condition": SubResource("Resource_gt76g")
 }
 
 [sub_resource type="Resource" id="Resource_ebxd8"]
-script = ExtResource("6_4d7sh")
+script = ExtResource("6_j6xpk")
 name = &"is_input_actioned"
 arguments = {
 "action": "pressed",
@@ -86,37 +86,37 @@ arguments = {
 }
 
 [sub_resource type="Resource" id="Resource_2u7jv"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"Node2D_set_scale"
-children = Array[ExtResource("5_4d7sh")]([])
+children = Array[ExtResource("5_2yywg")]([])
 arguments = {
 "value": Vector2(1, 1)
 }
 
 [sub_resource type="Resource" id="Resource_24dk6"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"if"
-children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_2u7jv")])
+children = Array[ExtResource("5_2yywg")]([SubResource("Resource_2u7jv")])
 arguments = {
 "condition": SubResource("Resource_ebxd8")
 }
 
 [sub_resource type="Resource" id="Resource_mryly"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"process"
-children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_2hxjc"), SubResource("Resource_24dk6")])
+children = Array[ExtResource("5_2yywg")]([SubResource("Resource_2hxjc"), SubResource("Resource_24dk6")])
 arguments = {}
 
 [sub_resource type="Resource" id="Resource_kq1c5"]
-script = ExtResource("4_rj586")
+script = ExtResource("4_bmpg3")
 root = SubResource("Resource_mryly")
 canvas_position = Vector2(150, 50)
 
 [sub_resource type="Resource" id="Resource_ornx7"]
-script = ExtResource("6_ir8iy")
+script = ExtResource("7_k1emr")
 script_inherits = "AnimatedSprite2D"
-block_serialization_trees = Array[ExtResource("4_rj586")]([SubResource("Resource_kq1c5")])
-variables = Array[ExtResource("7_hqns4")]([])
+block_serialization_trees = Array[ExtResource("4_bmpg3")]([SubResource("Resource_kq1c5")])
+variables = Array[ExtResource("8_kw8ga")]([])
 generated_script = "extends AnimatedSprite2D
 
 
@@ -130,15 +130,15 @@ func _process(delta):
 version = 0
 
 [sub_resource type="Resource" id="Resource_4d7sh"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"CharacterBody2D_set_velocity"
-children = Array[ExtResource("5_4d7sh")]([])
+children = Array[ExtResource("5_2yywg")]([])
 arguments = {
 "value": Vector2(0, 0)
 }
 
 [sub_resource type="Resource" id="Resource_ir8iy"]
-script = ExtResource("6_4d7sh")
+script = ExtResource("6_j6xpk")
 name = &"is_input_actioned"
 arguments = {
 "action": "pressed",
@@ -146,23 +146,23 @@ arguments = {
 }
 
 [sub_resource type="Resource" id="Resource_hqns4"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"CharacterBody2D_change_velocity"
-children = Array[ExtResource("5_4d7sh")]([])
+children = Array[ExtResource("5_2yywg")]([])
 arguments = {
 "value": Vector2(500, 0)
 }
 
 [sub_resource type="Resource" id="Resource_x0ka3"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"if"
-children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_hqns4")])
+children = Array[ExtResource("5_2yywg")]([SubResource("Resource_hqns4")])
 arguments = {
 "condition": SubResource("Resource_ir8iy")
 }
 
 [sub_resource type="Resource" id="Resource_0h7mo"]
-script = ExtResource("6_4d7sh")
+script = ExtResource("6_j6xpk")
 name = &"is_input_actioned"
 arguments = {
 "action": "pressed",
@@ -170,23 +170,23 @@ arguments = {
 }
 
 [sub_resource type="Resource" id="Resource_nr8wp"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"CharacterBody2D_change_velocity"
-children = Array[ExtResource("5_4d7sh")]([])
+children = Array[ExtResource("5_2yywg")]([])
 arguments = {
 "value": Vector2(-500, 0)
 }
 
 [sub_resource type="Resource" id="Resource_d2bti"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"if"
-children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_nr8wp")])
+children = Array[ExtResource("5_2yywg")]([SubResource("Resource_nr8wp")])
 arguments = {
 "condition": SubResource("Resource_0h7mo")
 }
 
 [sub_resource type="Resource" id="Resource_ta5nu"]
-script = ExtResource("6_4d7sh")
+script = ExtResource("6_j6xpk")
 name = &"is_input_actioned"
 arguments = {
 "action": "pressed",
@@ -194,23 +194,23 @@ arguments = {
 }
 
 [sub_resource type="Resource" id="Resource_k73cj"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"CharacterBody2D_change_velocity"
-children = Array[ExtResource("5_4d7sh")]([])
+children = Array[ExtResource("5_2yywg")]([])
 arguments = {
 "value": Vector2(0, -500)
 }
 
 [sub_resource type="Resource" id="Resource_rjqkl"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"if"
-children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_k73cj")])
+children = Array[ExtResource("5_2yywg")]([SubResource("Resource_k73cj")])
 arguments = {
 "condition": SubResource("Resource_ta5nu")
 }
 
 [sub_resource type="Resource" id="Resource_fs4d3"]
-script = ExtResource("6_4d7sh")
+script = ExtResource("6_j6xpk")
 name = &"is_input_actioned"
 arguments = {
 "action": "pressed",
@@ -218,82 +218,82 @@ arguments = {
 }
 
 [sub_resource type="Resource" id="Resource_7vxoj"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"CharacterBody2D_change_velocity"
-children = Array[ExtResource("5_4d7sh")]([])
+children = Array[ExtResource("5_2yywg")]([])
 arguments = {
 "value": Vector2(0, 500)
 }
 
 [sub_resource type="Resource" id="Resource_ei405"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"if"
-children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_7vxoj")])
+children = Array[ExtResource("5_2yywg")]([SubResource("Resource_7vxoj")])
 arguments = {
 "condition": SubResource("Resource_fs4d3")
 }
 
 [sub_resource type="Resource" id="Resource_e8dv2"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"characterbody2d_move_and_slide"
-children = Array[ExtResource("5_4d7sh")]([])
+children = Array[ExtResource("5_2yywg")]([])
 arguments = {}
 
 [sub_resource type="Resource" id="Resource_2nhjh"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"process"
-children = Array[ExtResource("5_4d7sh")]([SubResource("Resource_4d7sh"), SubResource("Resource_x0ka3"), SubResource("Resource_d2bti"), SubResource("Resource_rjqkl"), SubResource("Resource_ei405"), SubResource("Resource_e8dv2")])
+children = Array[ExtResource("5_2yywg")]([SubResource("Resource_4d7sh"), SubResource("Resource_x0ka3"), SubResource("Resource_d2bti"), SubResource("Resource_rjqkl"), SubResource("Resource_ei405"), SubResource("Resource_e8dv2")])
 arguments = {}
 
 [sub_resource type="Resource" id="Resource_bjha6"]
-script = ExtResource("4_rj586")
+script = ExtResource("4_bmpg3")
 root = SubResource("Resource_2nhjh")
 canvas_position = Vector2(275, 50)
 
 [sub_resource type="Resource" id="Resource_cnnru"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"ready"
-children = Array[ExtResource("5_4d7sh")]([])
+children = Array[ExtResource("5_2yywg")]([])
 arguments = {}
 
 [sub_resource type="Resource" id="Resource_540hr"]
-script = ExtResource("4_rj586")
+script = ExtResource("4_bmpg3")
 root = SubResource("Resource_cnnru")
 canvas_position = Vector2(0, 50)
 
 [sub_resource type="Resource" id="Resource_6ip5v"]
-script = ExtResource("5_4d7sh")
+script = ExtResource("5_2yywg")
 name = &"Node2D_change_position"
-children = Array[ExtResource("5_4d7sh")]([])
+children = Array[ExtResource("5_2yywg")]([])
 arguments = {
 "value": Vector2(5, 0)
 }
 
 [sub_resource type="Resource" id="Resource_fbwgr"]
-script = ExtResource("4_rj586")
+script = ExtResource("4_bmpg3")
 root = SubResource("Resource_6ip5v")
 canvas_position = Vector2(697.627, 32.7721)
 
 [sub_resource type="Resource" id="Resource_c4wnb"]
-script = ExtResource("7_hqns4")
+script = ExtResource("8_kw8ga")
 var_name = "x"
 var_type = 2
 
 [sub_resource type="Resource" id="Resource_7plk7"]
-script = ExtResource("7_hqns4")
+script = ExtResource("8_kw8ga")
 var_name = "y"
 var_type = 2
 
 [sub_resource type="Resource" id="Resource_q5dlx"]
-script = ExtResource("7_hqns4")
+script = ExtResource("8_kw8ga")
 var_name = "Virado"
 var_type = 1
 
 [sub_resource type="Resource" id="Resource_flf07"]
-script = ExtResource("6_ir8iy")
+script = ExtResource("7_k1emr")
 script_inherits = "CharacterBody2D"
-block_serialization_trees = Array[ExtResource("4_rj586")]([SubResource("Resource_bjha6"), SubResource("Resource_540hr"), SubResource("Resource_fbwgr")])
-variables = Array[ExtResource("7_hqns4")]([SubResource("Resource_c4wnb"), SubResource("Resource_7plk7"), SubResource("Resource_q5dlx")])
+block_serialization_trees = Array[ExtResource("4_bmpg3")]([SubResource("Resource_bjha6"), SubResource("Resource_540hr"), SubResource("Resource_fbwgr")])
+variables = Array[ExtResource("8_kw8ga")]([SubResource("Resource_c4wnb"), SubResource("Resource_7plk7"), SubResource("Resource_q5dlx")])
 generated_script = "extends CharacterBody2D
 
 var x: int
@@ -328,7 +328,7 @@ version = 0
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
 position = Vector2(594, 474)
 scale = Vector2(1.84688, 1.41053)
-texture = ExtResource("1_rj586")
+texture = ExtResource("1_vevm7")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PackedVector2Array(526, 861, 290, 861, 43, 672, 43, 490, 1, 490, 4, 943, 526, 943)
@@ -381,7 +381,7 @@ sprite_frames = SubResource("SpriteFrames_flf07")
 autoplay = "default"
 
 [node name="BlockCode" type="Node" parent="CharacterBody2D/AnimatedSprite2D"]
-script = ExtResource("1_kdubu")
+script = ExtResource("3_gcajn")
 block_script = SubResource("Resource_ornx7")
 metadata/_custom_type_script = "uid://cumxsbxj56dmk"
 
@@ -390,6 +390,6 @@ position = Vector2(586, 330)
 zoom = Vector2(2, 2)
 
 [node name="BlockCode" type="Node" parent="CharacterBody2D"]
-script = ExtResource("1_kdubu")
+script = ExtResource("3_gcajn")
 block_script = SubResource("Resource_flf07")
 metadata/_custom_type_script = "uid://cumxsbxj56dmk"

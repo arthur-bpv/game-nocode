@@ -94,3 +94,7 @@ func _get_configuration_warnings():
 		var warning = "The parent is not a %s. Create a new BlockCode node and reattach." % block_script.script_inherits
 		warnings.append(warning)
 	return warnings
+
+
+func _on_button_pressed() -> void:
+	pass # Replace with function body.
