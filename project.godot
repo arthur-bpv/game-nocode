@@ -3,25 +3,14 @@
 ; since the parameters that go here are not all obvious.
 ;
 ; Format:
-;   [section] ; section goes in brackets
-;   param=value ; value types are:
-;     boolean: true, false
-;     int: 64 bit signed integer
-;     float: 64 bit IEEE float
-;     string: "value in quotes, only single line"
-;     color: no quotes, format: r,g,b or r,g,b,a
-;     file: path, no quotes
-;     quoted file: path in quotes
-;     array: [values]
-;     dictionary: {key:value, another_key:another_value}
-;     varr: [value, value, value]
-;     or just the value if it's unambiguous
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
 
 [application]
 
-config/name="TopDown Game"
+config/name="Duardoalv"
 config/description="Jogo top-down com Orchestrator"
 run/main_scene="res://scenes/world/world.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
@@ -32,7 +21,6 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep"
 
 [input]
 
@@ -73,7 +61,6 @@ interact={
 
 [physics]
 
-common/physics_ticks_per_second=60
 2d/default_gravity=0
 
 [rendering]

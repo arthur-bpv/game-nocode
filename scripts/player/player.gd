@@ -4,7 +4,7 @@ const SPEED := 150.0
 
 @export var stats: Resource
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(_dadelta: float) -> void:
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * SPEED
 	move_and_slide()

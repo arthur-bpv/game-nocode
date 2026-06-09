@@ -1,15 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://topdown_world"]
+[gd_scene format=3 uid="uid://cakdj5yuucwpf"]
 
-[ext_resource type="Script" path="res://scripts/systems/game_manager.gd" id="1_gm"]
+[ext_resource type="Script" uid="uid://bmwhfc0nihxqj" path="res://scripts/systems/game_manager.gd" id="1_gm"]
+[ext_resource type="Texture2D" uid="uid://bnty0jrpurh4e" path="res://Cafeteria.png" id="2_sl2e5"]
+[ext_resource type="PackedScene" uid="uid://c00sqo8nkpwhy" path="res://scenes/player/player.tscn" id="3_1fp7r"]
 
-[node name="World" type="Node2D"]
+[node name="World" type="Node2D" unique_id=60291279]
 
-[node name="GameManager" type="Node" parent="."]
+[node name="GameManager" type="Node" parent="." unique_id=69623499]
 script = ExtResource("1_gm")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
+[node name="TileMapLayer" type="Sprite2D" parent="." unique_id=53619705]
+position = Vector2(320, 333)
+texture = ExtResource("2_sl2e5")
 
-[node name="Entities" type="Node2D" parent="."]
+[node name="Entities" type="Node2D" parent="." unique_id=442779848]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-enabled = true
+[node name="player" parent="Entities" unique_id=1110645307 instance=ExtResource("3_1fp7r")]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=551076391]
+position = Vector2(640, 360)
