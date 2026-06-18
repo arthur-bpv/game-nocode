@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bnty0jrpurh4e" path="res://Cafeteria.png" id="2_sl2e5"]
 [ext_resource type="PackedScene" uid="uid://c00sqo8nkpwhy" path="res://scenes/player/player.tscn" id="3_1fp7r"]
 [ext_resource type="PackedScene" uid="uid://bsa43g68bptth" path="res://scenes/tablet/Tablet.tscn" id="3_6m72w"]
+[ext_resource type="PackedScene" uid="uid://cr7lr4qxtnm0n" path="res://scenes/tablet/TabletUI.tscn" id="4_v5dby"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1fp7r"]
 radius = 59.816742
@@ -22,6 +23,8 @@ texture = ExtResource("2_sl2e5")
 
 [node name="Tablet" parent="Entities" unique_id=515191262 instance=ExtResource("3_6m72w")]
 position = Vector2(-140, 27)
+
+[node name="TabletUi" parent="Entities" unique_id=1792993717 instance=ExtResource("4_v5dby")]
 
 [node name="player" parent="Entities" unique_id=1110645307 instance=ExtResource("3_1fp7r")]
 position = Vector2(-28, -58)

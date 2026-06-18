@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://cr7lr4qxtnm0n"]
+
+[node name="TabletUi" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelLeft" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 720.0
+
+[node name="Terminal" type="VBoxContainer" parent="PanelLeft"]
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 720.0
+
+[node name="Output" type="RichTextLabel" parent="PanelLeft/Terminal"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_following = true
+
+[node name="InputLine" type="LineEdit" parent="PanelLeft/Terminal"]
+layout_mode = 2
+placeholder_text = "Digite um comando..."
+
+[node name="PanelRight" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 960.0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="Topology" type="Control" parent="PanelRight"]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 720.0

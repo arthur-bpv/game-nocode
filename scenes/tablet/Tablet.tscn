@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bsa43g68bptth"]
 
 [ext_resource type="Script" uid="uid://dpcaglo4e51um" path="res://scenes/tablet/tablet.torch" id="1_b60aq"]
+[ext_resource type="PackedScene" uid="uid://cr7lr4qxtnm0n" path="res://scenes/tablet/TabletUI.tscn" id="2_rhwdh"]
 [ext_resource type="Texture2D" uid="uid://0kp40n6ww2tc" path="res://icon.svg" id="2_tm2vn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tm2vn"]
@@ -9,6 +10,9 @@ size = Vector2(129, 129)
 [node name="Tablet" type="Area2D" unique_id=515191262]
 collision_layer = 0
 script = ExtResource("1_b60aq")
+
+[node name="TabletUi" parent="." unique_id=1792993717 instance=ExtResource("2_rhwdh")]
+position = Vector2(982.8441, -79.96238)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1193551264]
 position = Vector2(-0.5, 0.5)
