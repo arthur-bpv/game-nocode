@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bsa43g68bptth"]
+
+[ext_resource type="Script" uid="uid://dpcaglo4e51um" path="res://scenes/tablet/tablet.torch" id="1_b60aq"]
+[ext_resource type="Texture2D" uid="uid://0kp40n6ww2tc" path="res://icon.svg" id="2_tm2vn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tm2vn"]
+size = Vector2(129, 129)
+
+[node name="Tablet" type="Area2D" unique_id=515191262]
+collision_layer = 0
+script = ExtResource("1_b60aq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1193551264]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_tm2vn")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=506445420]
+texture = ExtResource("2_tm2vn")
+
+[node name="Label" type="Label" parent="." unique_id=969200866]
+visible = false
+offset_left = -43.0
+offset_top = -90.0
+offset_right = 46.0
+offset_bottom = -67.0
+text = "Pressione E"
+
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="." to="." method="_on_body_shape_exited"]
