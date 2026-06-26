@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bp4ox7p2c3ret"]
+[gd_scene format=3 uid="uid://bp4ox7p2c3ret"]
 
 [ext_resource type="Script" uid="uid://cumxsbxj56dmk" path="res://addons/block_code/block_code_node/block_code.gd" id="1_ytr4m"]
 [ext_resource type="Script" uid="uid://brx1cabdmgu38" path="res://addons/block_code/serialization/block_serialization_tree.gd" id="2_l48gv"]
