@@ -1,2 +1,13 @@
-# Normalize EOL for all files that Git considers text files.
+# Normaliza line endings para LF em todos os sistemas
 * text=auto eol=lf
+
+# Binários — não mexer
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.so binary
+*.dll binary
+*.dylib binary
+*.wasm binary

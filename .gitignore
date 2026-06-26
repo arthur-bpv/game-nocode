@@ -1,3 +1,21 @@
-# Godot 4+ specific ignores
+# Godot
 .godot/
-/android/
+*.uid
+
+# Arquivos gerados pelo editor (platform-specific)
+addons/**/*.import
+
+# Orchestrator binários compilados (baixar via install_plugins.sh)
+addons/orchestrator/*.so
+addons/orchestrator/*.dll
+addons/orchestrator/*.lib
+addons/orchestrator/*.exp
+addons/orchestrator/*.dylib
+addons/orchestrator/*.wasm
+
+# Exports
+export/
+*.pck
+*.exe
+*.apk
+*.aab
