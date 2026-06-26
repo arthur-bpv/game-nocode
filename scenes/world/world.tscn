@@ -24,10 +24,12 @@ texture = ExtResource("2_sl2e5")
 [node name="Tablet" parent="Entities" unique_id=515191262 instance=ExtResource("3_6m72w")]
 position = Vector2(-140, 27)
 
-[node name="TabletUi" parent="Entities" unique_id=1792993717 instance=ExtResource("4_v5dby")]
-
 [node name="player" parent="Entities" unique_id=1110645307 instance=ExtResource("3_1fp7r")]
 position = Vector2(-28, -58)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=301927456]
+
+[node name="TabletUi" parent="CanvasLayer" unique_id=1792993717 instance=ExtResource("4_v5dby")]
 
 [node name="Node2D" type="Node2D" parent="." unique_id=718457897]
 

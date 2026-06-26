@@ -526,7 +526,7 @@ pin_data = Array[Dictionary]([{
 "pin_name": &"path",
 "type": 22,
 "flags": 2,
-"dv": NodePath("TabletUi")
+"dv": NodePath("../../CanvasLayer/TabletUi")
 }, {
 "pin_name": &"return_value",
 "type": 24,
@@ -537,12 +537,12 @@ pin_data = Array[Dictionary]([{
 }])
 
 [obj type="OScriptNodeCallMemberFunction" id="OScriptNodeCallMemberFunction_4ig6a"]
-function_name = &"show"
-target_class_name = "CanvasItem"
+function_name = &"open_ui"
+target_class_name = "Node"
 target_type = 24
 flags = 520
 method = {
-"name": &"show"
+"name": &"open_ui"
 }
 chain = false
 id = 24
@@ -558,8 +558,8 @@ pin_data = Array[Dictionary]([{
 "pin_name": &"target",
 "type": 24,
 "flags": 2050,
-"label": "CanvasItem",
-"target_class": "CanvasItem"
+"label": "Node",
+"target_class": "Node"
 }])
 
 [obj type="OScriptNodeSelf" id="OScriptNodeSelf_bn4rh"]

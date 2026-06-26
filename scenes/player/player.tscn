@@ -45,7 +45,7 @@ animations = [{
 
 [node name="Node2D" type="Node2D" unique_id=1110645307]
 
-[node name="Player" type="CharacterBody2D" parent="." unique_id=759023471]
+[node name="Player" type="CharacterBody2D" parent="." unique_id=759023471 groups=["player"]]
 position = Vector2(148, 9)
 script = ExtResource("1_dovo2")
 

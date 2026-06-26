@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://cr7lr4qxtnm0n"]
 
-[node name="TabletUi" type="Control"]
+[ext_resource type="Script" path="res://scenes/tablet/tablet_ui.gd" id="1_tabui"]
+
+[node name="TabletUi" type="Control" unique_id=654681014]
+script = ExtResource("1_tabui")
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -9,33 +12,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelLeft" type="Panel" parent="."]
+[node name="PanelLeft" type="Panel" parent="." unique_id=1782862402]
 layout_mode = 0
 offset_right = 960.0
 offset_bottom = 720.0
 
-[node name="Terminal" type="VBoxContainer" parent="PanelLeft"]
+[node name="Terminal" type="VBoxContainer" parent="PanelLeft" unique_id=1887954700]
 layout_mode = 0
 offset_right = 960.0
 offset_bottom = 720.0
 
-[node name="Output" type="RichTextLabel" parent="PanelLeft/Terminal"]
+[node name="Output" type="RichTextLabel" parent="PanelLeft/Terminal" unique_id=1883114657]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 scroll_following = true
 
-[node name="InputLine" type="LineEdit" parent="PanelLeft/Terminal"]
+[node name="InputLine" type="LineEdit" parent="PanelLeft/Terminal" unique_id=1469349451]
 layout_mode = 2
 placeholder_text = "Digite um comando..."
 
-[node name="PanelRight" type="Panel" parent="."]
+[node name="PanelRight" type="Panel" parent="." unique_id=131024131]
 layout_mode = 0
 offset_left = 960.0
 offset_right = 1280.0
 offset_bottom = 720.0
 
-[node name="Topology" type="Control" parent="PanelRight"]
-layout_mode = 0
+[node name="Topology" type="Control" parent="PanelRight" unique_id=1826976153]
+anchors_preset = 0
 offset_right = 320.0
 offset_bottom = 720.0
