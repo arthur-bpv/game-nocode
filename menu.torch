@@ -1,0 +1,169 @@
+[orchestration type="OScript" load_steps=10 format=3 uid="uid://daw6c66a4n2xa"]
+
+[obj type="OScriptFunction" id="OScriptFunction_vjb58"]
+guid = "1B8B2346-4B5D-4212-A2FC-FA42C5BDC348"
+method = {
+"name": &"_on_button_2_pressed"
+}
+id = 0
+
+[obj type="OScriptFunction" id="OScriptFunction_con2f"]
+guid = "C942CB2B-75A3-49BD-9F89-D56852CF0682"
+method = {
+"name": &"_on_button_pressed"
+}
+id = 3
+
+[obj type="OScriptGraph" id="OScriptGraph_10o0e"]
+graph_name = &"EventGraph"
+flags = 8
+nodes = Array[int]([0, 1, 2, 3, 4, 5])
+functions = Array[int]([0, 3])
+
+[obj type="OScriptNodeEvent" id="OScriptNodeEvent_mhnvy"]
+function_id = "1B8B2346-4B5D-4212-A2FC-FA42C5BDC348"
+id = 0
+position = Vector2(560, 1040)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}])
+
+[obj type="OScriptNodeSceneTree" id="OScriptNodeSceneTree_4ytvr"]
+id = 1
+position = Vector2(560, 1140)
+pin_data = Array[Dictionary]([{
+"pin_name": &"scene_tree",
+"type": 24,
+"dir": 1,
+"flags": 2,
+"target_class": "SceneTree"
+}])
+
+[obj type="OScriptNodeCallMemberFunction" id="OScriptNodeCallMemberFunction_g3eks"]
+function_name = &"change_scene_to_file"
+target_class_name = "SceneTree"
+target_type = 24
+flags = 520
+method = {
+"name": &"change_scene_to_file",
+"return": {
+"type": 2,
+"class_name": &"Error",
+"usage": 65542
+},
+"args": [{
+"name": &"path",
+"type": 4
+}]
+}
+chain = false
+id = 2
+size = Vector2(332, 152)
+position = Vector2(1020, 1040)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecIn",
+"flags": 4
+}, {
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}, {
+"pin_name": &"target",
+"type": 24,
+"flags": 2050,
+"label": "SceneTree",
+"target_class": "SceneTree"
+}, {
+"pin_name": &"path",
+"type": 4,
+"flags": 2,
+"dv": "res://scenes/world/world.tscn"
+}, {
+"pin_name": &"return_value",
+"type": 2,
+"dir": 1,
+"flags": 33554434,
+"label": "Error",
+"target_class": "Error",
+"usage": 65542
+}])
+
+[obj type="OScriptNodeEvent" id="OScriptNodeEvent_v86rl"]
+function_id = "C942CB2B-75A3-49BD-9F89-D56852CF0682"
+id = 3
+position = Vector2(560, 1320)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}])
+
+[obj type="OScriptNodeSceneTree" id="OScriptNodeSceneTree_13sgg"]
+id = 4
+position = Vector2(560, 1440)
+pin_data = Array[Dictionary]([{
+"pin_name": &"scene_tree",
+"type": 24,
+"dir": 1,
+"flags": 2,
+"target_class": "SceneTree"
+}])
+
+[obj type="OScriptNodeCallMemberFunction" id="OScriptNodeCallMemberFunction_i6lef"]
+function_name = &"change_scene_to_file"
+target_class_name = "SceneTree"
+target_type = 24
+flags = 520
+method = {
+"name": &"change_scene_to_file",
+"return": {
+"type": 2,
+"class_name": &"Error",
+"usage": 65542
+},
+"args": [{
+"name": &"path",
+"type": 4
+}]
+}
+chain = false
+id = 5
+size = Vector2(332, 152)
+position = Vector2(980, 1320)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecIn",
+"flags": 4
+}, {
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}, {
+"pin_name": &"target",
+"type": 24,
+"flags": 2050,
+"label": "SceneTree",
+"target_class": "SceneTree"
+}, {
+"pin_name": &"path",
+"type": 4,
+"flags": 2,
+"dv": "res://scenes/world/world.tscn"
+}, {
+"pin_name": &"return_value",
+"type": 2,
+"dir": 1,
+"flags": 33554434,
+"label": "Error",
+"target_class": "Error",
+"usage": 65542
+}])
+
+[resource]
+base_type = &"Node"
+description = "Base template for Node with default Godot cycle methods."
+functions = Array[OScriptFunction]([SubResource("OScriptFunction_vjb58"), SubResource("OScriptFunction_con2f")])
+connections = Array[int]([0, 0, 2, 0, 3, 0, 5, 0, 1, 0, 2, 1, 4, 0, 5, 1])
+nodes = Array[OScriptNode]([SubResource("OScriptNodeEvent_mhnvy"), SubResource("OScriptNodeSceneTree_4ytvr"), SubResource("OScriptNodeCallMemberFunction_g3eks"), SubResource("OScriptNodeEvent_v86rl"), SubResource("OScriptNodeSceneTree_13sgg"), SubResource("OScriptNodeCallMemberFunction_i6lef")])
+graphs = Array[OScriptGraph]([SubResource("OScriptGraph_10o0e")])

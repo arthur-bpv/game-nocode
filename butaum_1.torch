@@ -1,0 +1,127 @@
+[orchestration type="OScript" load_steps=12 format=3 uid="uid://duplbjuhp58us"]
+
+[obj type="OScriptFunction" id="OScriptFunction_y67al"]
+guid = "F3592B7B-3D9D-4E6D-A6DB-F7B13EE564F8"
+method = {
+"name": &"_on_pressed"
+}
+id = 6
+
+[obj type="OScriptFunction" id="OScriptFunction_mhnvy"]
+guid = "D739BD2C-91E2-4149-A001-A75E43F460B4"
+method = {
+"name": &"jooj"
+}
+user_defined = true
+id = 7
+
+[obj type="OScriptGraph" id="OScriptGraph_10o0e"]
+graph_name = &"EventGraph"
+flags = 8
+nodes = Array[int]([1, 4, 6, 10])
+functions = Array[int]([6])
+
+[obj type="OScriptGraph" id="OScriptGraph_4ytvr"]
+graph_name = &"jooj"
+flags = 22
+nodes = Array[int]([7, 8, 9])
+functions = Array[int]([7])
+
+[obj type="OScriptNodeComment" id="OScriptNodeComment_bh8nx"]
+comments = "Called when the node enters the scene tree for the first time.
+Replace the function body."
+id = 1
+position = Vector2(220, 360)
+
+[obj type="OScriptNodeComment" id="OScriptNodeComment_sra6w"]
+title = "Sexo de pai"
+comments = "sexo de pai pau pra dentro pau pra dentro nenhum bebe sai"
+id = 4
+position = Vector2(180, 1040)
+
+[obj type="OScriptNodeEvent" id="OScriptNodeEvent_br8oe"]
+function_id = "F3592B7B-3D9D-4E6D-A6DB-F7B13EE564F8"
+id = 6
+position = Vector2(200, 1180)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}])
+
+[obj type="OScriptNodeFunctionEntry" id="OScriptNodeFunctionEntry_g3eks"]
+function_id = "D739BD2C-91E2-4149-A001-A75E43F460B4"
+id = 7
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}])
+
+[obj type="OScriptNodeFunctionResult" id="OScriptNodeFunctionResult_v86rl"]
+function_id = "D739BD2C-91E2-4149-A001-A75E43F460B4"
+id = 8
+position = Vector2(300, 0)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecIn",
+"flags": 4
+}])
+
+[obj type="OScriptNodeInstantiateScene" id="OScriptNodeInstantiateScene_13sgg"]
+id = 9
+position = Vector2(220, -140)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecIn",
+"flags": 4
+}, {
+"pin_name": &"scene",
+"type": 4,
+"flags": 8388610,
+"dv": "",
+"hint": 13,
+"hint_string": "*.scn,*.tscn"
+}, {
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}, {
+"pin_name": &"scene_root",
+"type": 24,
+"dir": 1,
+"flags": 2,
+"target_class": "Node"
+}])
+
+[obj type="OScriptNodeInstantiateScene" id="OScriptNodeInstantiateScene_i6lef"]
+scene = "res://scenes/world/world.tscn"
+id = 10
+position = Vector2(480, 1180)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecIn",
+"flags": 4
+}, {
+"pin_name": &"scene",
+"type": 4,
+"flags": 8388610,
+"dv": "res://scenes/world/world.tscn",
+"hint": 13,
+"hint_string": "*.scn,*.tscn"
+}, {
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}, {
+"pin_name": &"scene_root",
+"type": 24,
+"dir": 1,
+"flags": 2,
+"target_class": "Node2D"
+}])
+
+[resource]
+base_type = &"Node"
+description = "Base template for Node with default Godot cycle methods."
+functions = Array[OScriptFunction]([SubResource("OScriptFunction_y67al"), SubResource("OScriptFunction_mhnvy")])
+connections = Array[int]([7, 0, 8, 0, 6, 0, 10, 0])
+nodes = Array[OScriptNode]([SubResource("OScriptNodeComment_bh8nx"), SubResource("OScriptNodeComment_sra6w"), SubResource("OScriptNodeEvent_br8oe"), SubResource("OScriptNodeFunctionEntry_g3eks"), SubResource("OScriptNodeFunctionResult_v86rl"), SubResource("OScriptNodeInstantiateScene_13sgg"), SubResource("OScriptNodeInstantiateScene_i6lef")])
+graphs = Array[OScriptGraph]([SubResource("OScriptGraph_10o0e"), SubResource("OScriptGraph_4ytvr")])
