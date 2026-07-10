@@ -5,7 +5,6 @@
 
 [node name="Node2D" type="Node2D" unique_id=96168996]
 process_mode = 3
-visible = false
 script = ExtResource("1_alh12")
 
 [node name="1" type="Sprite2D" parent="." unique_id=1486759004]
@@ -34,4 +33,5 @@ text = "CONTINUAR"
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1824757913]
 position = Vector2(637, 362)
 
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_play_button_pressed"]

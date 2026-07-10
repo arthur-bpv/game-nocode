@@ -25,7 +25,5 @@ offset_right = 611.0
 offset_bottom = 266.0
 theme_type_variation = &"FlatButton"
 
-[node name="Node2D" type="Node2D" parent="." unique_id=324081681]
-
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

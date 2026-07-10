@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://b0gve031cp7fw"]
+
+[ext_resource type="Script" uid="uid://2yt1ypdhbvfk" path="res://scenes/volume.torch" id="1_bml30"]
+[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://1.png" id="1_gm22o"]
+
+[node name="Volume" type="Node2D" unique_id=1820280749]
+script = ExtResource("1_bml30")
+
+[node name="1" type="Sprite2D" parent="." unique_id=1643426907]
+position = Vector2(669.00006, 1790)
+scale = Vector2(2.381771, 3.3194444)
+texture = ExtResource("1_gm22o")
+
+[node name="Control" type="Control" parent="." unique_id=1468352462]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control" unique_id=369358763]
+layout_mode = 0
+offset_left = 596.0
+offset_top = 370.0
+offset_right = 655.0
+offset_bottom = 393.0
+text = "Volume"
+
+[node name="HSlider" type="HSlider" parent="Control" unique_id=81507765]
+layout_mode = 0
+offset_left = 333.0
+offset_top = 398.0
+offset_right = 927.0
+offset_bottom = 442.0
+value = 100.0
+
+[connection signal="value_changed" from="Control/HSlider" to="." method="_on_h_slider_value_changed"]

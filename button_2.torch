@@ -1,0 +1,10 @@
+[orchestration type="OScript" load_steps=2 format=3 uid="uid://cn3qctls0lnp6"]
+
+[obj type="OScriptGraph" id="OScriptGraph_10o0e"]
+graph_name = &"EventGraph"
+flags = 8
+
+[resource]
+base_type = &"Node"
+description = "Base template for Node with default Godot cycle methods."
+graphs = Array[OScriptGraph]([SubResource("OScriptGraph_10o0e")])

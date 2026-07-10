@@ -283,6 +283,7 @@ pin_data = Array[Dictionary]([{
 
 [obj type="OScriptNodeInputAction" id="OScriptNodeInputAction_bq33v"]
 action = "ui_cancel"
+mode = 2
 id = 21
 position = Vector2(260, 1200)
 pin_data = Array[Dictionary]([{
@@ -290,8 +291,7 @@ pin_data = Array[Dictionary]([{
 "type": 1,
 "dir": 1,
 "flags": 2,
-"label": "Pressed",
-"dv": false
+"label": "Just Pressed"
 }])
 
 [obj type="OScriptNodeBranch" id="OScriptNodeBranch_bq33v"]

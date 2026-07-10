@@ -1,20 +1,27 @@
-[orchestration type="OScript" load_steps=9 format=3 uid="uid://n6vt0w0nksjg"]
+[orchestration type="OScript" load_steps=12 format=3 uid="uid://n6vt0w0nksjg"]
 
-[obj type="OScriptFunction" id="OScriptFunction_bq33v"]
-guid = "9269B89C-03E4-4B6A-8714-1E1B2B5EC0C1"
+[obj type="OScriptFunction" id="OScriptFunction_2jkrm"]
+guid = "56DC98E7-6713-446D-8429-C3B7B3D923E4"
 method = {
 "name": &"_on_play_button_pressed"
 }
-id = 4
+id = 10
+
+[obj type="OScriptFunction" id="OScriptFunction_6fe4s"]
+guid = "C9479B50-DAA4-493E-8ABC-812D31EE81F0"
+method = {
+"name": &"_on_button_2_pressed"
+}
+id = 14
 
 [obj type="OScriptGraph" id="OScriptGraph_10o0e"]
 graph_name = &"EventGraph"
 flags = 8
-nodes = Array[int]([0, 1, 2, 3, 4, 5])
-functions = Array[int]([4])
+nodes = Array[int]([7, 8, 9, 10, 11, 12, 13, 14])
+functions = Array[int]([10, 14])
 
-[obj type="OScriptNodeSceneTree" id="OScriptNodeSceneTree_j2gmx"]
-id = 0
+[obj type="OScriptNodeSceneTree" id="OScriptNodeSceneTree_km1i3"]
+id = 7
 position = Vector2(1340, 400)
 pin_data = Array[Dictionary]([{
 "pin_name": &"scene_tree",
@@ -24,67 +31,34 @@ pin_data = Array[Dictionary]([{
 "target_class": "SceneTree"
 }])
 
-[obj type="OScriptNodeSceneTree" id="OScriptNodeSceneTree_1yooq"]
-id = 1
-position = Vector2(1340, 700)
-pin_data = Array[Dictionary]([{
-"pin_name": &"scene_tree",
-"type": 24,
-"dir": 1,
-"flags": 2,
-"target_class": "SceneTree"
-}])
-
-[obj type="OScriptNodeCallMemberFunction" id="OScriptNodeCallMemberFunction_gb53w"]
-function_name = &"change_scene_to_file"
-target_class_name = "SceneTree"
-target_type = 24
-flags = 520
-method = {
-"name": &"change_scene_to_file",
-"return": {
-"type": 2,
-"class_name": &"Error",
-"usage": 65542
-},
-"args": [{
-"name": &"path",
-"type": 4
-}]
+[obj type="OScriptNodePropertySet" id="OScriptNodePropertySet_h7jby"]
+mode = 2
+property_name = &"visible"
+node_path = NodePath(".")
+property = {
+"name": &"visible",
+"type": 1,
+"class_name": &"",
+"hint": 0,
+"hint_string": "",
+"usage": 6
 }
-chain = false
-id = 2
-size = Vector2(332, 152)
-position = Vector2(1760, 580)
+id = 8
+position = Vector2(2060, 280)
 pin_data = Array[Dictionary]([{
 "pin_name": &"ExecIn",
 "flags": 4
 }, {
+"pin_name": &"visible",
+"type": 1,
+"flags": 2
+}, {
 "pin_name": &"ExecOut",
 "dir": 1,
 "flags": 4
-}, {
-"pin_name": &"target",
-"type": 24,
-"flags": 2050,
-"label": "SceneTree",
-"target_class": "SceneTree"
-}, {
-"pin_name": &"path",
-"type": 4,
-"flags": 2,
-"dv": "res://scenes/world/world.tscn"
-}, {
-"pin_name": &"return_value",
-"type": 2,
-"dir": 1,
-"flags": 33554434,
-"label": "Error",
-"target_class": "Error",
-"usage": 65542
 }])
 
-[obj type="OScriptNodeCallMemberFunction" id="OScriptNodeCallMemberFunction_5qq27"]
+[obj type="OScriptNodeCallMemberFunction" id="OScriptNodeCallMemberFunction_igaod"]
 function_name = &"set_pause"
 target_class_name = "SceneTree"
 target_type = 24
@@ -97,7 +71,7 @@ method = {
 }]
 }
 chain = false
-id = 3
+id = 9
 size = Vector2(218, 152)
 position = Vector2(1760, 280)
 pin_data = Array[Dictionary]([{
@@ -120,9 +94,9 @@ pin_data = Array[Dictionary]([{
 "dv": false
 }])
 
-[obj type="OScriptNodeEvent" id="OScriptNodeEvent_dlabj"]
-function_id = "9269B89C-03E4-4B6A-8714-1E1B2B5EC0C1"
-id = 4
+[obj type="OScriptNodeEvent" id="OScriptNodeEvent_lj04q"]
+function_id = "56DC98E7-6713-446D-8429-C3B7B3D923E4"
+id = 10
 position = Vector2(1340, 280)
 pin_data = Array[Dictionary]([{
 "pin_name": &"ExecOut",
@@ -130,7 +104,67 @@ pin_data = Array[Dictionary]([{
 "flags": 4
 }])
 
-[obj type="OScriptNodePropertySet" id="OScriptNodePropertySet_srmg5"]
+[obj type="OScriptNodeCallMemberFunction" id="OScriptNodeCallMemberFunction_bkm5w"]
+function_name = &"change_scene_to_file"
+target_class_name = "SceneTree"
+target_type = 24
+flags = 520
+method = {
+"name": &"change_scene_to_file",
+"return": {
+"type": 2,
+"class_name": &"Error",
+"usage": 65542
+},
+"args": [{
+"name": &"path",
+"type": 4
+}]
+}
+chain = false
+id = 11
+size = Vector2(332, 152)
+position = Vector2(1620, 0)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecIn",
+"flags": 4
+}, {
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}, {
+"pin_name": &"target",
+"type": 24,
+"flags": 2050,
+"label": "SceneTree",
+"target_class": "SceneTree"
+}, {
+"pin_name": &"path",
+"type": 4,
+"flags": 2,
+"dv": "res://scenes/configurações.tscn"
+}, {
+"pin_name": &"return_value",
+"type": 2,
+"dir": 1,
+"flags": 33554434,
+"label": "Error",
+"target_class": "Error",
+"usage": 65542
+}])
+
+[obj type="OScriptNodeSceneTree" id="OScriptNodeSceneTree_ay6x5"]
+id = 12
+position = Vector2(1240, 100)
+pin_data = Array[Dictionary]([{
+"pin_name": &"scene_tree",
+"type": 24,
+"dir": 1,
+"flags": 2,
+"target_class": "SceneTree"
+}])
+
+[obj type="OScriptNodePropertySet" id="OScriptNodePropertySet_t4qar"]
 mode = 2
 property_name = &"visible"
 node_path = NodePath(".")
@@ -142,16 +176,27 @@ property = {
 "hint_string": "",
 "usage": 6
 }
-id = 5
-position = Vector2(2060, 280)
+id = 13
+position = Vector2(2260, 0)
 pin_data = Array[Dictionary]([{
 "pin_name": &"ExecIn",
 "flags": 4
 }, {
 "pin_name": &"visible",
 "type": 1,
-"flags": 2
+"flags": 2,
+"dv": false
 }, {
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}])
+
+[obj type="OScriptNodeEvent" id="OScriptNodeEvent_p8o8j"]
+function_id = "C9479B50-DAA4-493E-8ABC-812D31EE81F0"
+id = 14
+position = Vector2(1220, -20)
+pin_data = Array[Dictionary]([{
 "pin_name": &"ExecOut",
 "dir": 1,
 "flags": 4
@@ -160,7 +205,7 @@ pin_data = Array[Dictionary]([{
 [resource]
 base_type = &"Node"
 description = "Base template for Node with default Godot cycle methods."
-functions = Array[OScriptFunction]([SubResource("OScriptFunction_bq33v")])
-connections = Array[int]([4, 0, 3, 0, 3, 0, 5, 0, 1, 0, 2, 1, 0, 0, 3, 1])
-nodes = Array[OScriptNode]([SubResource("OScriptNodeSceneTree_j2gmx"), SubResource("OScriptNodeSceneTree_1yooq"), SubResource("OScriptNodeCallMemberFunction_gb53w"), SubResource("OScriptNodeCallMemberFunction_5qq27"), SubResource("OScriptNodeEvent_dlabj"), SubResource("OScriptNodePropertySet_srmg5")])
+functions = Array[OScriptFunction]([SubResource("OScriptFunction_2jkrm"), SubResource("OScriptFunction_6fe4s")])
+connections = Array[int]([9, 0, 8, 0, 10, 0, 9, 0, 14, 0, 11, 0, 11, 0, 13, 0, 7, 0, 9, 1, 12, 0, 11, 1])
+nodes = Array[OScriptNode]([SubResource("OScriptNodeSceneTree_km1i3"), SubResource("OScriptNodePropertySet_h7jby"), SubResource("OScriptNodeCallMemberFunction_igaod"), SubResource("OScriptNodeEvent_lj04q"), SubResource("OScriptNodeCallMemberFunction_bkm5w"), SubResource("OScriptNodeSceneTree_ay6x5"), SubResource("OScriptNodePropertySet_t4qar"), SubResource("OScriptNodeEvent_p8o8j")])
 graphs = Array[OScriptGraph]([SubResource("OScriptGraph_10o0e")])
