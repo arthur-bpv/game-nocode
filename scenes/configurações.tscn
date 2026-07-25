@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://bn7yw4jydldw2"]
+
+[ext_resource type="Script" uid="uid://cxudatady5e74" path="res://scenes/configurações.torch" id="1_6fe4s"]
+[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://1.png" id="1_thr3o"]
+
+[node name="Configurações" type="Node2D" unique_id=1025176508]
+script = ExtResource("1_6fe4s")
+
+[node name="1" type="Sprite2D" parent="." unique_id=1212451466]
+position = Vector2(669.00006, 1790)
+scale = Vector2(2.381771, 3.3194444)
+texture = ExtResource("1_thr3o")
+
+[node name="Button" type="Button" parent="." unique_id=770752865]
+offset_left = 522.0
+offset_top = 242.0
+offset_right = 691.0
+offset_bottom = 299.0
+text = "Video"
+
+[node name="Button2" type="Button" parent="." unique_id=332919602]
+offset_left = 522.0
+offset_top = 345.0
+offset_right = 691.0
+offset_bottom = 402.0
+text = "Volume"
+
+[node name="Button3" type="Button" parent="." unique_id=1928628258]
+offset_left = 522.0
+offset_top = 443.0
+offset_right = 691.0
+offset_bottom = 500.0
+text = "Voltar"
+
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]

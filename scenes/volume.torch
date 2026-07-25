@@ -1,0 +1,69 @@
+[orchestration type="OScript" load_steps=5 format=3 uid="uid://2yt1ypdhbvfk"]
+
+[obj type="OScriptFunction" id="OScriptFunction_y67al"]
+guid = "1018D9E9-4C34-4005-B31B-422B6178015A"
+method = {
+"name": &"_on_h_slider_value_changed",
+"args": [{
+"name": &"value",
+"type": 3
+}]
+}
+id = 6
+
+[obj type="OScriptGraph" id="OScriptGraph_10o0e"]
+graph_name = &"EventGraph"
+flags = 8
+nodes = Array[int]([6, 7])
+functions = Array[int]([6])
+
+[obj type="OScriptNodeEvent" id="OScriptNodeEvent_br8oe"]
+function_id = "1018D9E9-4C34-4005-B31B-422B6178015A"
+id = 6
+position = Vector2(-180, 440)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}, {
+"pin_name": &"value",
+"type": 3,
+"dir": 1,
+"flags": 2,
+"dv": 0.0
+}])
+
+[obj type="OScriptNodeCallBuiltinFunction" id="OScriptNodeCallBuiltinFunction_t4qar"]
+function_name = &"linear_to_db"
+method = {
+"name": &"linear_to_db",
+"return": {
+"type": 3
+},
+"args": [{
+"name": &"lin",
+"type": 3
+}]
+}
+id = 7
+size = Vector2(165, 78)
+position = Vector2(266.0184326171875, 598.1161499023438)
+pin_data = Array[Dictionary]([{
+"pin_name": &"lin",
+"type": 3,
+"flags": 2,
+"dv": 0.0
+}, {
+"pin_name": &"return_value",
+"type": 3,
+"dir": 1,
+"flags": 1026
+}])
+
+[resource]
+base_type = &"Node"
+description = "Base template for Node with default Godot cycle methods."
+functions = Array[OScriptFunction]([SubResource("OScriptFunction_y67al")])
+connections = Array[int]([6, 1, 7, 0])
+nodes = Array[OScriptNode]([SubResource("OScriptNodeEvent_br8oe"), SubResource("OScriptNodeCallBuiltinFunction_t4qar")])
+graphs = Array[OScriptGraph]([SubResource("OScriptGraph_10o0e")])
