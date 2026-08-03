@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "godot-signals-groups": {
+      "source": "gamedev-skills/awesome-gamedev-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/godot/godot-signals-groups/SKILL.md",
+      "computedHash": "fe5aefd3cb24042fb0b93c1e212d97d9204be8a88abd61b2bfd09d93ea75ee82"
+    }
+  }
+}
