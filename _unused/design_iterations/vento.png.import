@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dttm445cs3k0y"
-path="res://.godot/imported/21.png-10697af647372d4d956a943e144d0c99.ctex"
+uid="uid://bv0lejxwrjb4r"
+path="res://.godot/imported/vento.png-89991e820ef7a9d35e04a3cce1404560.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://21.png"
-dest_files=["res://.godot/imported/21.png-10697af647372d4d956a943e144d0c99.ctex"]
+source_file="res://assets/sprites/vento.png"
+dest_files=["res://.godot/imported/vento.png-89991e820ef7a9d35e04a3cce1404560.ctex"]
 
 [params]
 

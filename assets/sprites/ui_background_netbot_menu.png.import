@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5he6kieuuy6w"
-path="res://.godot/imported/11.png-996808646e13b7bfabf66f1b22a950cc.ctex"
+uid="uid://0hml24ovvfhp"
+path="res://.godot/imported/1.png-c65354dcc69a67c731e856cb4cae8015.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://11.png"
-dest_files=["res://.godot/imported/11.png-996808646e13b7bfabf66f1b22a950cc.ctex"]
+source_file="res://assets/sprites/ui_background_netbot_menu.png"
+dest_files=["res://.godot/imported/1.png-c65354dcc69a67c731e856cb4cae8015.ctex"]
 
 [params]
 

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cgrmoyqphkdh7"]
 
-[ext_resource type="Script" uid="uid://n6vt0w0nksjg" path="res://pause.torch" id="1_alh12"]
-[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://1.png" id="2_lg454"]
+[ext_resource type="Script" uid="uid://n6vt0w0nksjg" path="res://scenes/pause.torch" id="1_alh12"]
+[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="2_lg454"]
 
 [node name="Node2D" type="Node2D" unique_id=96168996]
 process_mode = 3

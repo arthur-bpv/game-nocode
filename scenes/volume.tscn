@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b0gve031cp7fw"]
 
 [ext_resource type="Script" uid="uid://2yt1ypdhbvfk" path="res://scenes/volume.torch" id="1_bml30"]
-[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://1.png" id="1_gm22o"]
+[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_gm22o"]
 
 [node name="Volume" type="Node2D" unique_id=1820280749]
 script = ExtResource("1_bml30")

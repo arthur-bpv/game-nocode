@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bn7yw4jydldw2"]
 
 [ext_resource type="Script" uid="uid://cxudatady5e74" path="res://scenes/configurações.torch" id="1_6fe4s"]
-[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://1.png" id="1_thr3o"]
+[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_thr3o"]
 
 [node name="Configurações" type="Node2D" unique_id=1025176508]
 script = ExtResource("1_6fe4s")

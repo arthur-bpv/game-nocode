@@ -1,6 +1,7 @@
 # Godot
 .godot/
 *.uid
+*.uidren
 
 # Arquivos gerados pelo editor (platform-specific)
 addons/**/*.import
