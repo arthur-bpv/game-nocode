@@ -5,6 +5,7 @@
 
 [node name="Node2D" type="Node2D" unique_id=2103415344]
 script = ExtResource("1_con2f")
+metadata/_edit_vertical_guides_ = [-17.0]
 
 [node name="1" type="Sprite2D" parent="." unique_id=1467165593]
 position = Vector2(640, 359.49997)

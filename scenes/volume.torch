@@ -29,8 +29,7 @@ pin_data = Array[Dictionary]([{
 "pin_name": &"value",
 "type": 3,
 "dir": 1,
-"flags": 2,
-"dv": 0.0
+"flags": 2
 }])
 
 [obj type="OScriptNodeCallBuiltinFunction" id="OScriptNodeCallBuiltinFunction_t4qar"]
@@ -51,8 +50,7 @@ position = Vector2(266.0184326171875, 598.1161499023438)
 pin_data = Array[Dictionary]([{
 "pin_name": &"lin",
 "type": 3,
-"flags": 2,
-"dv": 0.0
+"flags": 2
 }, {
 "pin_name": &"return_value",
 "type": 3,

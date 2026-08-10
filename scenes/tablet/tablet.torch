@@ -1,4 +1,4 @@
-[orchestration type="OScript" load_steps=25 format=3 uid="uid://dpcaglo4e51um"]
+[orchestration type="OScript" load_steps=24 format=3 uid="uid://dpcaglo4e51um"]
 
 [obj type="OScriptFunction" id="OScriptFunction_6m72w"]
 guid = "6B6AF8DF-6C48-4D8F-AE09-B989796EAE94"
@@ -57,7 +57,7 @@ id = 21
 [obj type="OScriptGraph" id="OScriptGraph_orolp"]
 graph_name = &"EventGraph"
 flags = 8
-nodes = Array[int]([4, 5, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 21, 22, 23, 24, 25])
+nodes = Array[int]([4, 5, 8, 9, 11, 12, 13, 14, 15, 17, 18, 19, 21, 22, 23, 24, 25])
 functions = Array[int]([8, 9, 21])
 
 [obj type="OScriptNodeVariableSet" id="OScriptNodeVariableSet_enter"]
@@ -156,44 +156,6 @@ pin_data = Array[Dictionary]([{
 "type": 2,
 "dir": 1,
 "flags": 2
-}])
-
-[obj type="OScriptNodePrintString" id="OScriptNodePrintString_j2gmx"]
-id = 10
-position = Vector2(20, 180)
-pin_data = Array[Dictionary]([{
-"pin_name": &"ExecIn",
-"flags": 4
-}, {
-"pin_name": &"Text",
-"type": 4,
-"flags": 2,
-"dv": "Hello"
-}, {
-"pin_name": &"PrintToScreen",
-"type": 1,
-"flags": 2,
-"dv": true
-}, {
-"pin_name": &"PrintToLog",
-"type": 1,
-"flags": 2,
-"dv": true
-}, {
-"pin_name": &"TextColor",
-"type": 20,
-"flags": 2,
-"dv": Color(1, 1, 1, 1)
-}, {
-"pin_name": &"Duration",
-"type": 3,
-"flags": 2,
-"dv": 2.0,
-"gdv": 0
-}, {
-"pin_name": &"ExecOut",
-"dir": 1,
-"flags": 4
 }])
 
 [obj type="OScriptNodeCallMemberFunction" id="OScriptNodeCallMemberFunction_tm2vn"]
@@ -592,6 +554,6 @@ base_type = &"Area2D"
 brief_description = "Empty template suitable for all Objects"
 variables = Array[OScriptVariable]([SubResource("OScriptVariable_txsbi"), SubResource("OScriptVariable_bq33v")])
 functions = Array[OScriptFunction]([SubResource("OScriptFunction_6m72w"), SubResource("OScriptFunction_t5ptc"), SubResource("OScriptFunction_hcxbr")])
-connections = Array[int]([10, 0, 4, 0, 9, 0, 5, 0, 8, 0, 10, 0, 4, 0, 11, 0, 11, 0, 12, 0, 5, 0, 13, 0, 13, 0, 14, 0, 22, 0, 17, 0, 17, 0, 18, 0, 21, 0, 22, 0, 18, 0, 23, 0, 23, 0, 24, 0, 11, 1, 12, 1, 13, 1, 14, 1, 22, 1, 17, 1, 19, 0, 18, 1, 15, 0, 22, 1, 25, 0, 23, 1, 23, 1, 24, 1])
-nodes = Array[OScriptNode]([SubResource("OScriptNodeVariableSet_enter"), SubResource("OScriptNodeVariableSet_exit"), SubResource("OScriptNodeEvent_v5dby"), SubResource("OScriptNodeEvent_bq33v"), SubResource("OScriptNodePrintString_j2gmx"), SubResource("OScriptNodeCallMemberFunction_tm2vn"), SubResource("OScriptNodeCallMemberFunction_rhwdh"), SubResource("OScriptNodeCallMemberFunction_br4ra"), SubResource("OScriptNodeCallMemberFunction_oide5"), SubResource("OScriptNodeEngineSingleton_tm2vn"), SubResource("OScriptNodeBranch_5tnka"), SubResource("OScriptNodeBranch_2r8fw"), SubResource("OScriptNodeVariableGet_80qix"), SubResource("OScriptNodeEvent_53fpr"), SubResource("OScriptNodeCallMemberFunction_7qvb1"), SubResource("OScriptNodeCallMemberFunction_ncqe7"), SubResource("OScriptNodeCallMemberFunction_4ig6a"), SubResource("OScriptNodeSelf_bn4rh")])
+connections = Array[int]([9, 0, 5, 0, 8, 0, 4, 0, 4, 0, 11, 0, 11, 0, 12, 0, 5, 0, 13, 0, 13, 0, 14, 0, 22, 0, 17, 0, 17, 0, 18, 0, 21, 0, 22, 0, 18, 0, 23, 0, 23, 0, 24, 0, 11, 1, 12, 1, 13, 1, 14, 1, 22, 1, 17, 1, 19, 0, 18, 1, 15, 0, 22, 1, 25, 0, 23, 1, 23, 1, 24, 1])
+nodes = Array[OScriptNode]([SubResource("OScriptNodeVariableSet_enter"), SubResource("OScriptNodeVariableSet_exit"), SubResource("OScriptNodeEvent_v5dby"), SubResource("OScriptNodeEvent_bq33v"), SubResource("OScriptNodeCallMemberFunction_tm2vn"), SubResource("OScriptNodeCallMemberFunction_rhwdh"), SubResource("OScriptNodeCallMemberFunction_br4ra"), SubResource("OScriptNodeCallMemberFunction_oide5"), SubResource("OScriptNodeEngineSingleton_tm2vn"), SubResource("OScriptNodeBranch_5tnka"), SubResource("OScriptNodeBranch_2r8fw"), SubResource("OScriptNodeVariableGet_80qix"), SubResource("OScriptNodeEvent_53fpr"), SubResource("OScriptNodeCallMemberFunction_7qvb1"), SubResource("OScriptNodeCallMemberFunction_ncqe7"), SubResource("OScriptNodeCallMemberFunction_4ig6a"), SubResource("OScriptNodeSelf_bn4rh")])
 graphs = Array[OScriptGraph]([SubResource("OScriptGraph_orolp")])

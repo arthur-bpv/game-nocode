@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://0hml24ovvfhp"
-path="res://.godot/imported/1.png-c65354dcc69a67c731e856cb4cae8015.ctex"
+path="res://.godot/imported/ui_background_netbot_menu.png-4c9d73e107ec73b03cc72173f0728348.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://assets/sprites/ui_background_netbot_menu.png"
-dest_files=["res://.godot/imported/1.png-c65354dcc69a67c731e856cb4cae8015.ctex"]
+dest_files=["res://.godot/imported/ui_background_netbot_menu.png-4c9d73e107ec73b03cc72173f0728348.ctex"]
 
 [params]
 
