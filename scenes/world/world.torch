@@ -44,7 +44,7 @@ functions = Array[int]([0, 3, 16])
 [obj type="OScriptNodeEvent" id="OScriptNodeEvent_10o0e"]
 function_id = "60B4536D-0CBA-45D9-AE64-87F90406DB85"
 id = 0
-position = Vector2(220, 480)
+position = Vector2(100, 460)
 pin_data = Array[Dictionary]([{
 "pin_name": &"ExecOut",
 "dir": 1,

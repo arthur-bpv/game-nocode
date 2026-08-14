@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://swuyyvibqpiv" path="res://scenes/player/player.torch" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://5pt4bptef1mu" path="res://assets/sprites/Android.png" id="3_lvxji"]
+[ext_resource type="Script" path="res://scripts/player_sprite_color.gd" id="4_pscolor"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dovo2"]
 radius = 20.0
@@ -61,5 +62,6 @@ sprite_frames = SubResource("SpriteFrames_5gtgg")
 autoplay = "default"
 frame = 1
 frame_progress = 0.5183028
+script = ExtResource("4_pscolor")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1959451871]

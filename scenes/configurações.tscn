@@ -2,9 +2,14 @@
 
 [ext_resource type="Script" uid="uid://cxudatady5e74" path="res://scenes/configurações.torch" id="1_6fe4s"]
 [ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_thr3o"]
+[ext_resource type="Script" path="res://scripts/screen_nav.gd" id="2_scrnav"]
 
 [node name="Configurações" type="Node2D" unique_id=1025176508]
 script = ExtResource("1_6fe4s")
+
+[node name="ScreenNav" type="Node" parent="."]
+script = ExtResource("2_scrnav")
+back_scene_path = "res://scenes/world/world.tscn"
 
 [node name="1" type="Sprite2D" parent="." unique_id=1212451466]
 position = Vector2(669.00006, 1790)
@@ -16,6 +21,7 @@ offset_left = 522.0
 offset_top = 242.0
 offset_right = 691.0
 offset_bottom = 299.0
+theme_type_variation = &"FlatButton"
 text = "Video"
 
 [node name="Button2" type="Button" parent="." unique_id=332919602]
@@ -23,6 +29,7 @@ offset_left = 522.0
 offset_top = 345.0
 offset_right = 691.0
 offset_bottom = 402.0
+theme_type_variation = &"FlatButton"
 text = "Volume"
 
 [node name="Button3" type="Button" parent="." unique_id=1928628258]
@@ -30,6 +37,8 @@ offset_left = 522.0
 offset_top = 443.0
 offset_right = 691.0
 offset_bottom = 500.0
+theme_type_variation = &"FlatButton"
 text = "Voltar"
 
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Button3" to="ScreenNav" method="go_back"]

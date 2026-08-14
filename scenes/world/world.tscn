@@ -36,6 +36,9 @@ position = Vector2(-28, -58)
 
 [node name="Pause" parent="CanvasLayer" unique_id=96168996 instance=ExtResource("7_bq33v")]
 
+[node name="1" parent="CanvasLayer/Pause" index="0" unique_id=1486759004]
+visible = false
+
 [node name="Node2D" type="Node2D" parent="." unique_id=718457897]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Node2D" unique_id=403836035]

@@ -2,9 +2,18 @@
 
 [ext_resource type="Script" uid="uid://2yt1ypdhbvfk" path="res://scenes/volume.torch" id="1_bml30"]
 [ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_gm22o"]
+[ext_resource type="Script" path="res://scripts/screen_nav.gd" id="2_scrnav"]
+[ext_resource type="Script" path="res://scripts/volume_controller.gd" id="3_volctrl"]
 
 [node name="Volume" type="Node2D" unique_id=1820280749]
 script = ExtResource("1_bml30")
+
+[node name="ScreenNav" type="Node" parent="."]
+script = ExtResource("2_scrnav")
+back_scene_path = "res://scenes/configurações.tscn"
+
+[node name="VolumeController" type="Node" parent="."]
+script = ExtResource("3_volctrl")
 
 [node name="1" type="Sprite2D" parent="." unique_id=1643426907]
 position = Vector2(669.00006, 1790)
@@ -33,4 +42,14 @@ offset_right = 927.0
 offset_bottom = 442.0
 value = 100.0
 
-[connection signal="value_changed" from="Control/HSlider" to="." method="_on_h_slider_value_changed"]
+[node name="VoltarButton" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 522.0
+offset_top = 480.0
+offset_right = 691.0
+offset_bottom = 537.0
+theme_type_variation = &"FlatButton"
+text = "Voltar"
+
+[connection signal="value_changed" from="Control/HSlider" to="VolumeController" method="_on_volume_changed"]
+[connection signal="pressed" from="Control/VoltarButton" to="ScreenNav" method="go_back"]

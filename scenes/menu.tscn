@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://wslkua2yy5nb" path="res://scenes/menu.torch" id="1_con2f"]
 [ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_vjb58"]
+[ext_resource type="PackedScene" uid="uid://c8n1qk4v6xr2a" path="res://scenes/tablet/TabletMenu.tscn" id="2_tabmenu"]
 
 [node name="Node2D" type="Node2D" unique_id=2103415344]
 script = ExtResource("1_con2f")
@@ -26,5 +27,8 @@ offset_right = 611.0
 offset_bottom = 266.0
 theme_type_variation = &"FlatButton"
 
-[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[node name="TabletMenuPregame" parent="." instance=ExtResource("2_tabmenu")]
+pregame_mode = true
+
+[connection signal="pressed" from="Button2" to="TabletMenuPregame" method="open_ui"]
+[connection signal="pressed" from="Button" to="TabletMenuPregame" method="open_ui"]
