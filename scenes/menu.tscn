@@ -27,7 +27,7 @@ offset_right = 611.0
 offset_bottom = 266.0
 theme_type_variation = &"FlatButton"
 
-[node name="TabletMenuPregame" parent="." instance=ExtResource("2_tabmenu")]
+[node name="TabletMenuPregame" parent="." unique_id=140184927 instance=ExtResource("2_tabmenu")]
 pregame_mode = true
 
 [connection signal="pressed" from="Button2" to="TabletMenuPregame" method="open_ui"]
