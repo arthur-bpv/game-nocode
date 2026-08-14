@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bnty0jrpurh4e" path="res://assets/sprites/Cafeteria.png" id="2_sl2e5"]
 [ext_resource type="PackedScene" uid="uid://c00sqo8nkpwhy" path="res://scenes/player/player.tscn" id="3_1fp7r"]
 [ext_resource type="PackedScene" uid="uid://bsa43g68bptth" path="res://scenes/tablet/Tablet.tscn" id="3_6m72w"]
-[ext_resource type="PackedScene" uid="uid://cr7lr4qxtnm0n" path="res://scenes/tablet/TabletUI.tscn" id="4_v5dby"]
+[ext_resource type="PackedScene" uid="uid://c8n1qk4v6xr2a" path="res://scenes/tablet/TabletMenu.tscn" id="4_v5dby"]
 [ext_resource type="PackedScene" uid="uid://cgrmoyqphkdh7" path="res://scenes/Pause.tscn" id="7_bq33v"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1fp7r"]
