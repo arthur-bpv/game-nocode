@@ -21,6 +21,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tabmenu")
 
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.008, 0.016, 0.031, 0.92)
+
 [node name="FrameBackground" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -34,11 +44,19 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="HomePanel" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 362.0
-offset_top = 154.0
-offset_right = 922.0
-offset_bottom = 556.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -420.0
+offset_top = -301.5
+offset_right = 420.0
+offset_bottom = 301.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.0, 1.0)
 theme_override_styles/panel = SubResource("StyleBoxFlat_screen")
 
 [node name="MapaButton" type="Button" parent="HomePanel"]
@@ -73,11 +91,19 @@ offset_right = 400.0
 offset_bottom = 90.0
 
 [node name="SettingsPanel" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 362.0
-offset_top = 154.0
-offset_right = 922.0
-offset_bottom = 556.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -420.0
+offset_top = -301.5
+offset_right = 420.0
+offset_bottom = 301.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.0, 1.0)
 theme_override_styles/panel = SubResource("StyleBoxFlat_screen")
 
 [node name="ProgressBar" type="ProgressBar" parent="SettingsPanel"]

@@ -55,7 +55,7 @@ debug_color = Color(0.112342186, 0.56341755, 0.85672426, 0.41960785)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=331508380]
 position = Vector2(-20.949219, 20.144531)
-scale = Vector2(0.5921631, 0.47326663)
+scale = Vector2(0.5921631, 0.5921631)
 sprite_frames = SubResource("SpriteFrames_5gtgg")
 autoplay = "default"
 frame = 1

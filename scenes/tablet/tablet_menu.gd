@@ -30,6 +30,10 @@ func _apply_pregame_mode():
 func open_ui():
 	if visible:
 		return
+	if pregame_mode:
+		_show_settings_panel()
+	else:
+		_show_home_panel()
 	show()
 	_set_player_movement(false)
 
@@ -43,16 +47,20 @@ func _set_player_movement(enabled: bool):
 	for node in get_tree().get_nodes_in_group("player"):
 		node.set_physics_process(enabled)
 
-func _unhandled_input(event):
-	if pregame_mode:
-		return
-	if event.is_action_pressed("toggle_tablet"):
+func _input(event):
+	if not pregame_mode and event.is_action_pressed("toggle_tablet"):
+		# Tab is also used by Godot for focus navigation. Capture it before the
+		# GUI consumes the event, otherwise the tablet never receives the shortcut.
+		if event is InputEventKey and event.echo:
+			return
 		if visible:
 			_close_ui()
 		else:
 			open_ui()
 		get_viewport().set_input_as_handled()
 		return
+
+func _unhandled_input(event):
 	if not visible:
 		return
 	if event.is_action_pressed("ui_cancel"):

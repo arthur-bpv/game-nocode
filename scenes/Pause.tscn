@@ -3,35 +3,45 @@
 [ext_resource type="Script" uid="uid://n6vt0w0nksjg" path="res://scenes/pause.torch" id="1_alh12"]
 [ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="2_lg454"]
 
-[node name="Node2D" type="Node2D" unique_id=96168996]
+[node name="Node2D" type="Control" unique_id=96168996]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 process_mode = 3
 script = ExtResource("1_alh12")
 
-[node name="1" type="Sprite2D" parent="." unique_id=1486759004]
-position = Vector2(669.00006, 1790)
-scale = Vector2(2.381771, 3.3194444)
+[node name="1" type="TextureRect" parent="." unique_id=1486759004]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("2_lg454")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Button2" type="Button" parent="." unique_id=857567182]
-offset_left = 460.0
-offset_top = 350.0
-offset_right = 844.0
-offset_bottom = 418.0
+offset_left = 690.0
+offset_top = 525.0
+offset_right = 1266.0
+offset_bottom = 627.0
 theme_type_variation = &"FlatButton"
 text = "CONFIGURAÇÕES"
 
 [node name="Button" type="Button" parent="." unique_id=781303749]
-offset_left = 470.0
-offset_top = 193.0
-offset_right = 854.0
-offset_bottom = 261.0
+offset_left = 705.0
+offset_top = 290.0
+offset_right = 1281.0
+offset_bottom = 392.0
 theme_type_variation = &"FlatButton"
 text = "CONTINUAR"
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1589299771]
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1824757913]
-position = Vector2(637, 362)
 
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_play_button_pressed"]

@@ -4,39 +4,52 @@
 [ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_thr3o"]
 [ext_resource type="Script" path="res://scripts/screen_nav.gd" id="2_scrnav"]
 
-[node name="Configurações" type="Node2D" unique_id=1025176508]
+[node name="Configurações" type="Control" unique_id=1025176508]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_6fe4s")
 
 [node name="ScreenNav" type="Node" parent="."]
 script = ExtResource("2_scrnav")
 back_scene_path = "res://scenes/world/world.tscn"
 
-[node name="1" type="Sprite2D" parent="." unique_id=1212451466]
-position = Vector2(669.00006, 1790)
-scale = Vector2(2.381771, 3.3194444)
+[node name="1" type="TextureRect" parent="." unique_id=1212451466]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("1_thr3o")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Button" type="Button" parent="." unique_id=770752865]
-offset_left = 522.0
-offset_top = 242.0
-offset_right = 691.0
-offset_bottom = 299.0
+offset_left = 783.0
+offset_top = 363.0
+offset_right = 1037.0
+offset_bottom = 449.0
 theme_type_variation = &"FlatButton"
 text = "Video"
 
 [node name="Button2" type="Button" parent="." unique_id=332919602]
-offset_left = 522.0
-offset_top = 345.0
-offset_right = 691.0
-offset_bottom = 402.0
+offset_left = 783.0
+offset_top = 518.0
+offset_right = 1037.0
+offset_bottom = 603.0
 theme_type_variation = &"FlatButton"
 text = "Volume"
 
 [node name="Button3" type="Button" parent="." unique_id=1928628258]
-offset_left = 522.0
-offset_top = 443.0
-offset_right = 691.0
-offset_bottom = 500.0
+offset_left = 783.0
+offset_top = 665.0
+offset_right = 1037.0
+offset_bottom = 750.0
 theme_type_variation = &"FlatButton"
 text = "Voltar"
 
