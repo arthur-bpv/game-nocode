@@ -343,7 +343,7 @@ category = "Default"
 constant = true
 classification = "type:float"
 type = 3
-default_value = 300.0
+default_value = 240.0
 
 [obj type="OScriptVariable" id="OScriptVariable_dvnca"]
 name = "JUMP_VELOCITY"

@@ -1,39 +1,36 @@
 [gd_scene format=3 uid="uid://cgrmoyqphkdh7"]
 
-[ext_resource type="Script" uid="uid://n6vt0w0nksjg" path="res://scenes/pause.torch" id="1_alh12"]
-[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="2_lg454"]
+[ext_resource type="Script" uid="uid://rswpj16q5hek" path="res://scripts/ui/pause_menu.gd" id="1_pause_menu"]
+[ext_resource type="PackedScene" uid="uid://bn7yw4jydldw2" path="res://scenes/configurações.tscn" id="2_settings"]
+[ext_resource type="PackedScene" uid="uid://b0gve031cp7fw" path="res://scenes/volume.tscn" id="3_volume"]
 
-[node name="Node2D" type="Control" unique_id=96168996]
+[node name="Node2D2" type="Control" unique_id=96168996]
+process_mode = 3
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-process_mode = 3
-script = ExtResource("1_alh12")
-
-[node name="1" type="TextureRect" parent="." unique_id=1486759004]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("2_lg454")
-expand_mode = 1
-stretch_mode = 5
+script = ExtResource("1_pause_menu")
 
 [node name="Button2" type="Button" parent="." unique_id=857567182]
-offset_left = 690.0
-offset_top = 525.0
-offset_right = 1266.0
-offset_bottom = 627.0
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 718.0
+offset_top = 536.0
+offset_right = -626.0
+offset_bottom = -442.0
 theme_type_variation = &"FlatButton"
 text = "CONFIGURAÇÕES"
 
 [node name="Button" type="Button" parent="." unique_id=781303749]
+visible = false
+layout_mode = 0
 offset_left = 705.0
 offset_top = 290.0
 offset_right = 1281.0
@@ -42,6 +39,15 @@ theme_type_variation = &"FlatButton"
 text = "CONTINUAR"
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1589299771]
+visible = false
+
+[node name="Settings" parent="." unique_id=925409509 instance=ExtResource("2_settings")]
+visible = false
+layout_mode = 1
+
+[node name="Volume" parent="." unique_id=469924967 instance=ExtResource("3_volume")]
+visible = false
+layout_mode = 1
 
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_play_button_pressed"]

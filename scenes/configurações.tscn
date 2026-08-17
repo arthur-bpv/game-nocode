@@ -1,8 +1,7 @@
 [gd_scene format=3 uid="uid://bn7yw4jydldw2"]
 
-[ext_resource type="Script" uid="uid://cxudatady5e74" path="res://scenes/configurações.torch" id="1_6fe4s"]
+[ext_resource type="Script" path="res://scripts/ui/settings_screen.gd" id="1_settings"]
 [ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_thr3o"]
-[ext_resource type="Script" path="res://scripts/screen_nav.gd" id="2_scrnav"]
 
 [node name="Configurações" type="Control" unique_id=1025176508]
 layout_mode = 3
@@ -11,11 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_6fe4s")
-
-[node name="ScreenNav" type="Node" parent="."]
-script = ExtResource("2_scrnav")
-back_scene_path = "res://scenes/world/world.tscn"
+script = ExtResource("1_settings")
 
 [node name="1" type="TextureRect" parent="." unique_id=1212451466]
 layout_mode = 1
@@ -36,6 +31,8 @@ offset_right = 1037.0
 offset_bottom = 449.0
 theme_type_variation = &"FlatButton"
 text = "Video"
+disabled = true
+tooltip_text = "Configurações de vídeo serão adicionadas em uma próxima etapa."
 
 [node name="Button2" type="Button" parent="." unique_id=332919602]
 offset_left = 783.0
@@ -53,5 +50,5 @@ offset_bottom = 750.0
 theme_type_variation = &"FlatButton"
 text = "Voltar"
 
-[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
-[connection signal="pressed" from="Button3" to="ScreenNav" method="go_back"]
+[connection signal="pressed" from="Button2" to="." method="_on_volume_pressed"]
+[connection signal="pressed" from="Button3" to="." method="_on_back_pressed"]

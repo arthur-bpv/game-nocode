@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://00xwlk2bik0c"]
 
-[ext_resource type="Script" uid="uid://wslkua2yy5nb" path="res://scenes/menu.torch" id="1_con2f"]
 [ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_vjb58"]
 [ext_resource type="PackedScene" uid="uid://c8n1qk4v6xr2a" path="res://scenes/tablet/TabletMenu.tscn" id="2_tabmenu"]
 
@@ -11,7 +10,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_con2f")
 metadata/_edit_vertical_guides_ = [-17.0]
 
 [node name="1" type="TextureRect" parent="." unique_id=1467165593]
