@@ -104,7 +104,6 @@ pin_data = Array[Dictionary]([{
 "dir": 1,
 "flags": 2050,
 "label": "SPEED",
-"dv": 0.0,
 "usage": 4102
 }])
 
@@ -343,7 +342,7 @@ category = "Default"
 constant = true
 classification = "type:float"
 type = 3
-default_value = 240.0
+default_value = 360.0
 
 [obj type="OScriptVariable" id="OScriptVariable_dvnca"]
 name = "JUMP_VELOCITY"

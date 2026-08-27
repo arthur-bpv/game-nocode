@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bsa43g68bptth" path="res://scenes/tablet/Tablet.tscn" id="3_6m72w"]
 [ext_resource type="PackedScene" uid="uid://c8n1qk4v6xr2a" path="res://scenes/tablet/TabletMenu.tscn" id="4_v5dby"]
 [ext_resource type="PackedScene" uid="uid://cgrmoyqphkdh7" path="res://scenes/Pause.tscn" id="7_bq33v"]
-[ext_resource type="Texture2D" uid="uid://bbh2jwqx2y1mc" path="res://assets/sprites/Mapa.png" id="8_j2gmx"]
+[ext_resource type="Texture2D" uid="uid://b7x20skd2oqqf" path="res://assets/sprites/Mapa.png" id="8_j2gmx"]
 
 [node name="World" type="Node2D" unique_id=60291279]
 script = ExtResource("1_t5ptc")
@@ -27,7 +27,6 @@ position = Vector2(184, -496)
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=301927456]
 
 [node name="TabletUi" parent="CanvasLayer" unique_id=1792993717 instance=ExtResource("4_v5dby")]
-visible = true
 
 [node name="Pause" parent="CanvasLayer" unique_id=96168996 instance=ExtResource("7_bq33v")]
 offset_left = -27.0
@@ -38,7 +37,7 @@ offset_bottom = 9.0
 [node name="MapSprite" type="Sprite2D" parent="." unique_id=1680402388]
 z_index = -1
 texture_filter = 1
-position = Vector2(600, -368)
+position = Vector2(1578, 36)
 texture = ExtResource("8_j2gmx")
 
 [editable path="CanvasLayer/Pause"]

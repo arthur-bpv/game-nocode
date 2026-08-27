@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c8n1qk4v6xr2a"]
 
-[ext_resource type="Script" path="res://scenes/tablet/tablet_menu.gd" id="1_tabmenu"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tablet_frame.png" id="2_frame"]
+[ext_resource type="Script" uid="uid://dw8i8hsownoyk" path="res://scenes/tablet/tablet_menu.gd" id="1_tabmenu"]
+[ext_resource type="Texture2D" uid="uid://bb1tw6h5ojoeu" path="res://assets/sprites/tablet_frame.png" id="2_frame"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_screen"]
 bg_color = Color(0.043, 0.114, 0.129, 1)
@@ -11,7 +11,7 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.15, 0.65, 0.7, 0.6)
 
-[node name="TabletMenu" type="Control"]
+[node name="TabletMenu" type="Control" unique_id=206155206]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -21,17 +21,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tabmenu")
 
-[node name="Backdrop" type="ColorRect" parent="."]
+[node name="Backdrop" type="ColorRect" parent="." unique_id=1784727134]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 color = Color(0.008, 0.016, 0.031, 0.92)
 
-[node name="FrameBackground" type="TextureRect" parent="."]
+[node name="FrameBackground" type="TextureRect" parent="." unique_id=863085371]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -43,23 +42,22 @@ texture = ExtResource("2_frame")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="HomePanel" type="Panel" parent="."]
+[node name="HomePanel" type="Panel" parent="." unique_id=1053126141]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -420.0
-offset_top = -301.5
-offset_right = 420.0
-offset_bottom = 301.5
+offset_left = -411.0
+offset_top = -318.0
+offset_right = 419.0
+offset_bottom = 297.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.0, 1.0)
 theme_override_styles/panel = SubResource("StyleBoxFlat_screen")
 
-[node name="MapaButton" type="Button" parent="HomePanel"]
+[node name="MapaButton" type="Button" parent="HomePanel" unique_id=1340329569]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 20.0
@@ -67,7 +65,7 @@ offset_right = 180.0
 offset_bottom = 55.0
 text = "Mapa"
 
-[node name="GearButton" type="Button" parent="HomePanel"]
+[node name="GearButton" type="Button" parent="HomePanel" unique_id=1874504076]
 layout_mode = 0
 offset_left = 460.0
 offset_top = 10.0
@@ -75,7 +73,7 @@ offset_right = 505.0
 offset_bottom = 45.0
 text = "⚙"
 
-[node name="CloseButton" type="Button" parent="HomePanel"]
+[node name="CloseButton" type="Button" parent="HomePanel" unique_id=1549483959]
 layout_mode = 0
 offset_left = 515.0
 offset_top = 10.0
@@ -83,38 +81,36 @@ offset_right = 550.0
 offset_bottom = 45.0
 text = "X"
 
-[node name="StatusLabel" type="Label" parent="HomePanel"]
+[node name="StatusLabel" type="Label" parent="HomePanel" unique_id=46553067]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 65.0
 offset_right = 400.0
 offset_bottom = 90.0
 
-[node name="SettingsPanel" type="Panel" parent="."]
+[node name="SettingsPanel" type="Panel" parent="." unique_id=259990870]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -420.0
-offset_top = -301.5
-offset_right = 420.0
-offset_bottom = 301.5
+offset_left = -411.0
+offset_top = -318.0
+offset_right = 418.0
+offset_bottom = 296.5
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.0, 1.0)
 theme_override_styles/panel = SubResource("StyleBoxFlat_screen")
 
-[node name="ProgressBar" type="ProgressBar" parent="SettingsPanel"]
+[node name="ProgressBar" type="ProgressBar" parent="SettingsPanel" unique_id=1295223403]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 15.0
 offset_right = 540.0
 offset_bottom = 35.0
-value = 0.0
 
-[node name="MissoesButton" type="Button" parent="SettingsPanel"]
+[node name="MissoesButton" type="Button" parent="SettingsPanel" unique_id=432049507]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 50.0
@@ -122,7 +118,7 @@ offset_right = 180.0
 offset_bottom = 80.0
 text = "Missões"
 
-[node name="TutorialButton" type="Button" parent="SettingsPanel"]
+[node name="TutorialButton" type="Button" parent="SettingsPanel" unique_id=1745171502]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 90.0
@@ -130,7 +126,7 @@ offset_right = 180.0
 offset_bottom = 120.0
 text = "Tutorial"
 
-[node name="MapaButton" type="Button" parent="SettingsPanel"]
+[node name="MapaButton" type="Button" parent="SettingsPanel" unique_id=537601089]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 130.0
@@ -138,41 +134,41 @@ offset_right = 180.0
 offset_bottom = 160.0
 text = "Mapa"
 
-[node name="StatusLabel" type="Label" parent="SettingsPanel"]
+[node name="StatusLabel" type="Label" parent="SettingsPanel" unique_id=1017870981]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 170.0
 offset_right = 400.0
 offset_bottom = 195.0
 
-[node name="ColorRow" type="HBoxContainer" parent="SettingsPanel"]
+[node name="ColorRow" type="HBoxContainer" parent="SettingsPanel" unique_id=975919658]
 layout_mode = 0
 offset_left = 350.0
 offset_top = 50.0
 offset_right = 540.0
 offset_bottom = 90.0
 
-[node name="Red" type="Button" parent="SettingsPanel/ColorRow"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
+[node name="Red" type="Button" parent="SettingsPanel/ColorRow" unique_id=1736011448]
 self_modulate = Color(0.9, 0.2, 0.2, 1)
-
-[node name="Blue" type="Button" parent="SettingsPanel/ColorRow"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
+
+[node name="Blue" type="Button" parent="SettingsPanel/ColorRow" unique_id=533028416]
 self_modulate = Color(0.2, 0.4, 0.9, 1)
-
-[node name="Green" type="Button" parent="SettingsPanel/ColorRow"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
+
+[node name="Green" type="Button" parent="SettingsPanel/ColorRow" unique_id=856461705]
 self_modulate = Color(0.2, 0.8, 0.3, 1)
-
-[node name="Yellow" type="Button" parent="SettingsPanel/ColorRow"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-self_modulate = Color(0.95, 0.85, 0.2, 1)
 
-[node name="CloseButton" type="Button" parent="SettingsPanel"]
+[node name="Yellow" type="Button" parent="SettingsPanel/ColorRow" unique_id=1154391711]
+self_modulate = Color(0.95, 0.85, 0.2, 1)
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="SettingsPanel" unique_id=951409055]
 layout_mode = 0
 offset_left = 515.0
 offset_top = 10.0
@@ -180,7 +176,7 @@ offset_right = 550.0
 offset_bottom = 45.0
 text = "X"
 
-[node name="BottomButton" type="Button" parent="SettingsPanel"]
+[node name="BottomButton" type="Button" parent="SettingsPanel" unique_id=1069257758]
 layout_mode = 0
 offset_left = 220.0
 offset_top = 350.0
