@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/missions/conecta_camadas.gd" id="1_script"]
+[ext_resource type="Script" path="res://scenes/missions/conecta_camadas_wires.gd" id="2_wires"]
+
+[node name="ConectaCamadas" type="Control"]
+offset_right = 930.0
+offset_bottom = 700.0
+mouse_filter = 0
+script = ExtResource("1_script")
+
+[node name="OsiCabinet" type="TextureRect" parent="."]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 450.0
+offset_bottom = 650.0
+mouse_filter = 2
+
+[node name="TcpCabinet" type="TextureRect" parent="."]
+offset_left = 480.0
+offset_top = 30.0
+offset_right = 900.0
+offset_bottom = 650.0
+mouse_filter = 2
+
+[node name="StatusLabel" type="Label" parent="."]
+offset_left = 30.0
+offset_top = 610.0
+offset_right = 900.0
+offset_bottom = 645.0
+mouse_filter = 2
+
+[node name="CloseButton" type="Button" parent="."]
+offset_left = 890.0
+offset_top = 5.0
+offset_right = 920.0
+offset_bottom = 35.0
+text = "X"
+
+[node name="WireLayer" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_wires")
