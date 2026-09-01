@@ -6,7 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://bsa43g68bptth" path="res://scenes/tablet/Tablet.tscn" id="3_6m72w"]
 [ext_resource type="PackedScene" uid="uid://c8n1qk4v6xr2a" path="res://scenes/tablet/TabletMenu.tscn" id="4_v5dby"]
 [ext_resource type="PackedScene" uid="uid://cgrmoyqphkdh7" path="res://scenes/Pause.tscn" id="7_bq33v"]
+[ext_resource type="Texture2D" uid="uid://0kp40n6ww2tc" path="res://icon.svg" id="8_1yooq"]
 [ext_resource type="Texture2D" uid="uid://bbh2jwqx2y1mc" path="res://assets/sprites/Mapa.png" id="8_j2gmx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gb53w"]
+size = Vector2(34, 36)
 
 [node name="World" type="Node2D" unique_id=60291279]
 script = ExtResource("1_t5ptc")
@@ -17,7 +21,6 @@ script = ExtResource("1_gm")
 [node name="Entities" type="Node2D" parent="." unique_id=442779848]
 
 [node name="Tablet" parent="Entities" unique_id=515191262 instance=ExtResource("3_6m72w")]
-visible = false
 position = Vector2(-140, 27)
 
 [node name="player" parent="Entities" unique_id=1110645307 instance=ExtResource("3_1fp7r")]
@@ -27,7 +30,6 @@ position = Vector2(184, -496)
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=301927456]
 
 [node name="TabletUi" parent="CanvasLayer" unique_id=1792993717 instance=ExtResource("4_v5dby")]
-visible = true
 
 [node name="Pause" parent="CanvasLayer" unique_id=96168996 instance=ExtResource("7_bq33v")]
 offset_left = -27.0
@@ -40,5 +42,19 @@ z_index = -1
 texture_filter = 1
 position = Vector2(600, -368)
 texture = ExtResource("8_j2gmx")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=533924298]
+input_pickable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=999678731]
+position = Vector2(460, -462.75)
+scale = Vector2(0.26562476, 0.28515637)
+texture = ExtResource("8_1yooq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=164780658]
+position = Vector2(460, -463)
+shape = SubResource("RectangleShape2D_gb53w")
+
+[connection signal="input_event" from="CharacterBody2D" to="." method="_on_character_body_2d_input_event"]
 
 [editable path="CanvasLayer/Pause"]

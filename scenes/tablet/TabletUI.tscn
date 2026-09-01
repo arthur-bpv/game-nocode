@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://cr7lr4qxtnm0n"]
 
-[ext_resource type="Script" path="res://scenes/tablet/tablet_ui.gd" id="1_tabui"]
+[ext_resource type="Script" uid="uid://dfbnfv4c7fwnf" path="res://scenes/tablet/tablet_ui.gd" id="1_tabui"]
 
 [node name="TabletUi" type="Control" unique_id=654681014]
-script = ExtResource("1_tabui")
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -11,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_tabui")
 
 [node name="PanelLeft" type="Panel" parent="." unique_id=1782862402]
 layout_mode = 0

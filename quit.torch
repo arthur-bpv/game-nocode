@@ -1,0 +1,176 @@
+[orchestration type="OScript" load_steps=11 format=3 uid="uid://p4rxooew1ojp"]
+
+[obj type="OScriptFunction" id="OScriptFunction_gab1l"]
+guid = "E3B0EFDF-109B-4899-AD4E-34FFAB9755A5"
+method = {
+"name": &"Exit_game"
+}
+user_defined = true
+id = 0
+
+[obj type="OScriptFunction" id="OScriptFunction_05dfj"]
+guid = "F7D07287-2F07-4ED7-B9DD-FBE5D39FBCB0"
+method = {
+"name": &"_unhandled_input",
+"flags": 8,
+"args": [{
+"name": &"event",
+"type": 24,
+"class_name": &"InputEvent",
+"hint": 17,
+"hint_string": "InputEvent"
+}]
+}
+id = 2
+
+[obj type="OScriptGraph" id="OScriptGraph_10o0e"]
+graph_name = &"EventGraph"
+flags = 8
+
+[obj type="OScriptGraph" id="OScriptGraph_ew52p"]
+graph_name = &"Exit_game"
+flags = 22
+nodes = Array[int]([0, 1, 2, 3, 4, 5])
+functions = Array[int]([0, 2])
+
+[obj type="OScriptNodeFunctionEntry" id="OScriptNodeFunctionEntry_8hktn"]
+function_id = "E3B0EFDF-109B-4899-AD4E-34FFAB9755A5"
+id = 0
+position = Vector2(-40, -20)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}])
+
+[obj type="OScriptNodePrintString" id="OScriptNodePrintString_r4kmw"]
+id = 1
+position = Vector2(200, -20)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecIn",
+"flags": 4
+}, {
+"pin_name": &"Text",
+"type": 4,
+"flags": 2,
+"dv": "saindo"
+}, {
+"pin_name": &"PrintToScreen",
+"type": 1,
+"flags": 2,
+"dv": true
+}, {
+"pin_name": &"PrintToLog",
+"type": 1,
+"flags": 2,
+"dv": true
+}, {
+"pin_name": &"TextColor",
+"type": 20,
+"flags": 2,
+"dv": Color(1, 1, 1, 1)
+}, {
+"pin_name": &"Duration",
+"type": 3,
+"flags": 2,
+"dv": 2,
+"gdv": 0
+}, {
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}])
+
+[obj type="OScriptNodeEvent" id="OScriptNodeEvent_7lk5g"]
+function_id = "F7D07287-2F07-4ED7-B9DD-FBE5D39FBCB0"
+id = 2
+position = Vector2(-141.31500244140625, 358.6818542480469)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}, {
+"pin_name": &"event",
+"type": 24,
+"dir": 1,
+"flags": 2,
+"target_class": "InputEvent",
+"dv": null,
+"hint": 17,
+"hint_string": "InputEvent"
+}])
+
+[obj type="OScriptNodeSequence" id="OScriptNodeSequence_rwvnh"]
+id = 3
+size = Vector2(144, 155)
+position = Vector2(180.18499755859375, 360.1818542480469)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecIn",
+"flags": 4
+}, {
+"pin_name": &"then_0",
+"dir": 1,
+"flags": 516
+}, {
+"pin_name": &"then_1",
+"dir": 1,
+"flags": 516
+}])
+
+[obj type="OScriptNodeSceneTree" id="OScriptNodeSceneTree_houyn"]
+id = 4
+position = Vector2(500, 320)
+pin_data = Array[Dictionary]([{
+"pin_name": &"scene_tree",
+"type": 24,
+"dir": 1,
+"flags": 2,
+"target_class": "SceneTree",
+"dv": null
+}])
+
+[obj type="OScriptNodeCallMemberFunction" id="OScriptNodeCallMemberFunction_barnj"]
+function_name = &"quit"
+target_class_name = "SceneTree"
+target_type = 24
+flags = 520
+method = {
+"name": &"quit",
+"default_args": [0],
+"args": [{
+"name": &"exit_code",
+"type": 2
+}]
+}
+chain = false
+id = 5
+size = Vector2(225, 152)
+position = Vector2(680, -20)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecIn",
+"flags": 4
+}, {
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}, {
+"pin_name": &"target",
+"type": 24,
+"flags": 2050,
+"label": "SceneTree",
+"target_class": "SceneTree",
+"dv": null
+}, {
+"pin_name": &"exit_code",
+"type": 2,
+"flags": 2,
+"dv": 0
+}])
+
+[resource]
+base_type = &"Node"
+description = "Base template for Node with default Godot cycle methods."
+functions = Array[OScriptFunction]([SubResource("OScriptFunction_gab1l"), SubResource("OScriptFunction_05dfj")])
+connections = Array[int]([0, 0, 1, 0, 2, 0, 3, 0, 1, 0, 5, 0, 4, 0, 5, 1])
+nodes = Array[OScriptNode]([SubResource("OScriptNodeFunctionEntry_8hktn"), SubResource("OScriptNodePrintString_r4kmw"), SubResource("OScriptNodeEvent_7lk5g"), SubResource("OScriptNodeSequence_rwvnh"), SubResource("OScriptNodeSceneTree_houyn"), SubResource("OScriptNodeCallMemberFunction_barnj")])
+graphs = Array[OScriptGraph]([SubResource("OScriptGraph_10o0e"), SubResource("OScriptGraph_ew52p")])

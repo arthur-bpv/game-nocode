@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://bn7yw4jydldw2"]
 
-[ext_resource type="Script" path="res://scripts/ui/settings_screen.gd" id="1_settings"]
-[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_thr3o"]
+[ext_resource type="Script" uid="uid://bg26ueda24mlp" path="res://scripts/ui/settings_screen.gd" id="1_settings"]
+[ext_resource type="Texture2D" uid="uid://wma2kndaentr" path="res://assets/sprites/configurações.png" id="2_bkm5w"]
+[ext_resource type="Script" uid="uid://h5g6haavn3fs" path="res://scenes/button_4.torch" id="3_bkm5w"]
 
 [node name="Configurações" type="Control" unique_id=1025176508]
 layout_mode = 3
@@ -12,43 +13,51 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_settings")
 
-[node name="1" type="TextureRect" parent="." unique_id=1212451466]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("1_thr3o")
-expand_mode = 1
-stretch_mode = 5
+[node name="Configurações" type="Sprite2D" parent="." unique_id=625487182]
+position = Vector2(960, 539)
+texture = ExtResource("2_bkm5w")
 
 [node name="Button" type="Button" parent="." unique_id=770752865]
-offset_left = 783.0
-offset_top = 363.0
-offset_right = 1037.0
-offset_bottom = 449.0
-theme_type_variation = &"FlatButton"
-text = "Video"
-disabled = true
+layout_mode = 0
+offset_left = 841.0
+offset_top = 342.0
+offset_right = 1095.0
+offset_bottom = 428.0
 tooltip_text = "Configurações de vídeo serão adicionadas em uma próxima etapa."
+theme_type_variation = &"FlatButton"
+theme_override_font_sizes/font_size = 35
+disabled = true
+text = "Video"
 
 [node name="Button2" type="Button" parent="." unique_id=332919602]
-offset_left = 783.0
-offset_top = 518.0
-offset_right = 1037.0
-offset_bottom = 603.0
+layout_mode = 0
+offset_left = 841.0
+offset_top = 528.0
+offset_right = 1095.0
+offset_bottom = 613.0
 theme_type_variation = &"FlatButton"
+theme_override_font_sizes/font_size = 35
 text = "Volume"
 
 [node name="Button3" type="Button" parent="." unique_id=1928628258]
-offset_left = 783.0
-offset_top = 665.0
-offset_right = 1037.0
-offset_bottom = 750.0
+layout_mode = 0
+offset_left = 847.0
+offset_top = 721.0
+offset_right = 1101.0
+offset_bottom = 806.0
 theme_type_variation = &"FlatButton"
+theme_override_font_sizes/font_size = 35
 text = "Voltar"
+
+[node name="Button4" type="Button" parent="." unique_id=674794602]
+layout_mode = 0
+offset_left = 1758.0
+offset_top = 42.0
+offset_right = 1881.0
+offset_bottom = 167.0
+theme_type_variation = &"FlatButton"
+script = ExtResource("3_bkm5w")
 
 [connection signal="pressed" from="Button2" to="." method="_on_volume_pressed"]
 [connection signal="pressed" from="Button3" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Button4" to="Button4" method="_on_pressed"]

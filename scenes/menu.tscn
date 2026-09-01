@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_vjb58"]
 [ext_resource type="PackedScene" uid="uid://c8n1qk4v6xr2a" path="res://scenes/tablet/TabletMenu.tscn" id="2_tabmenu"]
+[ext_resource type="Script" uid="uid://bkctif3n3nnc" path="res://scenes/button_3.torch" id="3_con2f"]
 
 [node name="Node2D" type="Control" unique_id=2103415344]
 layout_mode = 3
@@ -25,6 +26,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Button2" type="Button" parent="." unique_id=1170352615]
+layout_mode = 0
 offset_left = 1000.0
 offset_top = 297.0
 offset_right = 1577.0
@@ -32,6 +34,7 @@ offset_bottom = 399.0
 theme_type_variation = &"FlatButton"
 
 [node name="Button" type="Button" parent="." unique_id=619029740]
+layout_mode = 0
 offset_left = 340.0
 offset_top = 297.0
 offset_right = 917.0
@@ -39,7 +42,18 @@ offset_bottom = 399.0
 theme_type_variation = &"FlatButton"
 
 [node name="TabletMenuPregame" parent="." unique_id=140184927 instance=ExtResource("2_tabmenu")]
+layout_mode = 1
 pregame_mode = true
+
+[node name="Button3" type="Button" parent="." unique_id=1479956397]
+layout_mode = 0
+offset_left = 1757.0
+offset_top = 42.0
+offset_right = 1880.0
+offset_bottom = 165.0
+theme_type_variation = &"FlatButton"
+script = ExtResource("3_con2f")
 
 [connection signal="pressed" from="Button2" to="TabletMenuPregame" method="open_ui"]
 [connection signal="pressed" from="Button" to="TabletMenuPregame" method="open_ui"]
+[connection signal="pressed" from="Button3" to="Button3" method="_on_pressed"]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b0gve031cp7fw"]
 
-[ext_resource type="Script" path="res://scripts/ui/volume_screen.gd" id="1_volume"]
-[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_gm22o"]
+[ext_resource type="Script" uid="uid://ps6fra0rnka2" path="res://scripts/ui/volume_screen.gd" id="1_volume"]
+[ext_resource type="Texture2D" uid="uid://dydlcl7m5ev3" path="res://assets/sprites/Sei la po.png" id="2_bml30"]
 
 [node name="Volume" type="Control" unique_id=1820280749]
 layout_mode = 3
@@ -12,20 +12,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_volume")
 
-[node name="1" type="TextureRect" parent="." unique_id=1643426907]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("1_gm22o")
-expand_mode = 1
-stretch_mode = 5
+[node name="SeiLaPo" type="Sprite2D" parent="." unique_id=354060484]
+position = Vector2(960, 540)
+texture = ExtResource("2_bml30")
 
 [node name="Control" type="Control" parent="." unique_id=1468352462]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -34,26 +26,26 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="Control" unique_id=369358763]
 layout_mode = 0
-offset_left = 894.0
-offset_top = 555.0
-offset_right = 983.0
-offset_bottom = 590.0
+offset_left = 919.0
+offset_top = 558.0
+offset_right = 1008.0
+offset_bottom = 593.0
 text = "Volume"
 
 [node name="HSlider" type="HSlider" parent="Control" unique_id=81507765]
 layout_mode = 0
-offset_left = 500.0
-offset_top = 597.0
-offset_right = 1391.0
-offset_bottom = 663.0
+offset_left = 529.0
+offset_top = 615.0
+offset_right = 1420.0
+offset_bottom = 681.0
 value = 100.0
 
-[node name="VoltarButton" type="Button" parent="Control"]
+[node name="VoltarButton" type="Button" parent="Control" unique_id=1376727925]
 layout_mode = 0
-offset_left = 783.0
-offset_top = 720.0
-offset_right = 1037.0
-offset_bottom = 806.0
+offset_left = 817.0
+offset_top = 714.0
+offset_right = 1071.0
+offset_bottom = 800.0
 theme_type_variation = &"FlatButton"
 text = "Voltar"
 

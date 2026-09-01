@@ -90,3 +90,7 @@ func _on_color_selected(color: Color):
 
 func _on_placeholder_pressed(status_label: Label):
 	status_label.text = "Em breve!"
+
+
+func _on_button_3_pressed() -> void:
+	pass # Replace with function body.
