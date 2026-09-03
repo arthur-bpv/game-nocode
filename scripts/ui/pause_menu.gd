@@ -1,54 +1,78 @@
 extends Control
+class_name PauseMenu
 
-@onready var settings_screen: SettingsScreen = $Settings
-@onready var volume_screen: VolumeScreen = $Volume
-@onready var continue_button: Button = $Button
-@onready var settings_button: Button = $Button2
+enum PendingAction { NONE, RETURN_TO_MENU, QUIT_GAME }
+
+const MAIN_MENU_SCENE := "res://scenes/menu.tscn"
+
+@onready var actions_panel: Control = %ActionsPanel
+@onready var continue_button: Button = %ContinueButton
+@onready var volume_screen: Control = %VolumeScreen
+@onready var confirmation: Control = %ConfirmationModal
+
+var _pending_action := PendingAction.NONE
 
 func _ready() -> void:
-	settings_screen.volume_requested.connect(_show_volume)
-	settings_screen.back_requested.connect(_show_pause_actions)
-	volume_screen.back_requested.connect(_show_settings)
-	settings_screen.hide()
-	volume_screen.hide()
+	volume_screen.back_requested.connect(_show_actions)
+	confirmation.confirmed.connect(_on_confirmation_confirmed)
+	confirmation.cancelled.connect(_on_confirmation_cancelled)
 	hide()
 
-func _on_play_button_pressed() -> void:
-	close_pause()
+func open_pause() -> void:
+	_pending_action = PendingAction.NONE
+	confirmation.hide()
+	_show_actions()
+	show()
+	get_tree().paused = true
+	continue_button.grab_focus()
 
-func _on_button_2_pressed() -> void:
-	_show_settings()
-
-func close_pause() -> void:
-	settings_screen.hide()
+func resume_game() -> void:
+	_pending_action = PendingAction.NONE
+	confirmation.hide()
 	volume_screen.hide()
 	hide()
 	get_tree().paused = false
 
-func _unhandled_input(event: InputEvent) -> void:
-	if not visible or not event.is_action_pressed("ui_cancel"):
-		return
-
-	if volume_screen.visible:
-		_show_settings()
-	elif settings_screen.visible:
-		_show_pause_actions()
+func handle_cancel() -> void:
+	if confirmation.visible:
+		confirmation.cancel()
+	elif volume_screen.visible:
+		_show_actions()
 	else:
-		close_pause()
-	get_viewport().set_input_as_handled()
+		resume_game()
 
-func _show_pause_actions() -> void:
-	settings_screen.hide()
+func _on_continue_pressed() -> void:
+	resume_game()
+
+func _on_settings_pressed() -> void:
+	actions_panel.hide()
+	volume_screen.open_screen()
+
+func _on_return_to_menu_pressed() -> void:
+	_pending_action = PendingAction.RETURN_TO_MENU
+	confirmation.ask("VOLTAR AO MENU", "O progresso não salvo será perdido.", "VOLTAR")
+
+func _on_quit_pressed() -> void:
+	_pending_action = PendingAction.QUIT_GAME
+	confirmation.ask("SAIR DO JOGO", "Deseja fechar o NETBOT?", "SAIR")
+
+func _show_actions() -> void:
 	volume_screen.hide()
-	continue_button.show()
-	settings_button.show()
+	actions_panel.show()
+	if visible:
+		continue_button.grab_focus()
 
-func _show_settings() -> void:
-	continue_button.hide()
-	settings_button.hide()
-	volume_screen.hide()
-	settings_screen.show()
+func _on_confirmation_confirmed() -> void:
+	match _pending_action:
+		PendingAction.RETURN_TO_MENU:
+			get_tree().paused = false
+			hide()
+			SceneTransition.change_scene(MAIN_MENU_SCENE)
+		PendingAction.QUIT_GAME:
+			get_tree().paused = false
+			get_tree().quit()
+	_pending_action = PendingAction.NONE
 
-func _show_volume() -> void:
-	settings_screen.hide()
-	volume_screen.show()
+func _on_confirmation_cancelled() -> void:
+	_pending_action = PendingAction.NONE
+	continue_button.grab_focus()

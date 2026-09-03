@@ -1,61 +1,123 @@
-[gd_scene format=3 uid="uid://b0gve031cp7fw"]
+[gd_scene load_steps=4 format=3 uid="uid://b0gve031cp7fw"]
 
-[ext_resource type="Script" path="res://scripts/ui/volume_screen.gd" id="1_volume"]
-[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_gm22o"]
+[ext_resource type="Script" path="res://scripts/ui/volume_screen.gd" id="1_script"]
+[ext_resource type="Theme" path="res://assets/ui/netbot_theme.tres" id="2_theme"]
+[ext_resource type="AudioStream" path="res://assets/audio/kenney_interface_sounds/Audio/select_001.ogg" id="3_preview"]
 
-[node name="Volume" type="Control" unique_id=1820280749]
+[node name="Volume" type="Control"]
+visible = false
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_volume")
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
 
-[node name="1" type="TextureRect" parent="." unique_id=1643426907]
+[node name="Center" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("1_gm22o")
-expand_mode = 1
-stretch_mode = 5
 
-[node name="Control" type="Control" parent="." unique_id=1468352462]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Panel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(820, 0)
+layout_mode = 2
 
-[node name="Label" type="Label" parent="Control" unique_id=369358763]
-layout_mode = 0
-offset_left = 894.0
-offset_top = 555.0
-offset_right = 983.0
-offset_bottom = 590.0
-text = "Volume"
+[node name="Content" type="VBoxContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 22
 
-[node name="HSlider" type="HSlider" parent="Control" unique_id=81507765]
-layout_mode = 0
-offset_left = 500.0
-offset_top = 597.0
-offset_right = 1391.0
-offset_bottom = 663.0
-value = 100.0
+[node name="Title" type="Label" parent="Center/Panel/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "CONFIGURAÇÕES DE ÁUDIO"
+horizontal_alignment = 1
 
-[node name="VoltarButton" type="Button" parent="Control"]
-layout_mode = 0
-offset_left = 783.0
-offset_top = 720.0
-offset_right = 1037.0
-offset_bottom = 806.0
-theme_type_variation = &"FlatButton"
-text = "Voltar"
+[node name="MasterLabel" type="Label" parent="Center/Panel/Content"]
+layout_mode = 2
+text = "VOLUME GERAL"
 
-[connection signal="value_changed" from="Control/HSlider" to="." method="_on_volume_changed"]
-[connection signal="pressed" from="Control/VoltarButton" to="." method="_on_back_pressed"]
+[node name="MasterRow" type="HBoxContainer" parent="Center/Panel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="MasterSlider" type="HSlider" parent="Center/Panel/Content/MasterRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(520, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 80.0
+
+[node name="MasterMute" type="CheckButton" parent="Center/Panel/Content/MasterRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MUDO"
+
+[node name="MusicLabel" type="Label" parent="Center/Panel/Content"]
+layout_mode = 2
+text = "MÚSICA"
+
+[node name="MusicRow" type="HBoxContainer" parent="Center/Panel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="MusicSlider" type="HSlider" parent="Center/Panel/Content/MusicRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(520, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 70.0
+
+[node name="MusicMute" type="CheckButton" parent="Center/Panel/Content/MusicRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MUDO"
+
+[node name="SFXLabel" type="Label" parent="Center/Panel/Content"]
+layout_mode = 2
+text = "EFEITOS"
+
+[node name="SFXRow" type="HBoxContainer" parent="Center/Panel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="SFXSlider" type="HSlider" parent="Center/Panel/Content/SFXRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(520, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 80.0
+
+[node name="SFXMute" type="CheckButton" parent="Center/Panel/Content/SFXRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MUDO"
+
+[node name="Buttons" type="HBoxContainer" parent="Center/Panel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="ResetButton" type="Button" parent="Center/Panel/Content/Buttons"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "RESTAURAR PADRÕES"
+
+[node name="BackButton" type="Button" parent="Center/Panel/Content/Buttons"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "VOLTAR"
+
+[node name="PreviewPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_preview")
+bus = &"SFX"
+
+[connection signal="pressed" from="Center/Panel/Content/Buttons/ResetButton" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="Center/Panel/Content/Buttons/BackButton" to="." method="_on_back_pressed"]

@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://cn6h4ogx6b6se"]
+
+[ext_resource type="Script" uid="uid://cuuoq63vvvihs" path="res://scripts/ui/confirmation_modal.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://c15t75c0c1cb7" path="res://assets/ui/netbot_theme.tres" id="2_theme"]
+
+[node name="ConfirmationModal" type="Control" unique_id=661902047]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=906922970]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.72)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=1461970874]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=1808860298]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="Center/Panel" unique_id=116431506]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="TitleLabel" type="Label" parent="Center/Panel/Content" unique_id=590944430]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "CONFIRMAR"
+horizontal_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="Center/Panel/Content" unique_id=635953347]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Deseja continuar?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="Center/Panel/Content" unique_id=1918731943]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="CancelButton" type="Button" parent="Center/Panel/Content/Buttons" unique_id=1980610637]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "CANCELAR"
+
+[node name="ConfirmButton" type="Button" parent="Center/Panel/Content/Buttons" unique_id=1637345199]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "CONFIRMAR"
+
+[connection signal="pressed" from="Center/Panel/Content/Buttons/CancelButton" to="." method="_on_cancel_pressed"]
+[connection signal="pressed" from="Center/Panel/Content/Buttons/ConfirmButton" to="." method="_on_confirm_pressed"]

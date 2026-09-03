@@ -13,6 +13,7 @@ addons/orchestrator/*.lib
 addons/orchestrator/*.exp
 addons/orchestrator/*.dylib
 addons/orchestrator/*.wasm
+addons/orchestrator/~*.TMP
 
 # Exports
 export/

@@ -6,7 +6,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dovo2"]
 radius = 32.0
-height = 126.0
+height = 122.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p47bc"]
 atlas = ExtResource("3_lvxji")
@@ -56,7 +56,7 @@ shape = SubResource("CapsuleShape2D_dovo2")
 debug_color = Color(0.112342186, 0.56341755, 0.85672426, 0.41960785)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=331508380]
-position = Vector2(-151, 5.999998)
+position = Vector2(-151, -7)
 scale = Vector2(1.951538, 2.0906985)
 sprite_frames = SubResource("SpriteFrames_5gtgg")
 autoplay = "default"

@@ -1,54 +1,26 @@
-[gd_scene format=3 uid="uid://bn7yw4jydldw2"]
+[gd_scene load_steps=3 format=3 uid="uid://bn7yw4jydldw2"]
 
-[ext_resource type="Script" path="res://scripts/ui/settings_screen.gd" id="1_settings"]
-[ext_resource type="Texture2D" uid="uid://0hml24ovvfhp" path="res://assets/sprites/ui_background_netbot_menu.png" id="1_thr3o"]
+[ext_resource type="Script" path="res://scripts/ui/settings_screen.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/volume.tscn" id="2_volume"]
 
-[node name="Configurações" type="Control" unique_id=1025176508]
+[node name="Configurações" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_settings")
+script = ExtResource("1_script")
 
-[node name="1" type="TextureRect" parent="." unique_id=1212451466]
+[node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("1_thr3o")
-expand_mode = 1
-stretch_mode = 5
+color = Color(0.002, 0.01, 0.018, 1)
 
-[node name="Button" type="Button" parent="." unique_id=770752865]
-offset_left = 783.0
-offset_top = 363.0
-offset_right = 1037.0
-offset_bottom = 449.0
-theme_type_variation = &"FlatButton"
-text = "Video"
-disabled = true
-tooltip_text = "Configurações de vídeo serão adicionadas em uma próxima etapa."
-
-[node name="Button2" type="Button" parent="." unique_id=332919602]
-offset_left = 783.0
-offset_top = 518.0
-offset_right = 1037.0
-offset_bottom = 603.0
-theme_type_variation = &"FlatButton"
-text = "Volume"
-
-[node name="Button3" type="Button" parent="." unique_id=1928628258]
-offset_left = 783.0
-offset_top = 665.0
-offset_right = 1037.0
-offset_bottom = 750.0
-theme_type_variation = &"FlatButton"
-text = "Voltar"
-
-[connection signal="pressed" from="Button2" to="." method="_on_volume_pressed"]
-[connection signal="pressed" from="Button3" to="." method="_on_back_pressed"]
+[node name="Volume" parent="." instance=ExtResource("2_volume")]
+visible = true
+layout_mode = 1

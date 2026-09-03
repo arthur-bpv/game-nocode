@@ -20,6 +20,8 @@ config/icon="res://icon.svg"
 
 MCPRuntimeProbe="*uid://bsg12huaf1u5i"
 PlayerData="*res://scripts/player_data.gd"
+AudioSettings="*res://scripts/autoload/audio_settings.gd"
+SceneTransition="*res://scripts/autoload/scene_transition.gd"
 
 [display]
 

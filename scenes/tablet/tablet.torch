@@ -419,7 +419,7 @@ method = {
 chain = false
 id = 22
 size = Vector2(476, 160)
-position = Vector2(-60, 820)
+position = Vector2(40, 820)
 pin_data = Array[Dictionary]([{
 "pin_name": &"ExecIn",
 "flags": 4

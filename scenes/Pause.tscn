@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://cgrmoyqphkdh7"]
 
-[ext_resource type="Script" uid="uid://rswpj16q5hek" path="res://scripts/ui/pause_menu.gd" id="1_pause_menu"]
-[ext_resource type="PackedScene" uid="uid://bn7yw4jydldw2" path="res://scenes/configurações.tscn" id="2_settings"]
+[ext_resource type="Script" uid="uid://rswpj16q5hek" path="res://scripts/ui/pause_menu.gd" id="1_script"]
+[ext_resource type="Theme" path="res://assets/ui/netbot_theme.tres" id="2_theme"]
 [ext_resource type="PackedScene" uid="uid://b0gve031cp7fw" path="res://scenes/volume.tscn" id="3_volume"]
+[ext_resource type="PackedScene" path="res://scenes/ui/ConfirmationModal.tscn" id="4_confirm"]
 
-[node name="Node2D2" type="Control" unique_id=96168996]
+[node name="PauseMenu" type="Control" unique_id=1077207285]
 process_mode = 3
 visible = false
 layout_mode = 3
@@ -13,41 +14,72 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_pause_menu")
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
 
-[node name="Button2" type="Button" parent="." unique_id=857567182]
-visible = false
+[node name="Backdrop" type="ColorRect" parent="." unique_id=944182809]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 718.0
-offset_top = 536.0
-offset_right = -626.0
-offset_bottom = -442.0
-theme_type_variation = &"FlatButton"
-text = "CONFIGURAÇÕES"
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.002, 0.01, 0.018, 0.88)
 
-[node name="Button" type="Button" parent="." unique_id=781303749]
-visible = false
-layout_mode = 0
-offset_left = 705.0
-offset_top = 290.0
-offset_right = 1281.0
-offset_bottom = 392.0
-theme_type_variation = &"FlatButton"
+[node name="ActionsPanel" type="CenterContainer" parent="." unique_id=1770971022]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="ActionsPanel" unique_id=188298301]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="ActionsPanel/Panel" unique_id=1383862685]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="ActionsPanel/Panel/Content" unique_id=1154178286]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "JOGO PAUSADO"
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="ActionsPanel/Panel/Content" unique_id=576326329]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
 text = "CONTINUAR"
 
-[node name="Node2D" type="Node2D" parent="." unique_id=1589299771]
-visible = false
+[node name="SettingsButton" type="Button" parent="ActionsPanel/Panel/Content" unique_id=932877818]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "CONFIGURAÇÕES"
 
-[node name="Settings" parent="." unique_id=925409509 instance=ExtResource("2_settings")]
-visible = false
+[node name="MenuButton" type="Button" parent="ActionsPanel/Panel/Content" unique_id=1761257279]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "VOLTAR AO MENU"
+
+[node name="QuitButton" type="Button" parent="ActionsPanel/Panel/Content" unique_id=1514092135]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "SAIR DO JOGO"
+
+[node name="VolumeScreen" parent="." unique_id=252112842 instance=ExtResource("3_volume")]
+unique_name_in_owner = true
 layout_mode = 1
 
-[node name="Volume" parent="." unique_id=469924967 instance=ExtResource("3_volume")]
-visible = false
+[node name="ConfirmationModal" parent="." unique_id=1091161396 instance=ExtResource("4_confirm")]
+unique_name_in_owner = true
 layout_mode = 1
 
-[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
-[connection signal="pressed" from="Button" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="ActionsPanel/Panel/Content/ContinueButton" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="ActionsPanel/Panel/Content/SettingsButton" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="ActionsPanel/Panel/Content/MenuButton" to="." method="_on_return_to_menu_pressed"]
+[connection signal="pressed" from="ActionsPanel/Panel/Content/QuitButton" to="." method="_on_quit_pressed"]

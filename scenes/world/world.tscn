@@ -1,24 +1,16 @@
 [gd_scene format=3 uid="uid://cakdj5yuucwpf"]
 
 [ext_resource type="Script" uid="uid://dyqmb5s0d3r75" path="res://scripts/systems/game_manager.gd" id="1_gm"]
-[ext_resource type="Script" uid="uid://bs7kqmkqouqhq" path="res://scenes/world/world.torch" id="1_t5ptc"]
+[ext_resource type="Script" path="res://scenes/world/world_controller.gd" id="1_t5ptc"]
 [ext_resource type="PackedScene" uid="uid://c00sqo8nkpwhy" path="res://scenes/player/player.tscn" id="3_1fp7r"]
 [ext_resource type="PackedScene" uid="uid://bsa43g68bptth" path="res://scenes/tablet/Tablet.tscn" id="3_6m72w"]
 [ext_resource type="PackedScene" uid="uid://c8n1qk4v6xr2a" path="res://scenes/tablet/TabletMenu.tscn" id="4_v5dby"]
 [ext_resource type="PackedScene" uid="uid://cgrmoyqphkdh7" path="res://scenes/Pause.tscn" id="7_bq33v"]
 [ext_resource type="Texture2D" uid="uid://b7x20skd2oqqf" path="res://assets/sprites/Mapa.png" id="8_j2gmx"]
 [ext_resource type="PackedScene" path="res://scenes/missions/conecta_camadas.tscn" id="9_conecta"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
-bg_color = Color(0.043, 0.114, 0.129, 0.96)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.15, 0.65, 0.7, 0.6)
+[ext_resource type="Script" uid="uid://degalgnqi18dd" path="res://scenes/world/world_walls.gd" id="10_walls"]
 
 [node name="World" type="Node2D" unique_id=60291279]
-script = ExtResource("1_t5ptc")
 
 [node name="GameManager" type="Node" parent="." unique_id=69623499]
 script = ExtResource("1_gm")
@@ -31,16 +23,21 @@ position = Vector2(-140, 27)
 
 [node name="player" parent="Entities" unique_id=1110645307 instance=ExtResource("3_1fp7r")]
 top_level = true
-position = Vector2(184, -496)
+position = Vector2(62, -560)
 
 [node name="ConectaCamadas" parent="Entities" unique_id=100002 instance=ExtResource("9_conecta")]
-offset_left = -654.0
-offset_top = -1005.0
-offset_right = 276.0
-offset_bottom = -305.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1077.0
+offset_top = -756.0
+offset_right = 1757.0
+offset_bottom = -296.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=301927456]
+
+[node name="UiController" type="Node" parent="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_t5ptc")
 
 [node name="TabletUi" parent="CanvasLayer" unique_id=1792993717 instance=ExtResource("4_v5dby")]
 
@@ -53,7 +50,9 @@ offset_bottom = 9.0
 [node name="MapSprite" type="Sprite2D" parent="." unique_id=1680402388]
 z_index = -1
 texture_filter = 1
-position = Vector2(-1649, -6)
 texture = ExtResource("8_j2gmx")
+
+[node name="WorldWalls" type="StaticBody2D" parent="MapSprite" unique_id=669745666]
+script = ExtResource("10_walls")
 
 [editable path="CanvasLayer/Pause"]

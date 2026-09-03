@@ -6,6 +6,7 @@ extends Control
 
 const OSI_IMG := "res://assets/ui/classifica/classifica_osi.png"
 const TCP_IMG := "res://assets/ui/classifica/classifica_tcp.png"
+const CABINET_WIDTH := 300.0
 
 const OSI_CAMADAS := ["aplicacao", "apresentacao", "sessao", "transporte", "rede", "enlace", "fisica"]
 const TCP_CAMADAS := ["aplicacao", "transporte", "internet", "acesso_a_rede"]
@@ -72,7 +73,7 @@ func _build() -> void:
 	osi_cabinet.stretch_mode = TextureRect.STRETCH_SCALE
 	tcp_cabinet.stretch_mode = TextureRect.STRETCH_SCALE
 
-	var width: float = 420.0
+	var width: float = CABINET_WIDTH
 	var osi_scale: float = width / osi_tex.get_size().x
 	var tcp_scale: float = width / tcp_tex.get_size().x
 	osi_cabinet.size = Vector2(width, osi_tex.get_size().y * osi_scale)
