@@ -2,8 +2,8 @@
 
 # Godot 4.6.x + Orchestrator 2.4.3 + Godot MCP Native 1.0.8
 # Execute com:
-#   chmod +x install_plugins_godot_mcp_native.sh
-#   ./install_plugins_godot_mcp_native.sh
+#   chmod +x install_plugins.sh
+#   ./install_plugins.sh
 #
 # IMPORTANTE:
 # - Este instalador usa o Godot MCP Native da Asset Library:
@@ -37,7 +37,18 @@ error_exit() {
     exit 1
 }
 
+ORCH_TMP=""
+MCP_TMP=""
+MCP_EXTRACT=""
+
+cleanup() {
+    if [[ -n "$ORCH_TMP" ]]; then rm -f "$ORCH_TMP" || true; fi
+    if [[ -n "$MCP_TMP" ]]; then rm -f "$MCP_TMP" || true; fi
+    if [[ -n "$MCP_EXTRACT" ]]; then rm -rf "$MCP_EXTRACT" || true; fi
+}
+
 trap 'error_exit "Erro na linha $LINENO."' ERR
+trap cleanup EXIT
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
@@ -118,7 +129,7 @@ rm -f "$MCP_TMP"
 MCP_ADDON_SOURCE="$(
     find "$MCP_EXTRACT" \
         -type d \
-        -name "godot_mcp" \
+        -path "*/addons/godot_mcp" \
         -print \
         -quit
 )"
