@@ -120,4 +120,3 @@ func _build_overlay() -> void:
 	_spinner_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	content.add_child(_spinner_label)
 	_overlay.hide()
-

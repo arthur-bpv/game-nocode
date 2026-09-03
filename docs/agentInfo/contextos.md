@@ -84,4 +84,3 @@ As capturas de verificação ficam em `.godot/ui_*.png` e não são artefatos pa
 - Opcional: molduras, ícones e estados decorativos de botão separados.
 
 O `tablet_frame.png` atual já pode ser reutilizado. A UI funciona sem esses novos assets; o fundo atual é procedural/provisório.
-

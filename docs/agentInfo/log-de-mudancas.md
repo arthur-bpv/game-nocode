@@ -68,4 +68,3 @@ Atualizado em: 2026-09-01
 - Não existe multiplayer nesta fase.
 - A UI visual das tasks e sua filtragem temática ainda não foram implementadas.
 - O fundo e logo definitivos do Canvas ainda não foram fornecidos.
-

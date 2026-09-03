@@ -84,4 +84,3 @@ func _is_red(pixel: Color) -> bool:
 
 func _is_map_floor(pixel: Color) -> bool:
 	return pixel.g - pixel.r > 0.08
-

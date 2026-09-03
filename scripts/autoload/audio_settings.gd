@@ -80,4 +80,3 @@ func _apply_bus(bus_name: StringName) -> void:
 	var value := maxf(get_volume(bus_name), 0.0001)
 	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
 	AudioServer.set_bus_mute(bus_index, is_muted(bus_name))
-

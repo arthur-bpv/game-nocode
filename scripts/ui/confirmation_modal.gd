@@ -30,4 +30,3 @@ func _on_confirm_pressed() -> void:
 
 func _on_cancel_pressed() -> void:
 	cancel()
-
