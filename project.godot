@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 
 MCPRuntimeProbe="*uid://bsg12huaf1u5i"
 PlayerData="*res://scripts/player_data.gd"
+StudySession="*res://scripts/study/study_session.gd"
 AudioSettings="*res://scripts/autoload/audio_settings.gd"
 SceneTransition="*res://scripts/autoload/scene_transition.gd"
 
@@ -29,6 +30,7 @@ window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/mode=2
 window/stretch/mode="canvas_items"
+display_server/driver.linuxbsd="wayland"
 
 [editor_plugins]
 
@@ -79,6 +81,7 @@ toggle_tablet={
 [physics]
 
 2d/default_gravity=0
+common/physics_interpolation=true
 
 [rendering]
 

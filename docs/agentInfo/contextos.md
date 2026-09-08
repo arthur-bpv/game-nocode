@@ -1,12 +1,27 @@
 # Contexto para próximas sessões Codex
 
-Atualizado em: 2026-09-01
+Atualizado em: 2026-09-08
+
+## Estado atual: disciplinas, temas e tasks
+
+A referência oficial agora é `main`, alinhada à `origin/main` em `adc3196` antes desta
+implementação. A arquitetura de estudo, contratos, inventário e próximos passos estão em
+[study-tasks.md](../architecture/study-tasks.md). Leia esse documento antes de mexer em
+mapa, missões ou progresso. A primeira rodada é um único tema: TCP/IP + Modelo OSI (`tcp_ip_modelo_osi`).
+As artes da missão agora são sem texto, com Labels editáveis no Godot; gravação em disco
+ainda não foi implementada.
+A task está em modo TABLET experimental: terminal provisório na sala, E abre, X/ESC/Tab
+fecham. `presentation = 0` no catálogo permite voltar ao modo físico para comparar.
+
+As observações de worktree abaixo são **históricas, de 2026-09-01**, não descrevem o
+estado inicial desta sessão, que estava limpo. A antiga main está preservada em
+`backup/main-before-architecture`; `davi` continua preservada.
 
 ## Objetivo do projeto nesta frente
 
 O NETBOT está migrando de telas completas desenhadas como PNG para uma UI reutilizável no Godot. PNGs devem ser usados apenas como decoração; textos, botões, sliders, estados e navegação ficam em cenas, controles e scripts do Godot.
 
-A primeira fase implementada cobre menu inicial, loading, pause, configurações de áudio, confirmações e tablet. A reconstrução visual das tasks e a filtragem delas por temática ainda não fazem parte desta fase.
+A primeira fase implementada cobre menu inicial, loading, pause, configurações de áudio, confirmações e tablet. A reconstrução visual das tasks continua pendente. A filtragem por tema foi acrescentada na etapa de arquitetura de estudo.
 
 ## Decisões confirmadas pelo usuário
 

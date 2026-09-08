@@ -1,12 +1,17 @@
 extends Control
 
+signal completed
+
 # Rects reais (px nativos) dos pinos ja desenhados na arte de cada armario
 # (achados analisando classifica_osi.png / classifica_tcp.png por cor).
 # Mapa OSI -> TCP/IP e a equivalencia classica entre os dois modelos.
 
-const OSI_IMG := "res://assets/ui/classifica/classifica_osi.png"
-const TCP_IMG := "res://assets/ui/classifica/classifica_tcp.png"
+const OSI_IMG := "res://assets/ui/classifica/classifica_osi_sem_texto.png"
+const TCP_IMG := "res://assets/ui/classifica/classifica_tcp_sem_texto.png"
 const CABINET_WIDTH := 300.0
+# Coordenadas de autoria independem da resolução importada da textura.
+const OSI_SOURCE_SIZE := Vector2(4898, 6258)
+const TCP_SOURCE_SIZE := Vector2(4734, 6211)
 
 const OSI_CAMADAS := ["aplicacao", "apresentacao", "sessao", "transporte", "rede", "enlace", "fisica"]
 const TCP_CAMADAS := ["aplicacao", "transporte", "internet", "acesso_a_rede"]
@@ -74,10 +79,10 @@ func _build() -> void:
 	tcp_cabinet.stretch_mode = TextureRect.STRETCH_SCALE
 
 	var width: float = CABINET_WIDTH
-	var osi_scale: float = width / osi_tex.get_size().x
-	var tcp_scale: float = width / tcp_tex.get_size().x
-	osi_cabinet.size = Vector2(width, osi_tex.get_size().y * osi_scale)
-	tcp_cabinet.size = Vector2(width, tcp_tex.get_size().y * tcp_scale)
+	var osi_scale: float = width / OSI_SOURCE_SIZE.x
+	var tcp_scale: float = width / TCP_SOURCE_SIZE.x
+	osi_cabinet.size = Vector2(width, OSI_SOURCE_SIZE.y * osi_scale)
+	tcp_cabinet.size = Vector2(width, TCP_SOURCE_SIZE.y * tcp_scale)
 
 	for camada in OSI_CAMADAS:
 		var hole: Rect2 = OSI_BURACOS[camada]
@@ -106,6 +111,7 @@ func _gui_input(event: InputEvent) -> void:
 					$StatusLabel.text = "Certo: %s -> %s" % [_dragging_from, hit]
 					if _connected.size() == OSI_CAMADAS.size():
 						$StatusLabel.text = "Missão completa!"
+						completed.emit()
 				else:
 					$StatusLabel.text = "Errado: %s não conecta em %s" % [_dragging_from, hit]
 			_dragging_from = ""
@@ -113,3 +119,10 @@ func _gui_input(event: InputEvent) -> void:
 	elif event is InputEventMouseMotion and _dragging_from != "":
 		_drag_pos = event.position
 		$WireLayer.queue_redraw()
+
+
+func restore_completed() -> void:
+	_connected = MAPA_OSI_TCP.duplicate()
+	_dragging_from = ""
+	$StatusLabel.text = "Missão completa!"
+	$WireLayer.queue_redraw()

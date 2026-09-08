@@ -66,3 +66,4 @@ script = ExtResource("4_pscolor")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1959451871]
 position = Vector2(-151, 7)
+process_callback = 0

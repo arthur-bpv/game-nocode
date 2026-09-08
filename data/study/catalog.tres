@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="StudyCatalog" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/study/study_catalog.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/study/discipline_definition.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/study/topic_definition.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/study/task_definition.gd" id="4"]
+
+[sub_resource type="Resource" id="task"]
+script = ExtResource("4")
+id = &"conecta_camadas"
+title = "Correspondência OSI e TCP/IP"
+mission_scene = "res://scenes/missions/conecta_camadas.tscn"
+map_slot = &"armarios_camadas"
+presentation = 1
+
+[sub_resource type="Resource" id="tcp_osi"]
+script = ExtResource("3")
+id = &"tcp_ip_modelo_osi"
+title = "TCP/IP + Modelo OSI"
+tasks = Array[ExtResource("4")]([SubResource("task")])
+
+[sub_resource type="Resource" id="redes"]
+script = ExtResource("2")
+id = &"redes"
+title = "Redes de Computadores"
+map_scene = "res://scenes/world/world.tscn"
+topics = Array[ExtResource("3")]([SubResource("tcp_osi")])
+
+[resource]
+script = ExtResource("1")
+disciplines = Array[ExtResource("2")]([SubResource("redes")])

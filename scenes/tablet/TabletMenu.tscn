@@ -118,6 +118,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
+[node name="MissionHost" type="Control" parent="ScreenCenter/Screen/Content"]
+visible = false
+custom_minimum_size = Vector2(680, 460)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
 [connection signal="pressed" from="ScreenCenter/Screen/Content/Header/CloseButton" to="." method="close_ui"]
 [connection signal="pressed" from="ScreenCenter/Screen/Content/Body/Navigation/MapButton" to="." method="_on_map_pressed"]
 [connection signal="pressed" from="ScreenCenter/Screen/Content/Body/Navigation/MissionsButton" to="." method="_on_missions_pressed"]

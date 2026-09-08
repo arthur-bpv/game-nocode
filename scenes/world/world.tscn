@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c8n1qk4v6xr2a" path="res://scenes/tablet/TabletMenu.tscn" id="4_v5dby"]
 [ext_resource type="PackedScene" uid="uid://cgrmoyqphkdh7" path="res://scenes/Pause.tscn" id="7_bq33v"]
 [ext_resource type="Texture2D" uid="uid://b7x20skd2oqqf" path="res://assets/sprites/Mapa.png" id="8_j2gmx"]
-[ext_resource type="PackedScene" path="res://scenes/missions/conecta_camadas.tscn" id="9_conecta"]
+[ext_resource type="Script" path="res://scripts/study/map_task_slot.gd" id="9_conecta"]
 [ext_resource type="Script" uid="uid://degalgnqi18dd" path="res://scenes/world/world_walls.gd" id="10_walls"]
 
 [node name="World" type="Node2D" unique_id=60291279]
@@ -25,13 +25,10 @@ position = Vector2(-140, 27)
 top_level = true
 position = Vector2(62, -560)
 
-[node name="ConectaCamadas" parent="Entities" unique_id=100002 instance=ExtResource("9_conecta")]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 1077.0
-offset_top = -756.0
-offset_right = 1757.0
-offset_bottom = -296.0
+[node name="CamadasSlot" type="Node2D" parent="Entities"]
+position = Vector2(1077, -756)
+script = ExtResource("9_conecta")
+slot_id = &"armarios_camadas"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=301927456]
 

@@ -13,3 +13,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	else:
 		pause_menu.open_pause()
 	get_viewport().set_input_as_handled()
+
+
+func _ready() -> void:
+	for slot in get_tree().get_nodes_in_group("study_task_slots"):
+		slot.open_requested.connect(_open_task)
+
+func _open_task(mission: Control) -> void:
+	if not tablet.visible and not pause_menu.visible:
+		tablet.open_mission(mission)
