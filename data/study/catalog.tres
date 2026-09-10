@@ -1,9 +1,9 @@
-[gd_resource type="Resource" script_class="StudyCatalog" load_steps=8 format=3]
+[gd_resource type="Resource" script_class="StudyCatalog" format=3 uid="uid://dwnevjp8si6hb"]
 
-[ext_resource type="Script" path="res://scripts/study/study_catalog.gd" id="1"]
-[ext_resource type="Script" path="res://scripts/study/discipline_definition.gd" id="2"]
-[ext_resource type="Script" path="res://scripts/study/topic_definition.gd" id="3"]
-[ext_resource type="Script" path="res://scripts/study/task_definition.gd" id="4"]
+[ext_resource type="Script" uid="uid://bqdfrhh3yg5fo" path="res://scripts/study/study_catalog.gd" id="1"]
+[ext_resource type="Script" uid="uid://dgxwfeyu6o1mt" path="res://scripts/study/discipline_definition.gd" id="2"]
+[ext_resource type="Script" uid="uid://c6bt67uy7ppcd" path="res://scripts/study/topic_definition.gd" id="3"]
+[ext_resource type="Script" uid="uid://76lf2noli7hk" path="res://scripts/study/task_definition.gd" id="4"]
 
 [sub_resource type="Resource" id="task"]
 script = ExtResource("4")

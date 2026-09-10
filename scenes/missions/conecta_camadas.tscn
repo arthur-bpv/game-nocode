@@ -1,60 +1,31 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://by4g47jajema4"]
 
-[ext_resource type="Script" path="res://scenes/missions/conecta_camadas.gd" id="1_script"]
-[ext_resource type="Script" path="res://scenes/missions/conecta_camadas_wires.gd" id="2_wires"]
+[ext_resource type="Script" uid="uid://cd8e2faqtjqp5" path="res://scenes/missions/conecta_camadas.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bw70m41swfi1j" path="res://scenes/missions/conecta_camadas_wires.gd" id="2_wires"]
+[ext_resource type="FontFile" uid="uid://dd7pesxl03p7f" path="res://assets/fonts/press_start_2p/PressStart2P-Regular.ttf" id="3_font"]
 
-[ext_resource type="FontFile" path="res://assets/fonts/press_start_2p/PressStart2P-Regular.ttf" id="3_font"]
-
-[node name="ConectaCamadas" type="Control"]
+[node name="ConectaCamadas" type="Control" unique_id=749087538]
+layout_mode = 3
+anchors_preset = 0
 offset_right = 680.0
 offset_bottom = 460.0
-mouse_filter = 0
 script = ExtResource("1_script")
 
-[node name="OsiCabinet" type="TextureRect" parent="."]
+[node name="OsiCabinet" type="TextureRect" parent="." unique_id=699041655]
+layout_mode = 0
 offset_left = 20.0
 offset_top = 30.0
 offset_right = 320.0
 offset_bottom = 415.0
 mouse_filter = 2
 
-[node name="TcpCabinet" type="TextureRect" parent="."]
-offset_left = 360.0
-offset_top = 30.0
-offset_right = 660.0
-offset_bottom = 425.0
-mouse_filter = 2
-
-[node name="StatusLabel" type="Label" parent="."]
-offset_left = 20.0
-offset_top = 425.0
-offset_right = 660.0
-offset_bottom = 455.0
-mouse_filter = 2
-
-[node name="CloseButton" type="Button" parent="."]
-offset_left = 640.0
-offset_top = 5.0
-offset_right = 670.0
-offset_bottom = 35.0
-text = "X"
-
-[node name="WireLayer" type="Control" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("2_wires")
-
-[node name="Layer1Label" type="Label" parent="OsiCabinet"]
+[node name="Layer1Label" type="Label" parent="OsiCabinet" unique_id=662529710]
 layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.07758269
-anchor_top = 0.05976350
-anchor_right = 0.75132707
-anchor_bottom = 0.15420262
-mouse_filter = 2
+anchor_top = 0.0597635
+anchor_right = 0.7513271
+anchor_bottom = 0.15420263
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
@@ -64,13 +35,13 @@ text = "APLICAÇÃO"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Layer2Label" type="Label" parent="OsiCabinet"]
+[node name="Layer2Label" type="Label" parent="OsiCabinet" unique_id=721351710]
 layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.07758269
-anchor_top = 0.19463087
-anchor_right = 0.75132707
-anchor_bottom = 0.28891019
-mouse_filter = 2
+anchor_top = 0.19463088
+anchor_right = 0.7513271
+anchor_bottom = 0.28891018
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
@@ -80,13 +51,13 @@ text = "APRESENTAÇÃO"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Layer3Label" type="Label" parent="OsiCabinet"]
+[node name="Layer3Label" type="Label" parent="OsiCabinet" unique_id=1100092842]
 layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.07758269
-anchor_top = 0.32694151
-anchor_right = 0.75132707
+anchor_top = 0.32694152
+anchor_right = 0.7513271
 anchor_bottom = 0.42122084
-mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
@@ -96,13 +67,13 @@ text = "SESSÃO"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Layer4Label" type="Label" parent="OsiCabinet"]
+[node name="Layer4Label" type="Label" parent="OsiCabinet" unique_id=21098334]
 layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.07758269
-anchor_top = 0.45925216
-anchor_right = 0.75132707
-anchor_bottom = 0.55353148
-mouse_filter = 2
+anchor_top = 0.45925215
+anchor_right = 0.7513271
+anchor_bottom = 0.55353147
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
@@ -112,13 +83,13 @@ text = "TRANSPORTE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Layer5Label" type="Label" parent="OsiCabinet"]
+[node name="Layer5Label" type="Label" parent="OsiCabinet" unique_id=549548756]
 layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.07758269
-anchor_top = 0.59140300
-anchor_right = 0.75132707
-anchor_bottom = 0.68584212
-mouse_filter = 2
+anchor_top = 0.591403
+anchor_right = 0.7513271
+anchor_bottom = 0.6858421
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
@@ -128,13 +99,13 @@ text = "REDE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Layer6Label" type="Label" parent="OsiCabinet"]
+[node name="Layer6Label" type="Label" parent="OsiCabinet" unique_id=190651543]
 layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.07758269
-anchor_top = 0.72419303
-anchor_right = 0.75132707
-anchor_bottom = 0.81847236
-mouse_filter = 2
+anchor_top = 0.72419304
+anchor_right = 0.7513271
+anchor_bottom = 0.8184724
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
@@ -144,13 +115,13 @@ text = "ENLACE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Layer7Label" type="Label" parent="OsiCabinet"]
+[node name="Layer7Label" type="Label" parent="OsiCabinet" unique_id=680654897]
 layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.07758269
-anchor_top = 0.85698306
-anchor_right = 0.75132707
-anchor_bottom = 0.95126238
-mouse_filter = 2
+anchor_top = 0.85698307
+anchor_right = 0.7513271
+anchor_bottom = 0.95126235
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
@@ -160,13 +131,21 @@ text = "FÍSICA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Layer1Label" type="Label" parent="TcpCabinet"]
-layout_mode = 1
-anchor_left = 0.22602450
-anchor_top = 0.06037675
-anchor_right = 0.90621039
-anchor_bottom = 0.25326034
+[node name="TcpCabinet" type="TextureRect" parent="." unique_id=523888455]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 30.0
+offset_right = 660.0
+offset_bottom = 425.0
 mouse_filter = 2
+
+[node name="Layer1Label" type="Label" parent="TcpCabinet" unique_id=668745725]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2260245
+anchor_top = 0.06037675
+anchor_right = 0.90621036
+anchor_bottom = 0.25326034
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
@@ -176,13 +155,13 @@ text = "APLICAÇÃO"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Layer2Label" type="Label" parent="TcpCabinet"]
+[node name="Layer2Label" type="Label" parent="TcpCabinet" unique_id=1235089340]
 layout_mode = 1
-anchor_left = 0.22602450
+anchors_preset = -1
+anchor_left = 0.2260245
 anchor_top = 0.28465626
-anchor_right = 0.90621039
-anchor_bottom = 0.47753985
-mouse_filter = 2
+anchor_right = 0.90621036
+anchor_bottom = 0.47753984
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
@@ -192,13 +171,13 @@ text = "TRANSPORTE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Layer3Label" type="Label" parent="TcpCabinet"]
+[node name="Layer3Label" type="Label" parent="TcpCabinet" unique_id=411632369]
 layout_mode = 1
-anchor_left = 0.22602450
-anchor_top = 0.50877475
-anchor_right = 0.90621039
-anchor_bottom = 0.70181935
-mouse_filter = 2
+anchors_preset = -1
+anchor_left = 0.2260245
+anchor_top = 0.50877476
+anchor_right = 0.90621036
+anchor_bottom = 0.70181936
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
@@ -208,13 +187,13 @@ text = "INTERNET"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Layer4Label" type="Label" parent="TcpCabinet"]
+[node name="Layer4Label" type="Label" parent="TcpCabinet" unique_id=1979860615]
 layout_mode = 1
-anchor_left = 0.22602450
-anchor_top = 0.73305426
-anchor_right = 0.90621039
-anchor_bottom = 0.92593785
-mouse_filter = 2
+anchors_preset = -1
+anchor_left = 0.2260245
+anchor_top = 0.7330543
+anchor_right = 0.90621036
+anchor_bottom = 0.92593783
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
@@ -224,3 +203,27 @@ text = "ACESSO À
 REDE (LINK)"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="." unique_id=2088410151]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 425.0
+offset_right = 660.0
+offset_bottom = 455.0
+
+[node name="CloseButton" type="Button" parent="." unique_id=1126680756]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 5.0
+offset_right = 670.0
+offset_bottom = 35.0
+text = "X"
+
+[node name="WireLayer" type="Control" parent="." unique_id=1062073985]
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_wires")
