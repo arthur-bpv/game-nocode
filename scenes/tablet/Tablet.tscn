@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bsa43g68bptth"]
 
-[ext_resource type="Script" uid="uid://dpcaglo4e51um" path="res://scenes/tablet/tablet.torch" id="1_b60aq"]
+[ext_resource type="Script" path="res://scenes/tablet/tablet_interaction.gd" id="1_b60aq"]
 [ext_resource type="Texture2D" uid="uid://0kp40n6ww2tc" path="res://icon.svg" id="2_tm2vn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tm2vn"]

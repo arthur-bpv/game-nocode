@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Godot 4.6.x + Orchestrator 2.4.3 + Godot MCP Native 1.0.8
+# Godot 4.7.2 + Godot MCP Native 1.0.8
 # Execute com:
 #   chmod +x install_plugins.sh
 #   ./install_plugins.sh
@@ -12,7 +12,7 @@
 # - O addon e instalado em res://addons/godot_mcp/
 #
 # Requisitos:
-# - Godot 4.6.x
+# - Godot 4.7.2
 # - Projeto com project.godot
 #
 # Depois da instalacao:
@@ -37,12 +37,10 @@ error_exit() {
     exit 1
 }
 
-ORCH_TMP=""
 MCP_TMP=""
 MCP_EXTRACT=""
 
 cleanup() {
-    if [[ -n "$ORCH_TMP" ]]; then rm -f "$ORCH_TMP" || true; fi
     if [[ -n "$MCP_TMP" ]]; then rm -f "$MCP_TMP" || true; fi
     if [[ -n "$MCP_EXTRACT" ]]; then rm -rf "$MCP_EXTRACT" || true; fi
 }
@@ -64,39 +62,7 @@ for cmd in curl unzip find cp rm mkdir; do
 done
 
 # ============================================================
-# 1) ORCHESTRATOR 2.4.3
-# ============================================================
-
-write_step "Instalando Orchestrator 2.4.3"
-
-ORCHESTRATOR_TAG="v2.4.3.stable"
-ORCHESTRATOR_FILE="v2.4.3-stable"
-
-ORCH_TMP="$(mktemp --suffix=.zip)"
-
-ORCH_URL="https://github.com/CraterCrash/godot-orchestrator/releases/download/${ORCHESTRATOR_TAG}/godot-orchestrator-${ORCHESTRATOR_FILE}-plugin.zip"
-
-echo "Baixando Orchestrator..."
-
-curl \
-    --fail \
-    --location \
-    --show-error \
-    --progress-bar \
-    "$ORCH_URL" \
-    --output "$ORCH_TMP"
-
-echo "Extraindo Orchestrator..."
-
-unzip -o "$ORCH_TMP" -d "$SCRIPT_DIR"
-
-rm -f "$ORCH_TMP"
-
-printf '\033[1;32mOrchestrator instalado.\033[0m\n'
-
-
-# ============================================================
-# 2) GODOT MCP NATIVE 1.0.8
+# 1) GODOT MCP NATIVE 1.0.8
 # ============================================================
 
 write_step "Instalando Godot MCP Native 1.0.8"
@@ -157,7 +123,7 @@ printf '\033[1;32mGodot MCP Native %s instalado.\033[0m\n' "$MCP_VERSION"
 
 
 # ============================================================
-# 3) VERIFICACAO
+# 2) VERIFICACAO
 # ============================================================
 
 write_step "Verificando instalacao"
@@ -168,18 +134,11 @@ if [[ ! -f "$PLUGIN_CFG" ]]; then
     error_exit "O arquivo plugin.cfg do Godot MCP Native nao foi encontrado."
 fi
 
-ORCHESTRATOR_DIR="${ADDONS_DIR}/orchestrator"
-
-if [[ ! -d "$ORCHESTRATOR_DIR" ]]; then
-    printf '\033[1;33mAviso: a pasta addons/orchestrator nao foi encontrada. Verifique a instalacao do Orchestrator.\033[0m\n'
-fi
-
 echo
 printf '\033[1;32m============================================\033[0m\n'
 printf '\033[1;32m INSTALACAO CONCLUIDA!\033[0m\n'
 printf '\033[1;32m============================================\033[0m\n'
 echo
-echo "Orchestrator:       2.4.3"
 echo "Godot MCP Native:   1.0.8"
 echo "MCP addon:          addons/godot_mcp/"
 echo

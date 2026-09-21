@@ -3740,18 +3740,24 @@ func _get_editor_panel_logs(types: Array, count: int, offset: int, order: String
 	# Fallback: try reading the editor log file directly when UI panels have no data
 	if parsed_lines.is_empty():
 		var editor_log_path: String = ""
+		var version_info := Engine.get_version_info()
+		var editor_log_name := "editor_log-%d.%d.%s.txt" % [
+			int(version_info.get("major", 4)),
+			int(version_info.get("minor", 7)),
+			str(version_info.get("status", "stable")),
+		]
 		if OS.has_feature("windows"):
 			var appdata: String = OS.get_environment("APPDATA")
 			if not appdata.is_empty():
-				editor_log_path = appdata.path_join("Godot").path_join("editor_log-4.6.stable.txt")
+				editor_log_path = appdata.path_join("Godot").path_join(editor_log_name)
 		elif OS.has_feature("linux"):
 			var home: String = OS.get_environment("HOME")
 			if not home.is_empty():
-				editor_log_path = home.path_join(".local").path_join("share").path_join("godot").path_join("editor_log-4.6.stable.txt")
+				editor_log_path = home.path_join(".local").path_join("share").path_join("godot").path_join(editor_log_name)
 		elif OS.has_feature("macos"):
 			var home: String = OS.get_environment("HOME")
 			if not home.is_empty():
-				editor_log_path = home.path_join("Library").path_join("Application Support").path_join("Godot").path_join("editor_log-4.6.stable.txt")
+				editor_log_path = home.path_join("Library").path_join("Application Support").path_join("Godot").path_join(editor_log_name)
 		if not editor_log_path.is_empty() and FileAccess.file_exists(editor_log_path):
 			var file: FileAccess = FileAccess.open(editor_log_path, FileAccess.READ)
 			if file:

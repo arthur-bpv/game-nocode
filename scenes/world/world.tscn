@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://cakdj5yuucwpf"]
 
 [ext_resource type="Script" uid="uid://dyqmb5s0d3r75" path="res://scripts/systems/game_manager.gd" id="1_gm"]
-[ext_resource type="Script" uid="uid://d1u0serx5nfh7" path="res://scenes/world/world_controller.gd" id="1_t5ptc"]
+[ext_resource type="Script" uid="uid://i4t7frea2x7j" path="res://scenes/world/world_controller.gd" id="1_t5ptc"]
 [ext_resource type="PackedScene" uid="uid://c00sqo8nkpwhy" path="res://scenes/player/player.tscn" id="3_1fp7r"]
 [ext_resource type="PackedScene" uid="uid://bsa43g68bptth" path="res://scenes/tablet/Tablet.tscn" id="3_6m72w"]
 [ext_resource type="PackedScene" uid="uid://c8n1qk4v6xr2a" path="res://scenes/tablet/TabletMenu.tscn" id="4_v5dby"]
 [ext_resource type="PackedScene" uid="uid://cgrmoyqphkdh7" path="res://scenes/Pause.tscn" id="7_bq33v"]
 [ext_resource type="Texture2D" uid="uid://b7x20skd2oqqf" path="res://assets/sprites/Mapa.png" id="8_j2gmx"]
 [ext_resource type="Script" uid="uid://dc1t7p5v162fj" path="res://scripts/study/map_task_slot.gd" id="9_conecta"]
-[ext_resource type="Script" uid="uid://unmfxm2dx6h7" path="res://scenes/world/world_walls.gd" id="10_walls"]
+[ext_resource type="Script" uid="uid://degalgnqi18dd" path="res://scenes/world/world_walls.gd" id="10_walls"]
 [ext_resource type="AudioStream" uid="uid://2yodc0wvr8dy" path="res://assets/audio/jogao.mp3" id="11_5qq27"]
 
 [node name="World" type="Node2D" unique_id=60291279]

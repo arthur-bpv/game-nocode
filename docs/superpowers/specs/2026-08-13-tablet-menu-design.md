@@ -34,7 +34,7 @@ Um script só, `tablet_menu.gd`, espelhando o padrão de `open_ui()`/`_close_ui(
 
 ## Gatilhos de abertura
 
-1. **Proximidade** (existente, `tablet.torch`, sem mudança) → chama `open_ui()` em `TabletMenu`, abre em `HomePanel`.
+1. **Proximidade** (`tablet_interaction.gd`) → chama `open_ui()` em `TabletMenu`, abrindo a tela principal.
 2. **Tecla `Tab`** (nova input action `toggle_tablet`), tratada em `_unhandled_input` de `TabletMenu` — abre/fecha de qualquer lugar do mapa durante a partida, não depende de proximidade.
 3. **Fluxo pré-partida** — botões Singleplayer/Multiplayer em `menu.tscn` abrem `SettingsPanel` direto (sem `HomePanel`), com "Iniciar" no lugar de "Voltar"; "Iniciar" chama `change_scene_to_file("res://scenes/world/world.tscn")`.
 

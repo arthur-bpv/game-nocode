@@ -29,7 +29,7 @@ if ($project -notmatch 'SceneTransition="\*res://scripts/autoload/scene_transiti
 if ($project -notmatch 'window/stretch/mode="canvas_items"') {
 	throw "O projeto perdeu o modo responsivo canvas_items."
 }
-if ($menu -match 'TabletMenuPregame|ui_background_netbot_menu.png|menu.torch') {
+if ($menu -match 'TabletMenuPregame|ui_background_netbot_menu.png') {
 	throw "O menu ainda depende da preparação em tablet, do PNG completo ou do grafo legado."
 }
 foreach ($label in @("SINGLEPLAYER", "MULTIPLAYER", "EM BREVE", "SAIR")) {
@@ -47,7 +47,7 @@ foreach ($label in @("CONTINUAR", "CONFIGURAÇÕES", "VOLTAR AO MENU", "SAIR DO 
 if ($pause_controller -notmatch 'func open_pause\(' -or $pause_controller -notmatch 'func resume_game\(') {
 	throw "PauseMenu não oferece os contratos open_pause/resume_game."
 }
-if ($world -match 'world.torch' -or $world -notmatch 'world_controller.gd') {
+if ($world -notmatch 'world_controller.gd') {
 	throw "O mundo ainda depende do grafo legado para o ESC."
 }
 if ($world -notmatch '(?s)\[node name="UiController".*?process_mode = 3') {

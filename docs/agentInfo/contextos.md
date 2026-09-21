@@ -1,6 +1,9 @@
 # Contexto para próximas sessões Codex
 
-Atualizado em: 2026-09-08
+Atualizado em: 2026-09-21
+
+Engine alvo: Godot 4.7.2 stable, renderer GL Compatibility. O Godot MCP Native 1.0.8
+deve ser iniciado em HTTP na porta 9080.
 
 ## Estado atual: disciplinas, temas e tasks
 
@@ -47,6 +50,8 @@ A primeira fase implementada cobre menu inicial, loading, pause, configurações
 - `scripts/ui/main_menu.gd` + `scenes/menu.tscn`: menu inicial reconstruído com controles reais.
 - `scripts/ui/pause_menu.gd` + `scenes/Pause.tscn`: pause como overlay, com áudio e confirmações.
 - `scenes/world/world_controller.gd`: roteador central de ESC em um nó com `process_mode = ALWAYS`.
+- `scenes/player/player_controller.gd`: movimento top-down do personagem em GDScript.
+- `scenes/tablet/tablet_interaction.gd`: proximidade e abertura do tablet físico em GDScript.
 - `scenes/tablet/tablet_menu.gd` + `TabletMenu.tscn`: tablet separado de configurações globais.
 - `tools/generate_collision_polygons.gd`: ferramenta que converte o mapa anotado em colisões persistidas.
 - `assets/generated/collision_polygons.tres`: três polígonos carregados em runtime.
@@ -77,18 +82,16 @@ O comando regenera `assets/generated/collision_polygons.tres`. O teste atual con
 
 A branch usada é `chore/cleanup-e-classifica-assets`. O worktree já estava sujo antes da evolução da UI. Não restaurar, apagar nem atribuir automaticamente estes arquivos à mudança de UI:
 
-- imagens em `addons/godot_mcp`, `addons/orchestrator`, `assets/sprites` e `assets/ui/classifica`;
+- imagens em `addons/godot_mcp`, `assets/sprites` e `assets/ui/classifica`;
 - alterações de missão em `scenes/missions`;
 - alterações de personagem em `scenes/player/player.tscn`;
-- `scenes/tablet/tablet.torch`;
 - mapa, anotação, colisões e testes de mapa criados na frente anterior;
-- arquivos TMP do Orchestrator.
 
 Preservar especialmente a escala/posição do personagem, a task na sala octagonal e a geometria atual do mapa.
 
 ## Verificação conhecida
 
-Os testes imprimem sucesso e não apresentam erro de parser ou assertion. Porém, qualquer script Godot neste projeto — inclusive um smoke test vazio — termina com código 1 no shutdown das extensões carregadas. Sem `--disable-crash-handler`, o Godot 4.6 mostra uma falha nativa ao encerrar, provavelmente relacionada ao ambiente de extensões/Orchestrator. Tratar isso separadamente; não confundir com falha da UI.
+Os testes devem terminar sem erro de parser ou assertion. O servidor Godot MCP Native permanece como única extensão de desenvolvimento e não participa da lógica do jogo.
 
 As capturas de verificação ficam em `.godot/ui_*.png` e não são artefatos para commit.
 

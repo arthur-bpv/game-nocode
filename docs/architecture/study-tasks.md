@@ -7,7 +7,7 @@ Atualizado em 2026-09-07. Referência desta sessão: `main`, a partir de `origin
 Selecionar disciplina e tema antes de entrar no mapa. A disciplina escolhe a cena de mapa;
 o tema escolhe suas tasks. A missão comunica sucesso por sinal; o progresso determina
 quais tasks podem ser usadas. Manter a arte, colisões, escala do jogador e posição da
-missão existentes. Não gerar mapas, inventar atividades ou reconstruir Orchestrator.
+missão existentes. Não gerar mapas, inventar atividades ou reconstruir sistemas legados.
 
 O catálogo atual contém Redes de Computadores e **um único tema: TCP/IP + Modelo OSI**
 (`tcp_ip_modelo_osi`), conforme correção do usuário em 2026-09-08. A primeira rodada
@@ -18,14 +18,14 @@ novos temas e disciplinas, sem que precisem existir placeholders no catálogo.
 ## Arquitetura encontrada
 
 - `world.tscn` possuía MapSprite, colisões carregadas de Resource e ConectaCamadas
-  diretamente instanciada em Entities. A raiz atual não executa `world.torch`.
+  diretamente instanciada em Entities. A raiz atual delega entrada a `world_controller.gd`.
 - `conecta_camadas.gd` conhecia regras e coordenadas dos pinos; ao terminar apenas
   alterava um Label. Não havia evento de conclusão nem progresso externo.
 - `main_menu.gd` apontava diretamente para a única cena de mundo.
 - O tablet mostrava texto provisório para missões. `PlayerData` só guardava cor.
 - `GameManager` continha nível e sinais sem participação neste fluxo; foi preservado.
 - `SceneTransition` e `AudioSettings` já resolviam navegação e áudio e foram reutilizados.
-- Arquivos `.torch` antigos permanecem; não são fonte do catálogo nem da progressão.
+- Os antigos grafos visuais foram substituídos por controladores GDScript textuais.
 
 O maior acoplamento era a escolha da missão pela cena visual, junto com a ausência de
 identidade, seleção e conclusão observável. As colisões já estavam suficientemente
@@ -126,7 +126,7 @@ parte do snapshot de progresso; decidir sua persistência junto com o save futur
 
 Permanecem: PNG inteiro do mapa, Resource de colisões, posição dos slots/jogador, arte e
 coordenadas dos pinos, equivalência OSI–TCP e construção visual da missão. Não houve
-mudança de PNGs, colisões, player ou scripts `.torch`.
+mudança de PNGs, colisões, player ou controladores de runtime.
 
 Na migração para spritesheet/TileMapLayer, substituir MapSprite e adaptar colisões e
 posições dos slots. Preservar os IDs de disciplina/tema/task e os contratos de conclusão.
@@ -151,7 +151,8 @@ no catálogo; o menu já lê a coleção. Não duplicar sessão, progresso ou me
 
 ## Validação desta sessão
 
-Godot 4.6.3 executado localmente (o MCP inicialmente reportou 4.6.stable).
+Godot 4.6.3 foi usado na validação original. Em 2026-09-21, o projeto foi migrado e
+revalidado com Godot 4.7.2 stable, incluindo importação, testes de runtime e render visual.
 
 ```bash
 godot --headless --editor --path . --import --quit
@@ -197,7 +198,7 @@ A posição e o tamanho efetivos também foram verificados no teste Godot de run
 
 Após relato de ghosting no debug, habilitada `physics/common/physics_interpolation`
 e configurada Camera2D de `scenes/player/player.tscn` com `process_callback = 0`
-(Physics), acompanhando o movimento existente em `_physics_process` do Orchestrator.
+(Physics), acompanhando o movimento existente em `_physics_process` do controlador do jogador.
 Não foi habilitado position smoothing. Verificação local de movimento e pause/resume
 passou; a melhora perceptiva do rastro ainda precisa ser confirmada no monitor do usuário.
 MCP 9080 continuava indisponível. Referência: documentação Godot sobre jitter/stutter.

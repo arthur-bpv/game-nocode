@@ -1,4 +1,4 @@
-# Godot 4.6.x + Orchestrator 2.4.3 + Godot MCP Native 1.0.8
+# Godot 4.7.2 + Godot MCP Native 1.0.8
 # Execute no PowerShell: .\install_plugins.ps1
 
 [CmdletBinding()]
@@ -7,12 +7,9 @@ param()
 $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
 
-$orchestratorVersion = "2.4.3"
-$orchestratorTag = "v2.4.3.stable"
-$orchestratorFile = "v2.4.3-stable"
 $mcpVersion = "1.0.8"
 $scriptDir = $PSScriptRoot
-$tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("game-nocode-plugins-" + [guid]::NewGuid().ToString("N"))
+$tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("game-nocode-mcp-" + [guid]::NewGuid().ToString("N"))
 
 function Write-Step {
     param([Parameter(Mandatory)][string]$Message)
@@ -29,18 +26,6 @@ try {
     New-Item -ItemType Directory -Path $tempRoot | Out-Null
     $addonsDir = Join-Path $scriptDir "addons"
     New-Item -ItemType Directory -Path $addonsDir -Force | Out-Null
-
-    Write-Step "Instalando Orchestrator $orchestratorVersion"
-
-    $orchestratorZip = Join-Path $tempRoot "orchestrator.zip"
-    $orchestratorUrl = "https://github.com/CraterCrash/godot-orchestrator/releases/download/$orchestratorTag/godot-orchestrator-$orchestratorFile-plugin.zip"
-
-    Write-Host "Baixando Orchestrator..."
-    Invoke-WebRequest -Uri $orchestratorUrl -OutFile $orchestratorZip
-
-    Write-Host "Extraindo Orchestrator..."
-    Expand-Archive -LiteralPath $orchestratorZip -DestinationPath $scriptDir -Force
-    Write-Host "Orchestrator instalado." -ForegroundColor Green
 
     Write-Step "Instalando Godot MCP Native $mcpVersion"
 
@@ -76,15 +61,10 @@ try {
         throw "O arquivo plugin.cfg do Godot MCP Native nao foi encontrado."
     }
 
-    if (-not (Test-Path -LiteralPath (Join-Path $addonsDir "orchestrator") -PathType Container)) {
-        Write-Warning "A pasta addons/orchestrator nao foi encontrada. Verifique a estrutura do pacote."
-    }
-
     Write-Host ""
     Write-Host "============================================" -ForegroundColor Green
     Write-Host " INSTALACAO CONCLUIDA!" -ForegroundColor Green
     Write-Host "============================================" -ForegroundColor Green
-    Write-Host "Orchestrator:       $orchestratorVersion"
     Write-Host "Godot MCP Native:   $mcpVersion"
     Write-Host "MCP addon:          addons/godot_mcp/"
     Write-Host "Node.js / npm:      NAO NECESSARIOS" -ForegroundColor Green
