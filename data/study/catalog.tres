@@ -13,11 +13,19 @@ mission_scene = "res://scenes/missions/conecta_camadas.tscn"
 map_slot = &"armarios_camadas"
 presentation = 1
 
+[sub_resource type="Resource" id="task_rack_osi"]
+script = ExtResource("4")
+id = &"rack_osi"
+title = "Montagem do Rack OSI"
+mission_scene = "res://scenes/rack_osi.tscn"
+map_slot = &"rack_osi_slot"
+
 [sub_resource type="Resource" id="tcp_osi"]
 script = ExtResource("3")
 id = &"tcp_ip_modelo_osi"
 title = "TCP/IP + Modelo OSI"
-tasks = Array[ExtResource("4")]([SubResource("task")])
+sequential = false
+tasks = Array[ExtResource("4")]([SubResource("task"), SubResource("task_rack_osi")])
 
 [sub_resource type="Resource" id="redes"]
 script = ExtResource("2")

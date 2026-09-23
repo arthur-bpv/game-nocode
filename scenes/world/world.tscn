@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://dc1t7p5v162fj" path="res://scripts/study/map_task_slot.gd" id="9_conecta"]
 [ext_resource type="Script" uid="uid://unmfxm2dx6h7" path="res://scenes/world/world_walls.gd" id="10_walls"]
 [ext_resource type="AudioStream" uid="uid://2yodc0wvr8dy" path="res://assets/audio/jogao.mp3" id="11_5qq27"]
+[ext_resource type="PackedScene" uid="uid://5c8eurpve5j7" path="res://scenes/rack_osi.tscn" id="11_dlabj"]
 
 [node name="World" type="Node2D" unique_id=60291279]
 
@@ -30,6 +31,119 @@ position = Vector2(62, -560)
 position = Vector2(1077, -756)
 script = ExtResource("9_conecta")
 slot_id = &"armarios_camadas"
+
+[node name="RackOsiSlot" type="Node2D" parent="Entities" unique_id=1212918251]
+position = Vector2(-190, 233)
+
+[node name="RackOsi" parent="Entities/RackOsiSlot" unique_id=2005787125 instance=ExtResource("11_dlabj")]
+offset_left = -21.000061
+offset_top = 249.0
+offset_right = 198.99994
+offset_bottom = 579.0
+scale = Vector2(1.0267317, 0.8604729)
+
+[node name="StatusLabel" parent="Entities/RackOsiSlot/RackOsi" index="0" unique_id=622307156]
+offset_left = 110.05802
+offset_top = 313.78098
+offset_right = 314.058
+offset_bottom = 336.78098
+
+[node name="Rack" parent="Entities/RackOsiSlot/RackOsi" index="1" unique_id=2134044347]
+offset_left = 438.28397
+offset_top = -304.48376
+offset_right = 754.89886
+offset_bottom = 353.89856
+
+[node name="SlotAplicacao" parent="Entities/RackOsiSlot/RackOsi/Rack" index="0" unique_id=1437321275]
+visible = false
+offset_left = 911.96014
+offset_top = 757.0707
+offset_right = 1106.3826
+offset_bottom = 937.45264
+
+[node name="SlotApresentacao" parent="Entities/RackOsiSlot/RackOsi/Rack" index="1" unique_id=698239585]
+visible = false
+offset_left = 212.26657
+offset_top = 1392.8789
+offset_right = 411.67502
+offset_bottom = 1576.8566
+
+[node name="SlotSessao" parent="Entities/RackOsiSlot/RackOsi/Rack" index="2" unique_id=978102776]
+visible = false
+offset_left = 408.80972
+offset_top = 1091.3616
+offset_right = 607.0613
+offset_bottom = 1273.2466
+
+[node name="SlotTransporte" parent="Entities/RackOsiSlot/RackOsi/Rack" index="3" unique_id=1318741134]
+visible = false
+offset_left = 390.4657
+offset_top = 684.96875
+offset_right = 590.6238
+offset_bottom = 868.85205
+
+[node name="SlotRede" parent="Entities/RackOsiSlot/RackOsi/Rack" index="4" unique_id=1376755641]
+visible = false
+offset_left = 812.37836
+offset_top = 1166.741
+offset_right = 1014.11273
+offset_bottom = 1352.4585
+
+[node name="SlotEnlace" parent="Entities/RackOsiSlot/RackOsi/Rack" index="5" unique_id=1428149347]
+visible = false
+offset_left = -5.241211
+offset_top = 1101.1936
+offset_right = 193.74585
+offset_bottom = 1289.4917
+
+[node name="SlotFisica" parent="Entities/RackOsiSlot/RackOsi/Rack" index="6" unique_id=1580840642]
+visible = false
+offset_left = 757.34625
+offset_top = 344.12308
+offset_right = 948.5068
+offset_bottom = 515.3554
+
+[node name="Aplicacao" parent="Entities/RackOsiSlot/RackOsi" index="2" unique_id=1445875185]
+offset_left = 25.323133
+offset_top = -38.351013
+offset_right = 172.32314
+offset_bottom = 90.64899
+
+[node name="Apresentacao" parent="Entities/RackOsiSlot/RackOsi" index="3" unique_id=831392395]
+offset_left = 283.42365
+offset_top = 188.26855
+offset_right = 436.42365
+offset_bottom = 320.26855
+
+[node name="Sessao" parent="Entities/RackOsiSlot/RackOsi" index="4" unique_id=1577203939]
+offset_left = 210.37634
+offset_top = 80.18848
+offset_right = 360.37634
+offset_bottom = 208.18848
+
+[node name="Transporte" parent="Entities/RackOsiSlot/RackOsi" index="5" unique_id=957893207]
+offset_left = 216.22015
+offset_top = -63.918343
+offset_right = 368.22015
+offset_bottom = 71.08166
+
+[node name="Rede" parent="Entities/RackOsiSlot/RackOsi" index="6" unique_id=406271827]
+offset_left = 59.411873
+offset_top = 109.24228
+offset_right = 210.41187
+offset_bottom = 235.24228
+
+[node name="Enlace" parent="Entities/RackOsiSlot/RackOsi" index="7" unique_id=702682865]
+offset_left = 364.26266
+offset_top = 84.8371
+offset_right = 516.2627
+offset_bottom = 214.8371
+
+[node name="Fisica" parent="Entities/RackOsiSlot/RackOsi" index="8" unique_id=554121179]
+offset_left = 81.81314
+offset_top = -184.7821
+offset_right = 233.81314
+offset_bottom = -56.782104
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=301927456]
 
@@ -59,4 +173,5 @@ autoplay = true
 bus = &"Music"
 parameters/looping = true
 
+[editable path="Entities/RackOsiSlot/RackOsi"]
 [editable path="CanvasLayer/Pause"]

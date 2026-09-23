@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://by4g47jajema4"]
 
-[ext_resource type="Script" uid="uid://cd8e2faqtjqp5" path="res://scenes/missions/conecta_camadas.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://c0qq5c8f7ugwm" path="res://scenes/missions/conecta_camadas.gd" id="1_script"]
 [ext_resource type="Script" uid="uid://bw70m41swfi1j" path="res://scenes/missions/conecta_camadas_wires.gd" id="2_wires"]
 [ext_resource type="FontFile" uid="uid://dd7pesxl03p7f" path="res://assets/fonts/press_start_2p/PressStart2P-Regular.ttf" id="3_font"]
 

@@ -1,0 +1,192 @@
+[gd_scene format=3 uid="uid://5c8eurpve5j7"]
+
+[ext_resource type="Script" uid="uid://duspkhndeowv0" path="res://scenes/rack_osi.gd" id="1_sy7l7"]
+[ext_resource type="Texture2D" uid="uid://dakcl3hdou703" path="res://assets/sprites/rackosi.png" id="2_aqnu8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yt6mf"]
+atlas = ExtResource("2_aqnu8")
+region = Rect2(388, 470, 225, 421)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yi8fa"]
+atlas = ExtResource("2_aqnu8")
+region = Rect2(1063, 187, 147, 129)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcb6o"]
+atlas = ExtResource("2_aqnu8")
+region = Rect2(1038, 498, 153, 132)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ha7dx"]
+atlas = ExtResource("2_aqnu8")
+region = Rect2(716, 812, 150, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pb6bh"]
+atlas = ExtResource("2_aqnu8")
+region = Rect2(822, 370, 152, 135)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_obebq"]
+atlas = ExtResource("2_aqnu8")
+region = Rect2(1133, 0, 151, 126)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjtwd"]
+atlas = ExtResource("2_aqnu8")
+region = Rect2(878, 640, 152, 130)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lv6bb"]
+atlas = ExtResource("2_aqnu8")
+region = Rect2(1132, 812, 152, 128)
+
+[node name="RackOsi" type="Control" unique_id=2005787125]
+texture_filter = 1
+custom_minimum_size = Vector2(220, 330)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1320.0
+offset_bottom = -380.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+script = ExtResource("1_sy7l7")
+
+[node name="StatusLabel" type="Label" parent="." unique_id=622307156]
+texture_filter = 1
+layout_mode = 0
+offset_left = 8.0
+offset_top = 312.0
+offset_right = 212.0
+offset_bottom = 335.0
+theme_override_colors/font_color = Color(0.972549, 0.98039216, 0.9882353, 1)
+theme_override_font_sizes/font_size = 12
+text = "Arraste os blocos para o rack."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Rack" type="TextureRect" parent="." unique_id=2134044347]
+texture_filter = 1
+layout_mode = 0
+offset_left = 428.99997
+offset_top = -11.0
+offset_right = 745.61487
+offset_bottom = 647.3823
+scale = Vector2(-0.37166047, 0.3545997)
+texture = SubResource("AtlasTexture_yt6mf")
+
+[node name="SlotAplicacao" type="Panel" parent="Rack" unique_id=1437321275]
+layout_mode = 0
+offset_left = 810.4585
+offset_top = 80.372314
+offset_right = 1004.8809
+offset_bottom = 260.75427
+
+[node name="SlotApresentacao" type="Panel" parent="Rack" unique_id=698239585]
+layout_mode = 0
+offset_left = -346.3404
+offset_top = 789.62274
+offset_right = -146.93195
+offset_bottom = 973.6004
+
+[node name="SlotSessao" type="Panel" parent="Rack" unique_id=978102776]
+layout_mode = 0
+offset_left = 103.356964
+offset_top = 702.20026
+offset_right = 301.60855
+offset_bottom = 884.0852
+
+[node name="SlotTransporte" type="Panel" parent="Rack" unique_id=1318741134]
+layout_mode = 0
+offset_left = -914.8511
+offset_top = 52.1715
+offset_right = -714.693
+offset_bottom = 236.05478
+
+[node name="SlotRede" type="Panel" parent="Rack" unique_id=1376755641]
+layout_mode = 0
+offset_left = 725.264
+offset_top = 638.7484
+offset_right = 926.99835
+offset_bottom = 824.4659
+
+[node name="SlotEnlace" type="Panel" parent="Rack" unique_id=1428149347]
+layout_mode = 0
+offset_left = -1108.3773
+offset_top = 442.52716
+offset_right = -909.39026
+offset_bottom = 630.8253
+
+[node name="SlotFisica" type="Panel" parent="Rack" unique_id=1580840642]
+layout_mode = 0
+offset_left = -379.06805
+offset_top = 297.5186
+offset_right = -187.90753
+offset_bottom = 468.75092
+
+[node name="Aplicacao" type="TextureRect" parent="." unique_id=1445875185]
+texture_filter = 1
+layout_mode = 0
+offset_left = 53.0
+offset_top = 15.0
+offset_right = 200.0
+offset_bottom = 144.0
+scale = Vector2(0.51732194, 0.5196198)
+texture = SubResource("AtlasTexture_yi8fa")
+
+[node name="Apresentacao" type="TextureRect" parent="." unique_id=831392395]
+texture_filter = 1
+layout_mode = 0
+offset_left = 480.5
+offset_top = 266.5
+offset_right = 633.5
+offset_bottom = 398.5
+scale = Vector2(0.52014095, 0.5186338)
+texture = SubResource("AtlasTexture_pcb6o")
+
+[node name="Sessao" type="TextureRect" parent="." unique_id=1577203939]
+texture_filter = 1
+layout_mode = 0
+offset_left = 313.5
+offset_top = 236.0
+offset_right = 463.5
+offset_bottom = 364.0
+scale = Vector2(0.52056044, 0.5168915)
+texture = SubResource("AtlasTexture_ha7dx")
+
+[node name="Transporte" type="TextureRect" parent="." unique_id=957893207]
+texture_filter = 1
+layout_mode = 0
+offset_left = 690.5
+offset_top = 4.0
+offset_right = 842.5
+offset_bottom = 139.0
+scale = Vector2(0.5224237, 0.5211229)
+texture = SubResource("AtlasTexture_pb6bh")
+
+[node name="Rede" type="TextureRect" parent="." unique_id=406271827]
+texture_filter = 1
+layout_mode = 0
+offset_left = 83.0
+offset_top = 215.5
+offset_right = 234.0
+offset_bottom = 341.5
+scale = Vector2(0.5239888, 0.5212542)
+texture = SubResource("AtlasTexture_obebq")
+
+[node name="Enlace" type="TextureRect" parent="." unique_id=702682865]
+texture_filter = 1
+layout_mode = 0
+offset_left = 765.0
+offset_top = 145.0
+offset_right = 917.0
+offset_bottom = 275.0
+scale = Vector2(0.52102315, 0.51915747)
+texture = SubResource("AtlasTexture_xjtwd")
+
+[node name="Fisica" type="TextureRect" parent="." unique_id=554121179]
+texture_filter = 1
+layout_mode = 0
+offset_left = 494.5
+offset_top = 91.0
+offset_right = 646.5
+offset_bottom = 219.0
+scale = Vector2(0.51812565, 0.5171346)
+texture = SubResource("AtlasTexture_lv6bb")
