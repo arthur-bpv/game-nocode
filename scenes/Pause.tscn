@@ -1,17 +1,19 @@
 [gd_scene format=3 uid="uid://cgrmoyqphkdh7"]
 
-[ext_resource type="Script" uid="uid://rswpj16q5hek" path="res://scripts/ui/pause_menu.gd" id="1_script"]
-[ext_resource type="Theme" path="res://assets/ui/netbot_theme.tres" id="2_theme"]
+[ext_resource type="Script" uid="uid://cwjsokyxdburn" path="res://scripts/ui/pause_menu.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://c15t75c0c1cb7" path="res://assets/ui/netbot_theme.tres" id="2_theme"]
 [ext_resource type="PackedScene" uid="uid://b0gve031cp7fw" path="res://scenes/volume.tscn" id="3_volume"]
-[ext_resource type="PackedScene" path="res://scenes/ui/ConfirmationModal.tscn" id="4_confirm"]
+[ext_resource type="PackedScene" uid="uid://cn6h4ogx6b6se" path="res://scenes/ui/ConfirmationModal.tscn" id="4_confirm"]
 
 [node name="PauseMenu" type="Control" unique_id=1077207285]
 process_mode = 3
-visible = false
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_top = -0.027
+anchor_right = 1.028
+anchor_bottom = 1.0660001
+offset_top = 0.15999985
+offset_right = 0.23999023
+offset_bottom = -71.28015
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_theme")
@@ -22,6 +24,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 14.0
+offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.002, 0.01, 0.018, 0.88)
@@ -32,6 +36,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 57.0
+offset_bottom = 29.0
 grow_horizontal = 2
 grow_vertical = 2
 

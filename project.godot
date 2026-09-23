@@ -36,6 +36,11 @@ display_server/driver.linuxbsd="wayland"
 
 enabled=PackedStringArray("res://addons/godot_mcp/plugin.cfg")
 
+[global_group]
+
+map_top_left="definir o tamanho do mapa"
+map_bottom_right="Definir o tamanho do mapa"
+
 [input]
 
 move_up={

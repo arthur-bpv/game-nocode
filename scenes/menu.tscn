@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://00xwlk2bik0c"]
+[gd_scene format=3 uid="uid://00xwlk2bik0c"]
 
-[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_script"]
-[ext_resource type="Theme" path="res://assets/ui/netbot_theme.tres" id="2_theme"]
-[ext_resource type="PackedScene" path="res://scenes/ui/ConfirmationModal.tscn" id="3_confirm"]
+[ext_resource type="Script" uid="uid://dcucrg6bjsisf" path="res://scripts/ui/main_menu.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://c15t75c0c1cb7" path="res://assets/ui/netbot_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" uid="uid://cn6h4ogx6b6se" path="res://scenes/ui/ConfirmationModal.tscn" id="3_confirm"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=1505343518]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,7 +14,7 @@ grow_vertical = 2
 theme = ExtResource("2_theme")
 script = ExtResource("1_script")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=831510243]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,7 +23,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.004, 0.012, 0.025, 1)
 
-[node name="GlowTop" type="ColorRect" parent="."]
+[node name="GlowTop" type="ColorRect" parent="." unique_id=2047851959]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -31,7 +31,7 @@ offset_bottom = 8.0
 grow_horizontal = 2
 color = Color(0.02, 0.72, 0.82, 0.7)
 
-[node name="Center" type="CenterContainer" parent="."]
+[node name="Center" type="CenterContainer" parent="." unique_id=813250035]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,76 +39,78 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="Center"]
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=910391332]
 custom_minimum_size = Vector2(1080, 650)
 layout_mode = 2
 
-[node name="Content" type="VBoxContainer" parent="Center/Panel"]
+[node name="Content" type="VBoxContainer" parent="Center/Panel" unique_id=156918503]
 layout_mode = 2
 theme_override_constants/separation = 30
 alignment = 1
 
-[node name="Logo" type="Label" parent="Center/Panel/Content"]
+[node name="Logo" type="Label" parent="Center/Panel/Content" unique_id=306102722]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.95, 1, 1)
 theme_override_font_sizes/font_size = 52
 text = "NETBOT"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="Center/Panel/Content"]
+[node name="Subtitle" type="Label" parent="Center/Panel/Content" unique_id=699819336]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.48, 0.72, 0.76, 1)
 text = "SELECIONE UM MODO DE JOGO"
 horizontal_alignment = 1
 
-[node name="ModeButtons" type="HBoxContainer" parent="Center/Panel/Content"]
+[node name="ModeButtons" type="HBoxContainer" parent="Center/Panel/Content" unique_id=1922917134]
 layout_mode = 2
 theme_override_constants/separation = 36
 alignment = 1
 
-[node name="SingleplayerColumn" type="VBoxContainer" parent="Center/Panel/Content/ModeButtons"]
+[node name="SingleplayerColumn" type="VBoxContainer" parent="Center/Panel/Content/ModeButtons" unique_id=127338576]
 custom_minimum_size = Vector2(430, 0)
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="SingleplayerButton" type="Button" parent="Center/Panel/Content/ModeButtons/SingleplayerColumn"]
+[node name="SingleplayerButton" type="Button" parent="Center/Panel/Content/ModeButtons/SingleplayerColumn" unique_id=1629468583]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 88)
 layout_mode = 2
 text = "SINGLEPLAYER"
 
-[node name="SingleDescription" type="Label" parent="Center/Panel/Content/ModeButtons/SingleplayerColumn"]
+[node name="SingleDescription" type="Label" parent="Center/Panel/Content/ModeButtons/SingleplayerColumn" unique_id=1462326824]
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
-text = "REALIZE TASKS E\nAVALIE SEU DESEMPENHO"
+text = "REALIZE TASKS E
+AVALIE SEU DESEMPENHO"
 horizontal_alignment = 1
 
-[node name="MultiplayerColumn" type="VBoxContainer" parent="Center/Panel/Content/ModeButtons"]
+[node name="MultiplayerColumn" type="VBoxContainer" parent="Center/Panel/Content/ModeButtons" unique_id=131979145]
 custom_minimum_size = Vector2(430, 0)
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="MultiplayerButton" type="Button" parent="Center/Panel/Content/ModeButtons/MultiplayerColumn"]
+[node name="MultiplayerButton" type="Button" parent="Center/Panel/Content/ModeButtons/MultiplayerColumn" unique_id=1632536482]
 custom_minimum_size = Vector2(0, 88)
 layout_mode = 2
 disabled = true
 text = "MULTIPLAYER"
 
-[node name="ComingSoon" type="Label" parent="Center/Panel/Content/ModeButtons/MultiplayerColumn"]
+[node name="ComingSoon" type="Label" parent="Center/Panel/Content/ModeButtons/MultiplayerColumn" unique_id=1624748557]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.62, 0.64, 1)
 theme_override_font_sizes/font_size = 13
 text = "EM BREVE"
 horizontal_alignment = 1
 
-[node name="QuitButton" type="Button" parent="Center/Panel/Content"]
+[node name="QuitButton" type="Button" parent="Center/Panel/Content" unique_id=602865319]
 custom_minimum_size = Vector2(300, 68)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "SAIR"
 
-[node name="ConfirmationModal" parent="." instance=ExtResource("3_confirm")]
+[node name="ConfirmationModal" parent="." unique_id=1155733284 instance=ExtResource("3_confirm")]
 unique_name_in_owner = true
+visible = true
 layout_mode = 1
 
 [connection signal="pressed" from="Center/Panel/Content/ModeButtons/SingleplayerColumn/SingleplayerButton" to="." method="_on_singleplayer_pressed"]

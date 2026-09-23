@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c00sqo8nkpwhy"]
 
-[ext_resource type="Script" path="res://scenes/player/player_controller.gd" id="1_dovo2"]
+[ext_resource type="Script" uid="uid://deg8wyyyf7e6s" path="res://scenes/player/player_controller.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://5pt4bptef1mu" path="res://assets/sprites/Android.png" id="3_lvxji"]
 [ext_resource type="Script" uid="uid://bp8hp30gepic0" path="res://scripts/player_sprite_color.gd" id="4_pscolor"]
 
@@ -39,7 +39,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qek5x")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -47,17 +47,16 @@ animations = [{
 [node name="Node2D" type="Node2D" unique_id=1110645307]
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=759023471 groups=["player"]]
-position = Vector2(73, 27)
+safe_margin = 0.001
 script = ExtResource("1_dovo2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1468866737]
-position = Vector2(-151, 6)
+position = Vector2(0, 6)
 shape = SubResource("CapsuleShape2D_dovo2")
 debug_color = Color(0.112342186, 0.56341755, 0.85672426, 0.41960785)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=331508380]
-position = Vector2(-151, -7)
-scale = Vector2(1.951538, 2.0906985)
+scale = Vector2(1.951538, 2.090698)
 sprite_frames = SubResource("SpriteFrames_5gtgg")
 autoplay = "default"
 frame = 1
@@ -65,5 +64,4 @@ frame_progress = 0.5183028
 script = ExtResource("4_pscolor")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1959451871]
-position = Vector2(-151, 7)
 process_callback = 0
