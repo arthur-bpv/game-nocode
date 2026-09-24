@@ -1,30 +1,12 @@
 # Contexto para próximas sessões Codex
 
-Atualizado em: 2026-09-21
-
-Engine alvo: Godot 4.7.2 stable, renderer GL Compatibility. O Godot MCP Native 1.0.8
-deve ser iniciado em HTTP na porta 9080.
-
-## Estado atual: disciplinas, temas e tasks
-
-A referência oficial agora é `main`, alinhada à `origin/main` em `adc3196` antes desta
-implementação. A arquitetura de estudo, contratos, inventário e próximos passos estão em
-[study-tasks.md](../architecture/study-tasks.md). Leia esse documento antes de mexer em
-mapa, missões ou progresso. A primeira rodada é um único tema: TCP/IP + Modelo OSI (`tcp_ip_modelo_osi`).
-As artes da missão agora são sem texto, com Labels editáveis no Godot; gravação em disco
-ainda não foi implementada.
-A task está em modo TABLET experimental: terminal provisório na sala, E abre, X/ESC/Tab
-fecham. `presentation = 0` no catálogo permite voltar ao modo físico para comparar.
-
-As observações de worktree abaixo são **históricas, de 2026-09-01**, não descrevem o
-estado inicial desta sessão, que estava limpo. A antiga main está preservada em
-`backup/main-before-architecture`; `davi` continua preservada.
+Atualizado em: 2026-09-01
 
 ## Objetivo do projeto nesta frente
 
 O NETBOT está migrando de telas completas desenhadas como PNG para uma UI reutilizável no Godot. PNGs devem ser usados apenas como decoração; textos, botões, sliders, estados e navegação ficam em cenas, controles e scripts do Godot.
 
-A primeira fase implementada cobre menu inicial, loading, pause, configurações de áudio, confirmações e tablet. A reconstrução visual das tasks continua pendente. A filtragem por tema foi acrescentada na etapa de arquitetura de estudo.
+A primeira fase implementada cobre menu inicial, loading, pause, configurações de áudio, confirmações e tablet. A reconstrução visual das tasks e a filtragem delas por temática ainda não fazem parte desta fase.
 
 ## Decisões confirmadas pelo usuário
 
@@ -50,8 +32,6 @@ A primeira fase implementada cobre menu inicial, loading, pause, configurações
 - `scripts/ui/main_menu.gd` + `scenes/menu.tscn`: menu inicial reconstruído com controles reais.
 - `scripts/ui/pause_menu.gd` + `scenes/Pause.tscn`: pause como overlay, com áudio e confirmações.
 - `scenes/world/world_controller.gd`: roteador central de ESC em um nó com `process_mode = ALWAYS`.
-- `scenes/player/player_controller.gd`: movimento top-down do personagem em GDScript.
-- `scenes/tablet/tablet_interaction.gd`: proximidade e abertura do tablet físico em GDScript.
 - `scenes/tablet/tablet_menu.gd` + `TabletMenu.tscn`: tablet separado de configurações globais.
 - `tools/generate_collision_polygons.gd`: ferramenta que converte o mapa anotado em colisões persistidas.
 - `assets/generated/collision_polygons.tres`: três polígonos carregados em runtime.
@@ -82,16 +62,18 @@ O comando regenera `assets/generated/collision_polygons.tres`. O teste atual con
 
 A branch usada é `chore/cleanup-e-classifica-assets`. O worktree já estava sujo antes da evolução da UI. Não restaurar, apagar nem atribuir automaticamente estes arquivos à mudança de UI:
 
-- imagens em `addons/godot_mcp`, `assets/sprites` e `assets/ui/classifica`;
+- imagens em `addons/godot_mcp`, `addons/orchestrator`, `assets/sprites` e `assets/ui/classifica`;
 - alterações de missão em `scenes/missions`;
 - alterações de personagem em `scenes/player/player.tscn`;
+- `scenes/tablet/tablet.torch`;
 - mapa, anotação, colisões e testes de mapa criados na frente anterior;
+- arquivos TMP do Orchestrator.
 
 Preservar especialmente a escala/posição do personagem, a task na sala octagonal e a geometria atual do mapa.
 
 ## Verificação conhecida
 
-Os testes devem terminar sem erro de parser ou assertion. O servidor Godot MCP Native permanece como única extensão de desenvolvimento e não participa da lógica do jogo.
+Os testes imprimem sucesso e não apresentam erro de parser ou assertion. Porém, qualquer script Godot neste projeto — inclusive um smoke test vazio — termina com código 1 no shutdown das extensões carregadas. Sem `--disable-crash-handler`, o Godot 4.6 mostra uma falha nativa ao encerrar, provavelmente relacionada ao ambiente de extensões/Orchestrator. Tratar isso separadamente; não confundir com falha da UI.
 
 As capturas de verificação ficam em `.godot/ui_*.png` e não são artefatos para commit.
 

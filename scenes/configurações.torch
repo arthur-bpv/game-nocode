@@ -1,0 +1,120 @@
+[orchestration type="OScript" load_steps=7 format=3 uid="uid://cxudatady5e74"]
+
+[obj type="OScriptFunction" id="OScriptFunction_alh12"]
+guid = "BDD4D418-7B8B-4BB6-8D78-A4A6776180D3"
+method = {
+"name": &"_on_button_2_pressed"
+}
+id = 13
+
+[obj type="OScriptGraph" id="OScriptGraph_10o0e"]
+graph_name = &"EventGraph"
+flags = 8
+nodes = Array[int]([9, 10, 11, 13])
+functions = Array[int]([13])
+
+[obj type="OScriptNodeCallMemberFunction" id="OScriptNodeCallMemberFunction_5kw20"]
+function_name = &"change_scene_to_file"
+target_class_name = "SceneTree"
+target_type = 24
+flags = 520
+method = {
+"name": &"change_scene_to_file",
+"return": {
+"type": 2,
+"class_name": &"Error",
+"usage": 65542
+},
+"args": [{
+"name": &"path",
+"type": 4
+}]
+}
+chain = false
+id = 9
+size = Vector2(332, 152)
+position = Vector2(300, -80)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecIn",
+"flags": 4
+}, {
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}, {
+"pin_name": &"target",
+"type": 24,
+"flags": 2050,
+"label": "SceneTree",
+"target_class": "SceneTree"
+}, {
+"pin_name": &"path",
+"type": 4,
+"flags": 2,
+"dv": "res://scenes/volume.tscn"
+}, {
+"pin_name": &"return_value",
+"type": 2,
+"dir": 1,
+"flags": 33554434,
+"label": "Error",
+"target_class": "Error",
+"usage": 65542
+}])
+
+[obj type="OScriptNodePropertySet" id="OScriptNodePropertySet_ote3a"]
+mode = 2
+property_name = &"visible"
+node_path = NodePath(".")
+property = {
+"name": &"visible",
+"type": 1,
+"class_name": &"",
+"hint": 0,
+"hint_string": "",
+"usage": 6
+}
+id = 10
+position = Vector2(940, -80)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecIn",
+"flags": 4
+}, {
+"pin_name": &"visible",
+"type": 1,
+"flags": 2,
+"dv": false
+}, {
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}])
+
+[obj type="OScriptNodeSceneTree" id="OScriptNodeSceneTree_l3xsy"]
+id = 11
+position = Vector2(-80, 20)
+pin_data = Array[Dictionary]([{
+"pin_name": &"scene_tree",
+"type": 24,
+"dir": 1,
+"flags": 2,
+"target_class": "SceneTree"
+}])
+
+[obj type="OScriptNodeEvent" id="OScriptNodeEvent_lg454"]
+function_id = "BDD4D418-7B8B-4BB6-8D78-A4A6776180D3"
+id = 13
+position = Vector2(-120, -80)
+pin_data = Array[Dictionary]([{
+"pin_name": &"ExecOut",
+"dir": 1,
+"flags": 4
+}])
+
+[resource]
+base_type = &"Node"
+description = "Base template for Node with default Godot cycle methods."
+functions = Array[OScriptFunction]([SubResource("OScriptFunction_alh12")])
+connections = Array[int]([13, 0, 9, 0, 9, 0, 10, 0, 11, 0, 9, 1])
+nodes = Array[OScriptNode]([SubResource("OScriptNodeCallMemberFunction_5kw20"), SubResource("OScriptNodePropertySet_ote3a"), SubResource("OScriptNodeSceneTree_l3xsy"), SubResource("OScriptNodeEvent_lg454")])
+graphs = Array[OScriptGraph]([SubResource("OScriptGraph_10o0e")])

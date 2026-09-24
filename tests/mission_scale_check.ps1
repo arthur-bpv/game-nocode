@@ -21,14 +21,16 @@ if ($mission_script -notmatch "var width: float = CABINET_WIDTH") {
 
 $world_mission = [regex]::Match(
 	$world_scene,
-	'(?ms)\[node name="CamadasSlot"[^\]]*\](.*?)(?=\r?\n\[node |\z)'
+	'(?ms)\[node name="ConectaCamadas"[^\]]*\](.*?)(?=\r?\n\[node |\z)'
 )
 if (-not $world_mission.Success) {
-	throw "Slot da missão ausente do mundo."
+	throw "Instância ConectaCamadas ausente do mundo."
 }
 foreach ($expected in @(
-	'position = Vector2(1077, -756)',
-	'slot_id = &"armarios_camadas"'
+	"offset_left = 1077.0",
+	"offset_top = -756.0",
+	"offset_right = 1757.0",
+	"offset_bottom = -296.0"
 )) {
 	if ($world_mission.Groups[1].Value -notmatch "(?m)^$([regex]::Escape($expected))$") {
 		throw "A task não está centralizada na sala octagonal direita: falta '$expected'."

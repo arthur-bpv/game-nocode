@@ -35,9 +35,10 @@ Atualizado em: 2026-09-01
 
 ## Qualidade e manutenção
 
-- [x] Migrar o projeto e o Godot MCP Native para Godot 4.7.2.
-- [ ] Investigar separadamente os avisos de recursos ainda em uso no shutdown do Godot 4.6/4.7.2.
+- [ ] Investigar separadamente o crash/código 1 no shutdown do Godot 4.6 com as extensões do projeto.
+- [ ] Revisar os arquivos `.torch` legados e remover somente os que estiverem comprovadamente sem referências.
 - [ ] Separar as mudanças preexistentes de mapa/task das mudanças desta UI em commits coerentes.
+- [ ] Não adicionar os arquivos TMP do Orchestrator ao Git.
 - [ ] Rodar os checks PowerShell, runtimes Godot e render visual antes de cada entrega.
 
 ## Concluído nesta fase
@@ -52,5 +53,3 @@ Atualizado em: 2026-09-01
 - [x] Prioridade correta do ESC.
 - [x] Colisões do mapa pré-geradas.
 - [x] Validação visual em 720p, 1080p e 4K.
-- [x] Toda a lógica de runtime foi consolidada em GDScript textual.
-- [x] Dependência de scripting visual removida do projeto e dos instaladores.

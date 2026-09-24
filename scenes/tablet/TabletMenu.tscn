@@ -1,11 +1,11 @@
-[gd_scene format=3 uid="uid://c8n1qk4v6xr2a"]
+[gd_scene load_steps=4 format=3 uid="uid://c8n1qk4v6xr2a"]
 
-[ext_resource type="Script" uid="uid://b1cpyfvsa105i" path="res://scenes/tablet/tablet_menu.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://bb1tw6h5ojoeu" path="res://assets/sprites/tablet_frame.png" id="2_frame"]
-[ext_resource type="Theme" uid="uid://c15t75c0c1cb7" path="res://assets/ui/netbot_theme.tres" id="3_theme"]
-[ext_resource type="Texture2D" uid="uid://bd44yn2kn3yk" path="res://assets/sprites/Mapa esquemática.png" id="4_73pq8"]
+[ext_resource type="Script" path="res://scenes/tablet/tablet_menu.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tablet_frame.png" id="2_frame"]
+[ext_resource type="Theme" path="res://assets/ui/netbot_theme.tres" id="3_theme"]
 
-[node name="TabletMenu" type="Control" unique_id=1207313517]
+[node name="TabletMenu" type="Control"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,7 +15,7 @@ grow_vertical = 2
 theme = ExtResource("3_theme")
 script = ExtResource("1_script")
 
-[node name="Backdrop" type="ColorRect" parent="." unique_id=15170390]
+[node name="Backdrop" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,7 +24,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.002, 0.008, 0.015, 0.92)
 
-[node name="Frame" type="TextureRect" parent="." unique_id=389415843]
+[node name="Frame" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,82 +36,72 @@ texture = ExtResource("2_frame")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ScreenCenter" type="CenterContainer" parent="." unique_id=2008494816]
+[node name="ScreenCenter" type="CenterContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.28
-anchor_top = 0.212
-anchor_right = 0.731
-anchor_bottom = 0.761
-offset_top = -25.97998
-offset_right = -14.800049
-offset_bottom = 25.97998
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Screen" type="PanelContainer" parent="ScreenCenter" unique_id=730695445]
-custom_minimum_size = Vector2(830, 590)
-clip_contents = true
+[node name="Screen" type="PanelContainer" parent="ScreenCenter"]
+custom_minimum_size = Vector2(830, 615)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 
-[node name="Content" type="VBoxContainer" parent="ScreenCenter/Screen" unique_id=1649958382]
+[node name="Content" type="VBoxContainer" parent="ScreenCenter/Screen"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 theme_override_constants/separation = 18
 
-[node name="Header" type="HBoxContainer" parent="ScreenCenter/Screen/Content" unique_id=2053916988]
+[node name="Header" type="HBoxContainer" parent="ScreenCenter/Screen/Content"]
 layout_mode = 2
 
-[node name="AppTitle" type="Label" parent="ScreenCenter/Screen/Content/Header" unique_id=2091470738]
+[node name="AppTitle" type="Label" parent="ScreenCenter/Screen/Content/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.2, 0.95, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "TABLET NETBOT"
 
-[node name="CloseButton" type="Button" parent="ScreenCenter/Screen/Content/Header" unique_id=281717600]
+[node name="CloseButton" type="Button" parent="ScreenCenter/Screen/Content/Header"]
 custom_minimum_size = Vector2(64, 54)
 layout_mode = 2
 text = "X"
 
-[node name="Body" type="HBoxContainer" parent="ScreenCenter/Screen/Content" unique_id=1891003241]
+[node name="Body" type="HBoxContainer" parent="ScreenCenter/Screen/Content"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 24
 
-[node name="Navigation" type="VBoxContainer" parent="ScreenCenter/Screen/Content/Body" unique_id=888310522]
+[node name="Navigation" type="VBoxContainer" parent="ScreenCenter/Screen/Content/Body"]
 custom_minimum_size = Vector2(260, 0)
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="MapButton" type="Button" parent="ScreenCenter/Screen/Content/Body/Navigation" unique_id=1762586898]
+[node name="MapButton" type="Button" parent="ScreenCenter/Screen/Content/Body/Navigation"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 text = "MAPA"
 
-[node name="MissionsButton" type="Button" parent="ScreenCenter/Screen/Content/Body/Navigation" unique_id=2127130214]
+[node name="MissionsButton" type="Button" parent="ScreenCenter/Screen/Content/Body/Navigation"]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 text = "MISSÕES"
 
-[node name="TutorialButton" type="Button" parent="ScreenCenter/Screen/Content/Body/Navigation" unique_id=973806073]
+[node name="TutorialButton" type="Button" parent="ScreenCenter/Screen/Content/Body/Navigation"]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 text = "TUTORIAL"
 
-[node name="Section" type="PanelContainer" parent="ScreenCenter/Screen/Content/Body" unique_id=1071636677]
+[node name="Section" type="PanelContainer" parent="ScreenCenter/Screen/Content/Body"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SectionContent" type="VBoxContainer" parent="ScreenCenter/Screen/Content/Body/Section" unique_id=280126961]
+[node name="SectionContent" type="VBoxContainer" parent="ScreenCenter/Screen/Content/Body/Section"]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="SectionTitle" type="Label" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent" unique_id=483640138]
+[node name="SectionTitle" type="Label" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.95, 1, 1)
@@ -119,35 +109,14 @@ theme_override_font_sizes/font_size = 24
 text = "MAPA"
 horizontal_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent" unique_id=1712576936]
-custom_minimum_size = Vector2(200, 260)
-layout_mode = 2
-size_flags_vertical = 3
-texture = ExtResource("4_73pq8")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="PlayerMarker" type="ColorRect" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/TextureRect" unique_id=2017546169]
-custom_minimum_size = Vector2(12, 12)
-layout_mode = 0
-offset_right = 6.0
-offset_bottom = 6.0
-mouse_filter = 2
-color = Color(1, 0.05490196, 0.15294118, 1)
-
-[node name="StatusLabel" type="Label" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent" unique_id=1975784377]
+[node name="StatusLabel" type="Label" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Mapa do ambiente disponível em breve."
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
-
-[node name="MissionHost" type="Control" parent="ScreenCenter/Screen/Content" unique_id=1837278022]
-visible = false
-custom_minimum_size = Vector2(680, 460)
-layout_mode = 2
-size_flags_horizontal = 4
-mouse_filter = 2
 
 [connection signal="pressed" from="ScreenCenter/Screen/Content/Header/CloseButton" to="." method="close_ui"]
 [connection signal="pressed" from="ScreenCenter/Screen/Content/Body/Navigation/MapButton" to="." method="_on_map_pressed"]

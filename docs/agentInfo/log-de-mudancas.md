@@ -1,16 +1,6 @@
 # Log de mudanças
 
-Atualizado em: 2026-09-21
-
-## Migração para Godot 4.7.2
-
-- Atualizado o marcador de compatibilidade do projeto de Godot 4.6 para 4.7.
-- Mantidos o renderer GL Compatibility e o comportamento 16:9, confirmado como `canvas_items`/`keep`.
-- Corrigidos os UIDs dos scripts do mundo para eliminar fallbacks por caminho textual.
-- Godot MCP Native 1.0.8 validado no editor 4.7.2 e mantido na porta HTTP 9080.
-- Fallback de logs do MCP passou a derivar o nome do arquivo da versão da engine.
-- Eliminada a tentativa redundante de reconfigurar a porta do MCP durante o startup.
-- Templates oficiais de exportação do Godot 4.7.2 instalados no ambiente local.
+Atualizado em: 2026-09-01
 
 ## UI e identidade visual
 
@@ -33,7 +23,7 @@ Atualizado em: 2026-09-21
 - Adicionadas ações Continuar, Configurações, Voltar ao menu e Sair do jogo.
 - Adicionadas confirmações para voltar ao menu e encerrar o jogo.
 - Criado roteador central de ESC com prioridade para tablet, confirmação, áudio e pause.
-- A cena ativa do mundo passou a usar `world_controller.gd` para o ESC.
+- A cena ativa do mundo deixou de depender de `world.torch` para o ESC.
 
 ## Áudio
 

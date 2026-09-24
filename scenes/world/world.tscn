@@ -1,23 +1,18 @@
 [gd_scene format=3 uid="uid://cakdj5yuucwpf"]
 
+[ext_resource type="Script" uid="uid://coqyhh8636itn" path="res://scenes/world/world.gd" id="1_gb53w"]
 [ext_resource type="Script" uid="uid://dyqmb5s0d3r75" path="res://scripts/systems/game_manager.gd" id="1_gm"]
-[ext_resource type="Script" uid="uid://i4t7frea2x7j" path="res://scenes/world/world_controller.gd" id="1_t5ptc"]
+[ext_resource type="Script" uid="uid://deg4l42l8uwnb" path="res://scenes/world/world_controller.gd" id="1_t5ptc"]
 [ext_resource type="PackedScene" uid="uid://c00sqo8nkpwhy" path="res://scenes/player/player.tscn" id="3_1fp7r"]
 [ext_resource type="PackedScene" uid="uid://bsa43g68bptth" path="res://scenes/tablet/Tablet.tscn" id="3_6m72w"]
 [ext_resource type="PackedScene" uid="uid://c8n1qk4v6xr2a" path="res://scenes/tablet/TabletMenu.tscn" id="4_v5dby"]
 [ext_resource type="PackedScene" uid="uid://cgrmoyqphkdh7" path="res://scenes/Pause.tscn" id="7_bq33v"]
 [ext_resource type="Texture2D" uid="uid://b7x20skd2oqqf" path="res://assets/sprites/Mapa.png" id="8_j2gmx"]
-[ext_resource type="Script" uid="uid://dc1t7p5v162fj" path="res://scripts/study/map_task_slot.gd" id="9_conecta"]
-[ext_resource type="Script" uid="uid://degalgnqi18dd" path="res://scenes/world/world_walls.gd" id="10_walls"]
-[ext_resource type="AudioStream" uid="uid://2yodc0wvr8dy" path="res://assets/audio/jogao.mp3" id="11_5qq27"]
+[ext_resource type="PackedScene" uid="uid://xpoko1aro44y" path="res://scenes/missions/conecta_camadas.tscn" id="9_conecta"]
+[ext_resource type="Script" uid="uid://unmfxm2dx6h7" path="res://scenes/world/world_walls.gd" id="10_walls"]
 
 [node name="World" type="Node2D" unique_id=60291279]
-
-[node name="MapTopLeft" type="Marker2D" parent="." unique_id=2005635001 groups=["map_top_left"]]
-position = Vector2(-1952, -1143)
-
-[node name="MapBottomRight" type="Marker2D" parent="." unique_id=1288436322 groups=["map_bottom_right"]]
-position = Vector2(1951, 1142)
+script = ExtResource("1_gb53w")
 
 [node name="GameManager" type="Node" parent="." unique_id=69623499]
 script = ExtResource("1_gm")
@@ -30,16 +25,17 @@ position = Vector2(-140, 27)
 
 [node name="player" parent="Entities" unique_id=1110645307 instance=ExtResource("3_1fp7r")]
 top_level = true
-position = Vector2(1, -500)
+position = Vector2(62, -560)
 
-[node name="CamadasSlot" type="Node2D" parent="Entities" unique_id=1340634250]
-position = Vector2(1077, -756)
-script = ExtResource("9_conecta")
-slot_id = &"armarios_camadas"
+[node name="ConectaCamadas" parent="Entities" unique_id=100002 instance=ExtResource("9_conecta")]
+offset_left = 1077.0
+offset_top = -756.0
+offset_right = 1757.0
+offset_bottom = -296.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=301927456]
 
-[node name="UiController" type="Node" parent="CanvasLayer" unique_id=1392685600]
+[node name="UiController" type="Node" parent="CanvasLayer" unique_id=499601950]
 process_mode = 3
 script = ExtResource("1_t5ptc")
 
@@ -59,10 +55,6 @@ texture = ExtResource("8_j2gmx")
 [node name="WorldWalls" type="StaticBody2D" parent="MapSprite" unique_id=669745666]
 script = ExtResource("10_walls")
 
-[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="." unique_id=678645974]
-stream = ExtResource("11_5qq27")
-autoplay = true
-bus = &"Music"
-parameters/looping = true
+[node name="LightningEffect" type="CanvasModulate" parent="." unique_id=224936697]
 
 [editable path="CanvasLayer/Pause"]
