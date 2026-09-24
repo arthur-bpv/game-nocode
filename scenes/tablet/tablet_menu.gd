@@ -13,6 +13,7 @@ const MISSION_STATE_COLORS := {
 	&"completed": Color("61e294"),
 	&"unavailable": Color("59676c"),
 }
+const MAP_MARKER_OFFSET := Vector2(0.00, 0.00)
 
 var _active_mission: Control
 
@@ -49,7 +50,10 @@ func _process(_delta: float) -> void:
 		player.global_position - world_map_bounds.position
 	) / world_map_bounds.size
 
-	normalized_position = normalized_position.clamp(Vector2.ZERO, Vector2.ONE)
+	normalized_position = (normalized_position + MAP_MARKER_OFFSET).clamp(
+		Vector2.ZERO,
+		Vector2.ONE
+	)
 
 	# Área ocupada de verdade pela imagem dentro do TextureRect.
 	var texture_size := map_rect.texture.get_size()
