@@ -1,10 +1,29 @@
 extends Control
 class_name GameplayTablet
 
+const MISSION_STATE_LABELS := {
+	&"available": "DISPONÍVEL",
+	&"locked": "BLOQUEADA",
+	&"completed": "CONCLUÍDA",
+	&"unavailable": "EM BREVE",
+}
+const MISSION_STATE_COLORS := {
+	&"available": Color("36e4ef"),
+	&"locked": Color("87989e"),
+	&"completed": Color("61e294"),
+	&"unavailable": Color("59676c"),
+}
+
 var _active_mission: Control
 
 @onready var map_button: Button = %MapButton
 @onready var status_label: Label = %StatusLabel
+@onready var missions_view: VBoxContainer = %MissionsView
+@onready var mission_list: VBoxContainer = %MissionList
+@onready var topic_title: Label = %TopicTitle
+@onready var progress_label: Label = %ProgressLabel
+@onready var progress_count: Label = %ProgressCount
+@onready var mission_progress: ProgressBar = %MissionProgress
 @onready var map_rect: TextureRect = $ScreenCenter/Screen/Content/Body/Section/SectionContent/TextureRect
 @onready var player_marker: ColorRect = $ScreenCenter/Screen/Content/Body/Section/SectionContent/TextureRect/PlayerMarker
 @onready var player: Node2D = get_tree().get_first_node_in_group("player") as Node2D
@@ -86,22 +105,27 @@ func _set_player_movement(enabled: bool) -> void:
 		node.set_physics_process(enabled)
 
 func _on_map_pressed() -> void:
-	map_rect.visible = true
-	_show_section("MAPA", "Mapa do ambiente disponível em breve.")
+	_show_section("MAPA", "Mapa do ambiente disponível em breve.", true)
 
 func _on_missions_pressed() -> void:
+	%SectionTitle.text = "MISSÕES"
 	map_rect.visible = false
+	status_label.visible = false
+	missions_view.visible = true
 	_refresh_missions(true)
 
 func _on_tutorial_pressed() -> void:
-	map_rect.visible = false
 	_show_section(
 		"TUTORIAL",
-		"Tutoriais do ambiente disponíveis em breve."
+		"Tutoriais do ambiente disponíveis em breve.",
+		false
 	)
 
-func _show_section(title: String, message: String) -> void:
+func _show_section(title: String, message: String, show_map: bool = false) -> void:
 	%SectionTitle.text = title
+	missions_view.visible = false
+	map_rect.visible = show_map
+	status_label.visible = true
 	status_label.text = message
 
 
@@ -109,11 +133,126 @@ func _refresh_missions(force: bool = false) -> void:
 	if not force and %SectionTitle.text != "MISSÕES":
 		return
 	var topic := StudySession.current_topic()
-	var lines := PackedStringArray([topic.title])
-	var labels := {&"available": "Disponível", &"locked": "Bloqueada", &"completed": "Concluída", &"unavailable": "Em breve"}
-	for task in topic.tasks:
-		lines.append("%s — %s" % [task.title, labels[StudySession.task_state(task.id)]])
-	_show_section("MISSÕES", "\n\n".join(lines))
+	topic_title.text = topic.title
+	_clear_mission_list()
+
+	var completed := 0
+	for index in topic.tasks.size():
+		var task = topic.tasks[index]
+		var state := StudySession.task_state(task.id)
+		if state == &"completed":
+			completed += 1
+		mission_list.add_child(_build_mission_card(task, index, state))
+
+	var total := topic.tasks.size()
+	if total == 0:
+		var empty_label := Label.new()
+		empty_label.text = "NENHUMA ATIVIDADE NESTE TEMA"
+		empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		empty_label.add_theme_color_override("font_color", Color("87989e"))
+		empty_label.add_theme_font_size_override("font_size", 10)
+		mission_list.add_child(empty_label)
+
+	mission_progress.max_value = maxi(total, 1)
+	mission_progress.value = completed
+	progress_count.text = "%d / %d" % [completed, total]
+	var topic_completed := total > 0 and completed == total
+	progress_label.text = "TEMA CONCLUÍDO" if topic_completed else "PROGRESSO DO TEMA"
+	progress_label.add_theme_color_override(
+		"font_color",
+		Color("61e294") if topic_completed else Color("94c7cc")
+	)
+	mission_progress.add_theme_stylebox_override(
+		"fill",
+		_make_progress_style(Color("61e294") if topic_completed else Color("14d1de"))
+	)
+
+
+func _clear_mission_list() -> void:
+	for child in mission_list.get_children():
+		mission_list.remove_child(child)
+		child.queue_free()
+
+
+func _build_mission_card(task: StudyTask, index: int, state: StringName) -> PanelContainer:
+	var color: Color = MISSION_STATE_COLORS.get(state, Color("87989e"))
+	var card := PanelContainer.new()
+	card.name = "Mission_%s" % task.id
+	card.custom_minimum_size = Vector2(0, 68)
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card.set_meta("task_id", task.id)
+	card.set_meta("state", state)
+	card.add_theme_stylebox_override("panel", _make_card_style(color, state))
+
+	var content := HBoxContainer.new()
+	content.name = "Content"
+	content.add_theme_constant_override("separation", 12)
+	card.add_child(content)
+
+	var number := Label.new()
+	number.name = "Index"
+	number.custom_minimum_size = Vector2(38, 0)
+	number.text = "%02d" % (index + 1)
+	number.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	number.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	number.add_theme_color_override("font_color", color)
+	number.add_theme_font_size_override("font_size", 14)
+	content.add_child(number)
+
+	var details := VBoxContainer.new()
+	details.name = "Details"
+	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	details.alignment = BoxContainer.ALIGNMENT_CENTER
+	details.add_theme_constant_override("separation", 5)
+	content.add_child(details)
+
+	var title := Label.new()
+	title.name = "Title"
+	title.text = task.title
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.add_theme_color_override("font_color", Color("e8fcff") if state != &"unavailable" else Color("829196"))
+	title.add_theme_font_size_override("font_size", 12)
+	details.add_child(title)
+
+	var state_label := Label.new()
+	state_label.name = "State"
+	state_label.text = MISSION_STATE_LABELS.get(state, "INDISPONÍVEL")
+	state_label.add_theme_color_override("font_color", color)
+	state_label.add_theme_font_size_override("font_size", 9)
+	details.add_child(state_label)
+
+	return card
+
+
+func _make_card_style(color: Color, state: StringName) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.content_margin_left = 10.0
+	style.content_margin_top = 8.0
+	style.content_margin_right = 10.0
+	style.content_margin_bottom = 8.0
+	style.bg_color = Color("08161a")
+	style.bg_color = style.bg_color.lerp(color, 0.08 if state != &"completed" else 0.12)
+	style.border_width_left = 4
+	style.border_width_top = 1
+	style.border_width_right = 1
+	style.border_width_bottom = 1
+	style.border_color = Color(color, 0.62)
+	style.corner_radius_top_left = 7
+	style.corner_radius_top_right = 7
+	style.corner_radius_bottom_right = 7
+	style.corner_radius_bottom_left = 7
+	return style
+
+
+func _make_progress_style(color: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	style.corner_radius_top_left = 5
+	style.corner_radius_top_right = 5
+	style.corner_radius_bottom_right = 5
+	style.corner_radius_bottom_left = 5
+	return style
 
 
 func open_mission(mission: Control) -> void:

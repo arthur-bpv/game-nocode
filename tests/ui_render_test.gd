@@ -42,6 +42,13 @@ func _render() -> void:
 	await process_frame
 	await process_frame
 	assert(root.get_texture().get_image().save_png("res://.godot/ui_tablet_1920x1080.png") == OK)
+	var session := root.get_node("StudySession")
+	for task in session.current_topic().tasks:
+		session.complete(task.id)
+	tablet._on_missions_pressed()
+	await process_frame
+	await process_frame
+	assert(root.get_texture().get_image().save_png("res://.godot/ui_tablet_missions_1920x1080.png") == OK)
 	tablet.close_ui()
 	tablet.queue_free()
 	await process_frame

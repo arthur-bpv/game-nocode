@@ -1,9 +1,28 @@
-[gd_scene format=3 uid="uid://c8n1qk4v6xr2a"]
+[gd_scene load_steps=7 format=3 uid="uid://c8n1qk4v6xr2a"]
 
 [ext_resource type="Script" uid="uid://b1cpyfvsa105i" path="res://scenes/tablet/tablet_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bb1tw6h5ojoeu" path="res://assets/sprites/tablet_frame.png" id="2_frame"]
 [ext_resource type="Theme" uid="uid://c15t75c0c1cb7" path="res://assets/ui/netbot_theme.tres" id="3_theme"]
 [ext_resource type="Texture2D" uid="uid://bd44yn2kn3yk" path="res://assets/sprites/Mapa esquemática.png" id="4_73pq8"]
+
+[sub_resource type="StyleBoxFlat" id="ProgressTrack"]
+bg_color = Color(0.035, 0.105, 0.125, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.12, 0.34, 0.38, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="ProgressFill"]
+bg_color = Color(0.08, 0.82, 0.87, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="TabletMenu" type="Control" unique_id=1207313517]
 layout_mode = 3
@@ -118,6 +137,86 @@ theme_override_colors/font_color = Color(0.2, 0.95, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "MAPA"
 horizontal_alignment = 1
+
+[node name="MissionsView" type="VBoxContainer" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="TrackHeader" type="VBoxContainer" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/MissionsView"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="TrackEyebrow" type="Label" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/MissionsView/TrackHeader"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.34, 0.72, 0.76, 1)
+theme_override_font_sizes/font_size = 10
+text = "TRILHA ATUAL"
+
+[node name="TopicTitle" type="Label" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/MissionsView/TrackHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "TCP/IP + Modelo OSI"
+autowrap_mode = 2
+
+[node name="TopicHint" type="Label" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/MissionsView/TrackHeader"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.52, 0.68, 0.71, 1)
+theme_override_font_sizes/font_size = 9
+text = "Explore o ambiente para concluir as atividades."
+autowrap_mode = 2
+
+[node name="MissionScroll" type="ScrollContainer" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/MissionsView"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="MissionList" type="VBoxContainer" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/MissionsView/MissionScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="ProgressFooter" type="VBoxContainer" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/MissionsView"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Divider" type="ColorRect" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/MissionsView/ProgressFooter"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.08, 0.47, 0.52, 0.65)
+
+[node name="ProgressMeta" type="HBoxContainer" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/MissionsView/ProgressFooter"]
+layout_mode = 2
+
+[node name="ProgressLabel" type="Label" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/MissionsView/ProgressFooter/ProgressMeta"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.58, 0.78, 0.8, 1)
+theme_override_font_sizes/font_size = 10
+text = "PROGRESSO DO TEMA"
+
+[node name="ProgressCount" type="Label" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/MissionsView/ProgressFooter/ProgressMeta"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.9, 0.94, 1)
+theme_override_font_sizes/font_size = 10
+text = "0 / 0"
+
+[node name="MissionProgress" type="ProgressBar" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/MissionsView/ProgressFooter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("ProgressTrack")
+theme_override_styles/fill = SubResource("ProgressFill")
+show_percentage = false
 
 [node name="TextureRect" type="TextureRect" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent" unique_id=1712576936]
 custom_minimum_size = Vector2(200, 260)
