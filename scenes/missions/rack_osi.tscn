@@ -1,0 +1,148 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scenes/missions/rack_osi.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://d33a0acfgwiop" path="res://assets/sprites/rackosi.png" id="2_sprites"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rack"]
+atlas = ExtResource("2_sprites")
+region = Rect2(388, 470, 225, 421)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aplicacao"]
+atlas = ExtResource("2_sprites")
+region = Rect2(1063, 187, 147, 129)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_apresentacao"]
+atlas = ExtResource("2_sprites")
+region = Rect2(1038, 498, 153, 132)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sessao"]
+atlas = ExtResource("2_sprites")
+region = Rect2(716, 812, 150, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_transporte"]
+atlas = ExtResource("2_sprites")
+region = Rect2(822, 370, 152, 135)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rede"]
+atlas = ExtResource("2_sprites")
+region = Rect2(1133, 0, 151, 126)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enlace"]
+atlas = ExtResource("2_sprites")
+region = Rect2(878, 640, 152, 130)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fisica"]
+atlas = ExtResource("2_sprites")
+region = Rect2(1132, 812, 152, 128)
+
+[node name="RackOsi" type="Control"]
+texture_filter = 1
+custom_minimum_size = Vector2(680, 460)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 680.0
+offset_bottom = 460.0
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="StatusLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 660.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0.972549, 0.98039216, 0.9882353, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "Arraste as camadas para as baias corretas do rack OSI."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Rack" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 445.0
+offset_top = 52.0
+offset_right = 637.0
+offset_bottom = 412.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_rack")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Aplicacao" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 60.0
+offset_right = 129.0
+offset_bottom = 150.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_aplicacao")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Apresentacao" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 145.0
+offset_top = 60.0
+offset_right = 249.0
+offset_bottom = 150.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_apresentacao")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Sessao" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 265.0
+offset_top = 60.0
+offset_right = 369.0
+offset_bottom = 150.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_sessao")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Transporte" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 175.0
+offset_right = 129.0
+offset_bottom = 265.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_transporte")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Rede" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 145.0
+offset_top = 175.0
+offset_right = 249.0
+offset_bottom = 265.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_rede")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Enlace" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 265.0
+offset_top = 175.0
+offset_right = 369.0
+offset_bottom = 265.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_enlace")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Fisica" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 145.0
+offset_top = 290.0
+offset_right = 249.0
+offset_bottom = 380.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_fisica")
+expand_mode = 1
+stretch_mode = 0

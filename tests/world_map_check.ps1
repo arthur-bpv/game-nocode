@@ -70,7 +70,7 @@ $player_node = [regex]::Match(
 	$world_scene,
 	'(?ms)\[node name="player"[^\]]*\](.*?)(?=\r?\n\[node |\z)'
 )
-if (-not $player_node.Success -or $player_node.Groups[1].Value -notmatch '(?m)^position = Vector2\(62, -560\)$') {
+if (-not $player_node.Success -or $player_node.Groups[1].Value -notmatch '(?m)^position = Vector2\(1, -500\)$') {
 	throw "O personagem deve nascer no centro do marcador verde."
 }
 

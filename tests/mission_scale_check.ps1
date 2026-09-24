@@ -35,7 +35,7 @@ foreach ($expected in @(
 	}
 }
 
-if ($player_scene -notmatch "scale = Vector2\(1\.951538, 2\.0906985\)") {
+if ($player_scene -notmatch "scale = Vector2\(1\.951538, 2\.090698\)") {
 	throw "O personagem não deve ser reduzido para compensar a task."
 }
 

@@ -9,7 +9,13 @@ func _run() -> void:
 	assert(catalog.validate().is_empty())
 	var progress = load("res://scripts/study/task_progress.gd").new()
 	var topic = catalog.disciplines[0].topics[0].duplicate(true)
-	var second = topic.tasks[0].duplicate(true)
+	# O catálogo real possui missões paralelas; este bloco testa explicitamente
+	# a regra sequencial com definições isoladas para não depender dessa escolha.
+	topic.sequential = true
+	var first = topic.tasks[0].duplicate(true)
+	topic.tasks.clear()
+	topic.tasks.append(first)
+	var second = first.duplicate(true)
 	second.id = &"second"
 	topic.tasks.append(second)
 	assert(progress.state(&"redes", topic, topic.tasks[0].id) == &"available")

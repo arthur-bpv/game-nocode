@@ -37,6 +37,11 @@ position = Vector2(1077, -756)
 script = ExtResource("9_conecta")
 slot_id = &"armarios_camadas"
 
+[node name="RackOsiSlot" type="Node2D" parent="Entities"]
+position = Vector2(-190, 233)
+script = ExtResource("9_conecta")
+slot_id = &"rack_osi_slot"
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=301927456]
 
 [node name="UiController" type="Node" parent="CanvasLayer" unique_id=1392685600]
