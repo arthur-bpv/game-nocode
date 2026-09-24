@@ -37,10 +37,15 @@ position = Vector2(1077, -756)
 script = ExtResource("9_conecta")
 slot_id = &"armarios_camadas"
 
-[node name="RackOsiSlot" type="Node2D" parent="Entities" unique_id=818551639]
-position = Vector2(-420, 180)
+[node name="RackOsiSlot" type="Node2D" parent="Entities" unique_id=816793204]
+position = Vector2(-190, 233)
 script = ExtResource("9_conecta")
 slot_id = &"rack_osi_slot"
+
+[node name="SinaisOsiSlot" type="Node2D" parent="Entities" unique_id=117056044]
+position = Vector2(-1770, 620)
+script = ExtResource("9_conecta")
+slot_id = "sinais_osi"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=301927456]
 
@@ -49,8 +54,10 @@ process_mode = 3
 script = ExtResource("1_t5ptc")
 
 [node name="TabletUi" parent="CanvasLayer" unique_id=1792993717 instance=ExtResource("4_v5dby")]
+visible = false
 
 [node name="Pause" parent="CanvasLayer" unique_id=96168996 instance=ExtResource("7_bq33v")]
+visible = false
 offset_left = -27.0
 offset_top = 9.0
 offset_right = -27.0
