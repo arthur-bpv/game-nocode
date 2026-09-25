@@ -6,7 +6,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dovo2"]
 radius = 32.0
-height = 122.0
+height = 78.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p47bc"]
 atlas = ExtResource("3_lvxji")
@@ -51,7 +51,7 @@ safe_margin = 0.001
 script = ExtResource("1_dovo2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1468866737]
-position = Vector2(0, 6)
+position = Vector2(0, 26)
 shape = SubResource("CapsuleShape2D_dovo2")
 debug_color = Color(0.112342186, 0.56341755, 0.85672426, 0.41960785)
 
