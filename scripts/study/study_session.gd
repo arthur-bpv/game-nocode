@@ -8,6 +8,7 @@ var discipline_id: StringName = &"redes"
 var topic_id: StringName = &"tcp_ip_modelo_osi"
 
 func _ready() -> void:
+	_register_signal_task()
 	for error in catalog.validate():
 		push_error(error)
 
@@ -39,3 +40,16 @@ func restore_progress(data: Dictionary) -> bool:
 		return false
 	progress_changed.emit()
 	return true
+
+func _register_signal_task() -> void:
+	var topic := catalog.find_discipline(&"redes").find_topic(&"tcp_ip_modelo_osi")
+	for task in topic.tasks:
+		if task.id == &"sinais_osi":
+			return
+	var task := StudyTask.new()
+	task.id = &"sinais_osi"
+	task.title = "Decodificador de Camadas OSI"
+	task.map_slot = &"sinais_osi"
+	task.mission_scene = "res://scenes/missions/sinais_osi.tscn"
+	task.presentation = StudyTask.Presentation.MAP
+	topic.tasks.push_front(task)
