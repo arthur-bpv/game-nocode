@@ -309,3 +309,20 @@ terminar. Essa interface também poderá receber dicas sem mudar a cena do mundo
 O rack e os botões OSI usam esse diálogo; seus labels antigos ficam ocultos e
 continuam guardando o estado textual. Na atividade de fios do tablet, acerto e erro
 aparecem em uma faixa curta no topo da própria atividade.
+
+## Protocolos do decodificador — 2026-09-28
+
+O monitor do decodificador sorteia os 14 itens da referência visual. Os nomes são
+desenhados em caixa alta com Press Start 2P, sobre o sprite do monitor; `PPP` também
+mostra `POINT-TO-POINT` em uma segunda linha. O tamanho do monitor foi ampliado sem
+cobrir os botões. Cada item pede a camada OSI indicada abaixo:
+
+| Camada | Itens |
+| --- | --- |
+| Física | FIBRA ÓPTICA, USB |
+| Enlace | ETHERNET, PPP (POINT-TO-POINT) |
+| Rede | IPV4, IPV6 |
+| Transporte | TCP, UDP |
+| Sessão | RPC, NETBIOS |
+| Apresentação | SSL, TLS |
+| Aplicação | HTTPS, DHCP |

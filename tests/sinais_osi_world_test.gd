@@ -16,7 +16,7 @@ func _run() -> void:
 	player.global_position = slot.global_position + button.position + button.size * 0.5
 	mission._process(0.0)
 	assert(mission.nearby_layer == "Aplicacao")
-	mission.prompt_order = [{"text": "HTTP e navegadores", "answer": "Aplicacao"}]
+	mission.prompt_order = [{"text": "HTTPS", "answer": "Aplicacao"}]
 	mission.prompt_index = 0
 	mission._show_prompt()
 	var interact := InputEventAction.new()

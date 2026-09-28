@@ -5,6 +5,7 @@ signal mentor_message(message: String, duration: float)
 signal mentor_context(message: String)
 
 const BUTTON_ATLAS_PATH := "res://assets/sprites/Handshake.png"
+const PROJECT_FONT_PATH := "res://assets/fonts/press_start_2p/PressStart2P-Regular.ttf"
 const COMPUTER_ON_REGION := Rect2(114, 130, 168, 147)
 const COMPUTER_OFF_REGION := Rect2(117, 133, 162, 141)
 const BUTTON_NORMAL_REGIONS := {
@@ -28,17 +29,26 @@ const BUTTON_ERROR_REGIONS := {
 }
 
 const PROMPTS := [
-	{"text": "HTTP e navegadores", "answer": "Aplicacao"},
-	{"text": "Criptografia e formatos", "answer": "Apresentacao"},
-	{"text": "Portas e comunicacao fim a fim", "answer": "Transporte"},
-	{"text": "Enderecamento IP", "answer": "Rede"},
-	{"text": "Quadros e enderecos MAC", "answer": "Enlace"},
-	{"text": "Sinais, cabos e conectores", "answer": "Fisica"},
-	{"text": "Controle de dialogo", "answer": "Sessao"},
+	{"text": "FIBRA ÓPTICA", "answer": "Fisica"},
+	{"text": "USB", "answer": "Fisica"},
+	{"text": "ETHERNET", "answer": "Enlace"},
+	{"text": "PPP", "subtitle": "POINT-TO-POINT", "answer": "Enlace"},
+	{"text": "IPV4", "answer": "Rede"},
+	{"text": "IPV6", "answer": "Rede"},
+	{"text": "TCP", "answer": "Transporte"},
+	{"text": "UDP", "answer": "Transporte"},
+	{"text": "RPC", "answer": "Sessao"},
+	{"text": "NETBIOS", "answer": "Sessao"},
+	{"text": "SSL", "answer": "Apresentacao"},
+	{"text": "TLS", "answer": "Apresentacao"},
+	{"text": "HTTPS", "answer": "Aplicacao"},
+	{"text": "DHCP", "answer": "Aplicacao"},
 ]
 
 var buttons: Dictionary = {}
 var prompt_label: Label
+var prompt_subtitle: Label
+var protocol_header: Label
 var feedback: Label
 var monitor: TextureRect
 var monitor_screen: ColorRect
@@ -72,7 +82,7 @@ func _layout_position(node_name: String) -> Vector2:
 	return marker.position if marker != null else Vector2.ZERO
 
 func mentor_intro() -> String:
-	return "Leia a pista no monitor. Passe sobre um botão e pressione [E] para escolher a camada OSI."
+	return "Leia o protocolo no monitor. Passe sobre um botão e pressione [E] para escolher a camada OSI."
 
 func _build() -> void:
 	_build_computer()
@@ -97,29 +107,55 @@ func _build_computer() -> void:
 	monitor = TextureRect.new()
 	monitor.texture = _computer_atlas()
 	monitor.position = _layout_position("Monitor")
-	monitor.size = Vector2(100, 87)
+	monitor.size = Vector2(180, 155)
 	monitor.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	monitor.stretch_mode = TextureRect.STRETCH_SCALE
 	monitor.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	monitor.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(monitor)
+	var project_font := load(PROJECT_FONT_PATH) as Font
+	protocol_header = Label.new()
+	protocol_header.position = Vector2(0, -30)
+	protocol_header.size = Vector2(180, 24)
+	protocol_header.text = "PROTOCOLOS"
+	protocol_header.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	protocol_header.add_theme_font_override("font", project_font)
+	protocol_header.add_theme_font_size_override("font_size", 11)
+	protocol_header.add_theme_color_override("font_color", Color.WHITE)
+	protocol_header.add_theme_color_override("font_outline_color", Color.BLACK)
+	protocol_header.add_theme_constant_override("outline_size", 3)
+	protocol_header.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	monitor.add_child(protocol_header)
 	prompt_label = Label.new()
-	prompt_label.position = Vector2(12, 14)
-	prompt_label.size = Vector2(138, 78)
+	prompt_label.position = Vector2(15, 18)
+	prompt_label.size = Vector2(150, 96)
 	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	prompt_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	prompt_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	prompt_label.clip_text = true
-	prompt_label.add_theme_color_override("font_color", Color("24259a"))
-	prompt_label.add_theme_font_size_override("font_size", 12)
+	prompt_label.add_theme_font_override("font", project_font)
+	prompt_label.add_theme_color_override("font_color", Color("172b78"))
+	prompt_label.add_theme_font_size_override("font_size", 17)
+	prompt_subtitle = Label.new()
+	prompt_subtitle.position = Vector2(12, 91)
+	prompt_subtitle.size = Vector2(156, 22)
+	prompt_subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	prompt_subtitle.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	prompt_subtitle.clip_text = true
+	prompt_subtitle.add_theme_font_override("font", project_font)
+	prompt_subtitle.add_theme_font_size_override("font_size", 9)
+	prompt_subtitle.add_theme_color_override("font_color", Color("172b78"))
+	prompt_subtitle.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	prompt_subtitle.hide()
 	monitor_screen = ColorRect.new()
-	monitor_screen.position = Vector2(8, 8)
-	monitor_screen.size = Vector2(147, 101)
+	monitor_screen.position = Vector2(9, 11)
+	monitor_screen.size = Vector2(162, 108)
 	monitor_screen.color = Color("39d83c")
 	monitor_screen.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	monitor_screen.hide()
 	monitor.add_child(monitor_screen)
 	monitor.add_child(prompt_label)
+	monitor.add_child(prompt_subtitle)
 
 func _add_button(layer: String, button_position: Vector2) -> void:
 	var normal := TextureRect.new()
@@ -158,6 +194,7 @@ func _show_prompt() -> void:
 		solved = true
 		feedback.text = "Sucesso! Painel de camadas concluido."
 		prompt_label.hide()
+		prompt_subtitle.hide()
 		monitor.texture = _computer_atlas(false)
 		monitor.modulate = Color.WHITE
 		monitor_screen.show()
@@ -166,7 +203,15 @@ func _show_prompt() -> void:
 		completed.emit()
 		return
 	var item: Dictionary = prompt_order[prompt_index]
+	prompt_label.show()
 	prompt_label.text = item["text"] as String
+	var subtitle := String(item.get("subtitle", ""))
+	prompt_subtitle.text = subtitle
+	prompt_subtitle.visible = not subtitle.is_empty()
+	prompt_label.size.y = 70.0 if not subtitle.is_empty() else 96.0
+	var text_length := prompt_label.text.length()
+	var font_size := 14 if text_length > 10 else 16 if text_length > 7 else 18
+	prompt_label.add_theme_font_size_override("font_size", font_size)
 	feedback.text = "Selecione a camada OSI correspondente."
 
 func _process(_delta: float) -> void:
@@ -243,6 +288,7 @@ func restore_completed() -> void:
 	prompt_index = prompt_order.size()
 	feedback.text = "Sucesso! Painel de camadas concluido."
 	prompt_label.hide()
+	prompt_subtitle.hide()
 	monitor.texture = _computer_atlas(false)
 	monitor.modulate = Color.WHITE
 	monitor_screen.show()
