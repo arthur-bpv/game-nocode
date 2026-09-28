@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0afhkkq7fh0b"]
+
+[ext_resource type="Texture2D" uid="uid://vb3njlkv3uck" path="res://assets/sprites/map/corridors/mini.png" id="1_texture"]
+
+; BEGIN WALL SHAPES
+[sub_resource type="SegmentShape2D" id="Wall_001"]
+a = Vector2(-34, -8)
+b = Vector2(34, -8)
+
+[sub_resource type="SegmentShape2D" id="Wall_002"]
+a = Vector2(-34, 58)
+b = Vector2(34, 58)
+
+; END WALL SHAPES
+
+[node name="MiniCorridor" type="Node2D" unique_id=685065551]
+
+[node name="Visual" type="Sprite2D" parent="." unique_id=278297567]
+z_index = 1
+texture_filter = 1
+position = Vector2(2.25, 0)
+scale = Vector2(1.0652174, 1)
+texture = ExtResource("1_texture")
+
+[node name="Connections" type="Node2D" parent="." unique_id=2032330071]
+
+[node name="West" type="Marker2D" parent="Connections" unique_id=927705545]
+position = Vector2(-27, 0)
+
+[node name="East" type="Marker2D" parent="Connections" unique_id=384573315]
+position = Vector2(27, 0)
+
+; BEGIN WALL NODES
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Edge001" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_001")
+
+[node name="Edge002" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_002")
+
+; END WALL NODES

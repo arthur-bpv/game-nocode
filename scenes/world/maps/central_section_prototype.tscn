@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://yqliiet58og5"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/rooms/central_room.tscn" id="1_room"]
+[ext_resource type="PackedScene" path="res://scenes/world/corridors/lateral_corridor.tscn" id="2_lateral"]
+[ext_resource type="PackedScene" path="res://scenes/world/corridors/lower_corridor.tscn" id="3_lower"]
+[ext_resource type="PackedScene" path="res://scenes/world/rooms/upper_left_room.tscn" id="4_upper_left"]
+[ext_resource type="PackedScene" path="res://scenes/world/corridors/lower_diagonal_corridor.tscn" id="5_diagonal"]
+[ext_resource type="PackedScene" path="res://scenes/world/rooms/lower_left_room.tscn" id="6_lower_left"]
+[ext_resource type="PackedScene" path="res://scenes/world/rooms/lower_central_room.tscn" id="7_lower_central"]
+[ext_resource type="PackedScene" uid="uid://c2whiiuoywyjd" path="res://scenes/world/corridors/medium_corridor.tscn" id="8_medium"]
+[ext_resource type="PackedScene" path="res://scenes/world/rooms/small_lower_right_room.tscn" id="9_small_lower_right"]
+[ext_resource type="PackedScene" path="res://scenes/world/rooms/upper_right_room.tscn" id="10_upper_right"]
+[ext_resource type="PackedScene" path="res://scenes/world/rooms/lower_right_room.tscn" id="11_lower_right"]
+[ext_resource type="PackedScene" uid="uid://b0pr23ub7v54x" path="res://scenes/world/corridors/l_shaped_corridor.tscn" id="12_l_shaped"]
+[ext_resource type="PackedScene" uid="uid://c0afhkkq7fh0b" path="res://scenes/world/corridors/mini_corridor.tscn" id="13_mini"]
+
+[node name="CentralSectionPrototype" type="Node2D" unique_id=916742516]
+
+[node name="Background" type="Polygon2D" parent="." unique_id=448131697]
+color = Color(0.365, 0.378, 0.431, 1)
+polygon = PackedVector2Array(-2200, -900, 2366, -900, 2366, 1903, -2200, 1900)
+
+[node name="Pieces" type="Node2D" parent="." unique_id=606913176]
+scale = Vector2(2, 2)
+
+[node name="CentralRoom" parent="Pieces" unique_id=1518499496 instance=ExtResource("1_room")]
+
+[node name="UpperLeftRoom" parent="Pieces" unique_id=1376691161 instance=ExtResource("4_upper_left")]
+position = Vector2(-615.3333, 0)
+
+[node name="LowerLeftRoom" parent="Pieces" unique_id=1572274769 instance=ExtResource("6_lower_left")]
+position = Vector2(-538.3333, 552)
+
+[node name="LowerCentralRoom" parent="Pieces" unique_id=2108885220 instance=ExtResource("7_lower_central")]
+position = Vector2(33, 580)
+
+[node name="SmallLowerRightRoom" parent="Pieces" unique_id=118119036 instance=ExtResource("9_small_lower_right")]
+position = Vector2(404.5, 529)
+
+[node name="UpperRightRoom" parent="Pieces" unique_id=491475573 instance=ExtResource("10_upper_right")]
+position = Vector2(696.79, 0)
+
+[node name="LowerRightRoom" parent="Pieces" unique_id=923472166 instance=ExtResource("11_lower_right")]
+position = Vector2(920.79, 421)
+
+[node name="WestCorridor" parent="Pieces" unique_id=840482823 instance=ExtResource("2_lateral")]
+position = Vector2(-321.1667, 0)
+scale = Vector2(0.6666667, 1)
+
+[node name="EastCorridor" parent="Pieces" unique_id=1794474700 instance=ExtResource("2_lateral")]
+position = Vector2(353.395, 0)
+scale = Vector2(0.87, 1)
+
+[node name="SouthCorridor" parent="Pieces" unique_id=329465825 instance=ExtResource("3_lower")]
+position = Vector2(0, 326)
+
+[node name="UpperLeftSouthCorridor" parent="Pieces" unique_id=796108702 instance=ExtResource("5_diagonal")]
+position = Vector2(-529.3333, 311.5)
+
+[node name="LowerLeftEastCorridor" parent="Pieces" unique_id=537902865 instance=ExtResource("2_lateral")]
+position = Vector2(-196.9167, 552)
+scale = Vector2(0.7092533, 1)
+
+[node name="LowerCentralEastCorridor" parent="Pieces" unique_id=587963170 instance=ExtResource("8_medium")]
+position = Vector2(225.5, 552)
+
+[node name="UpperRightSouthCorridor" parent="Pieces" unique_id=1940527014 instance=ExtResource("12_l_shaped")]
+position = Vector2(609.29, 428)
+
+[node name="LowerRightMiniCorridor" parent="Pieces" unique_id=1465351302 instance=ExtResource("13_mini")]
+position = Vector2(765.29, 411)

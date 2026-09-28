@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/map/corridors/lateral.png" id="1_texture"]
+
+; BEGIN WALL SHAPES
+[sub_resource type="SegmentShape2D" id="Wall_001"]
+a = Vector2(-149, 61.5)
+b = Vector2(148, 61.5)
+
+[sub_resource type="SegmentShape2D" id="Wall_002"]
+a = Vector2(148, -3.5)
+b = Vector2(-149, -3.5)
+
+; END WALL SHAPES
+
+[node name="LateralCorridor" type="Node2D"]
+
+[node name="Visual" type="Sprite2D" parent="."]
+z_index = 1
+texture_filter = 1
+texture = ExtResource("1_texture")
+
+[node name="Connections" type="Node2D" parent="."]
+
+[node name="West" type="Marker2D" parent="Connections"]
+position = Vector2(-158.5, 27)
+
+[node name="East" type="Marker2D" parent="Connections"]
+position = Vector2(158.5, 27)
+
+; BEGIN WALL NODES
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Edge001" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_001")
+
+[node name="Edge002" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_002")
+
+; END WALL NODES

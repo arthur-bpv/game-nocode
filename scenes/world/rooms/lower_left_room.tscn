@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/study/map_room.gd" id="1_room"]
+[ext_resource type="Script" path="res://scripts/study/map_mission_anchor.gd" id="2_anchor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/map/rooms/lower_left.png" id="3_texture"]
+
+; BEGIN WALL SHAPES
+[sub_resource type="SegmentShape2D" id="Wall_001"]
+a = Vector2(-226, 161)
+b = Vector2(226, 161)
+
+[sub_resource type="SegmentShape2D" id="Wall_002"]
+a = Vector2(226, 161)
+b = Vector2(226, 65)
+
+[sub_resource type="SegmentShape2D" id="Wall_003"]
+a = Vector2(226, -5)
+b = Vector2(226, -100)
+
+[sub_resource type="SegmentShape2D" id="Wall_004"]
+a = Vector2(226, -100)
+b = Vector2(61, -100)
+
+[sub_resource type="SegmentShape2D" id="Wall_005"]
+a = Vector2(-56, -100)
+b = Vector2(-226, -100)
+
+[sub_resource type="SegmentShape2D" id="Wall_006"]
+a = Vector2(-226, -100)
+b = Vector2(-226, 161)
+
+; END WALL SHAPES
+
+[node name="LowerLeftRoom" type="Node2D"]
+script = ExtResource("1_room")
+area_id = &"sala_inferior_esquerda"
+
+[node name="Visual" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("3_texture")
+
+[node name="Connections" type="Node2D" parent="."]
+
+[node name="North" type="Marker2D" parent="Connections"]
+position = Vector2(9, -97)
+rotation = -1.5707964
+
+[node name="East" type="Marker2D" parent="Connections"]
+position = Vector2(229, 27)
+
+[node name="MissionSlots" type="Node2D" parent="."]
+
+[node name="Primary" type="Marker2D" parent="MissionSlots"]
+position = Vector2(0, 20)
+script = ExtResource("2_anchor")
+slot_id = &"principal"
+
+; BEGIN WALL NODES
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Edge001" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_001")
+
+[node name="Edge002" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_002")
+
+[node name="Edge003" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_003")
+
+[node name="Edge004" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_004")
+
+[node name="Edge005" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_005")
+
+[node name="Edge006" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_006")
+
+; END WALL NODES

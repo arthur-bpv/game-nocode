@@ -1,0 +1,119 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/map/corridors/lower_diagonal.png" id="1_texture"]
+
+; BEGIN WALL SHAPES
+[sub_resource type="SegmentShape2D" id="Wall_001"]
+a = Vector2(-56.5, -114.5)
+b = Vector2(-48.5, -114.5)
+
+[sub_resource type="SegmentShape2D" id="Wall_002"]
+a = Vector2(-48.5, -114.5)
+b = Vector2(-48.5, -39.5)
+
+[sub_resource type="SegmentShape2D" id="Wall_003"]
+a = Vector2(-48.5, -39.5)
+b = Vector2(-56.5, -39.5)
+
+[sub_resource type="SegmentShape2D" id="Wall_004"]
+a = Vector2(-56.5, -39.5)
+b = Vector2(-56.5, 66.5)
+
+[sub_resource type="SegmentShape2D" id="Wall_005"]
+a = Vector2(-56.5, 66.5)
+b = Vector2(-48.5, 66.5)
+
+[sub_resource type="SegmentShape2D" id="Wall_006"]
+a = Vector2(-48.5, 66.5)
+b = Vector2(-48.5, 134)
+
+[sub_resource type="SegmentShape2D" id="Wall_007"]
+a = Vector2(35.5, 134)
+b = Vector2(35.5, 66.5)
+
+[sub_resource type="SegmentShape2D" id="Wall_008"]
+a = Vector2(35.5, 66.5)
+b = Vector2(43.5, 66.5)
+
+[sub_resource type="SegmentShape2D" id="Wall_009"]
+a = Vector2(43.5, 66.5)
+b = Vector2(43.5, -68.5)
+
+[sub_resource type="SegmentShape2D" id="Wall_010"]
+a = Vector2(44.5, -68.5)
+b = Vector2(43.5, -70.5)
+
+[sub_resource type="SegmentShape2D" id="Wall_011"]
+a = Vector2(43.5, -70.5)
+b = Vector2(35.5, -70.5)
+
+[sub_resource type="SegmentShape2D" id="Wall_012"]
+a = Vector2(35.5, -70.5)
+b = Vector2(35.5, -138)
+
+[sub_resource type="SegmentShape2D" id="Wall_013"]
+a = Vector2(-56.5, -138)
+b = Vector2(-56.5, -114.5)
+
+; END WALL SHAPES
+
+[node name="LowerDiagonalCorridor" type="Node2D"]
+
+[node name="Visual" type="Sprite2D" parent="."]
+z_index = 1
+texture_filter = 1
+texture = ExtResource("1_texture")
+
+[node name="Connections" type="Node2D" parent="."]
+
+[node name="North" type="Marker2D" parent="Connections"]
+position = Vector2(0, -134.5)
+rotation = -1.5707964
+
+[node name="South" type="Marker2D" parent="Connections"]
+position = Vector2(0, 143.5)
+rotation = 1.5707964
+
+; BEGIN WALL NODES
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Edge001" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_001")
+
+[node name="Edge002" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_002")
+
+[node name="Edge003" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_003")
+
+[node name="Edge004" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_004")
+
+[node name="Edge005" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_005")
+
+[node name="Edge006" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_006")
+
+[node name="Edge007" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_007")
+
+[node name="Edge008" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_008")
+
+[node name="Edge009" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_009")
+
+[node name="Edge010" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_010")
+
+[node name="Edge011" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_011")
+
+[node name="Edge012" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_012")
+
+[node name="Edge013" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_013")
+
+; END WALL NODES
