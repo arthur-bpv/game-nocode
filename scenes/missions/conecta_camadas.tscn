@@ -3,6 +3,25 @@
 [ext_resource type="Script" uid="uid://cd8e2faqtjqp5" path="res://scenes/missions/conecta_camadas.gd" id="1_script"]
 [ext_resource type="Script" uid="uid://bw70m41swfi1j" path="res://scenes/missions/conecta_camadas_wires.gd" id="2_wires"]
 [ext_resource type="FontFile" uid="uid://dd7pesxl03p7f" path="res://assets/fonts/press_start_2p/PressStart2P-Regular.ttf" id="3_font"]
+[ext_resource type="AudioStream" path="res://assets/audio/victory_sound.wav" id="4_victory"]
+
+[sub_resource type="StyleBoxFlat" id="FeedbackStyle"]
+bg_color = Color(0.03, 0.04, 0.06, 0.93)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.75, 1, 0.85)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 8
+content_margin_left = 18.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 12.0
 
 [node name="ConectaCamadas" type="Control" unique_id=749087538]
 layout_mode = 3
@@ -227,3 +246,31 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("2_wires")
+
+[node name="FeedbackPanel" type="PanelContainer" parent="."]
+visible = false
+z_index = 100
+layout_mode = 0
+offset_left = 80.0
+offset_top = 160.0
+offset_right = 600.0
+offset_bottom = 280.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("FeedbackStyle")
+
+[node name="FeedbackLabel" type="Label" parent="FeedbackPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+text = "CONEXÃO CORRETA!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="FeedbackTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="VictorySound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_victory")
+bus = &"SFX"

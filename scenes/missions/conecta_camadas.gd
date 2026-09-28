@@ -51,15 +51,33 @@ const CORES := {
 	"enlace": Color(0.17, 0.29, 0.9),
 	"fisica": Color(1.0, 0.87, 0.13),
 }
+const NOMES_CAMADAS := {
+	"aplicacao": "Aplicação",
+	"apresentacao": "Apresentação",
+	"sessao": "Sessão",
+	"transporte": "Transporte",
+	"rede": "Rede",
+	"enlace": "Enlace",
+	"fisica": "Física",
+	"internet": "Internet",
+	"acesso_a_rede": "Acesso à Rede",
+}
 
 var _osi_jacks: Dictionary = {}
 var _tcp_jacks: Dictionary = {}
 var _connected: Dictionary = {}
 var _dragging_from: String = ""
 var _drag_pos: Vector2 = Vector2.ZERO
+var _feedback_tween: Tween
+
+@onready var _feedback_panel: PanelContainer = $FeedbackPanel
+@onready var _feedback_label: Label = $FeedbackPanel/FeedbackLabel
+@onready var _feedback_timer: Timer = $FeedbackTimer
+@onready var _victory_sound: AudioStreamPlayer = $VictorySound
 
 func _ready() -> void:
 	$CloseButton.pressed.connect(func(): hide())
+	_feedback_timer.timeout.connect(_hide_feedback)
 	_build()
 
 func _build() -> void:
@@ -98,6 +116,7 @@ func _gui_input(event: InputEvent) -> void:
 				if _osi_jacks[camada].has_point(event.position) and not _connected.has(camada):
 					_dragging_from = camada
 					_drag_pos = event.position
+					$WireLayer.queue_redraw()
 					break
 		elif _dragging_from != "":
 			var hit := ""
@@ -109,11 +128,15 @@ func _gui_input(event: InputEvent) -> void:
 				if MAPA_OSI_TCP[_dragging_from] == hit:
 					_connected[_dragging_from] = hit
 					$StatusLabel.text = "Certo: %s -> %s" % [_dragging_from, hit]
+					_show_feedback("CONEXÃO CORRETA!", "%s → %s" % [NOMES_CAMADAS[_dragging_from], NOMES_CAMADAS[hit]], true)
 					if _connected.size() == OSI_CAMADAS.size():
 						$StatusLabel.text = "Missão completa!"
+						_show_feedback("MISSÃO COMPLETA!", "Todas as camadas foram conectadas.", true)
+						_victory_sound.play()
 						completed.emit()
 				else:
 					$StatusLabel.text = "Errado: %s não conecta em %s" % [_dragging_from, hit]
+					_show_feedback("CONEXÃO INCORRETA!", "%s não corresponde a %s. Tente novamente." % [NOMES_CAMADAS[_dragging_from], NOMES_CAMADAS[hit]], false)
 			_dragging_from = ""
 			$WireLayer.queue_redraw()
 	elif event is InputEventMouseMotion and _dragging_from != "":
@@ -124,5 +147,31 @@ func _gui_input(event: InputEvent) -> void:
 func restore_completed() -> void:
 	_connected = MAPA_OSI_TCP.duplicate()
 	_dragging_from = ""
+	# O slot também restaura o estado logo após o sinal completed. Nesse caso,
+	# mantém o feedback final até o timer terminar.
+	if _feedback_timer.is_stopped():
+		_feedback_panel.hide()
 	$StatusLabel.text = "Missão completa!"
 	$WireLayer.queue_redraw()
+
+func _show_feedback(title: String, detail: String, success: bool) -> void:
+	if _feedback_tween != null and _feedback_tween.is_valid():
+		_feedback_tween.kill()
+	_feedback_timer.stop()
+	_feedback_label.text = title + "\n" + detail
+	_feedback_label.add_theme_color_override("font_color", Color("8dffa6") if success else Color("ff8080"))
+	_feedback_panel.show()
+	_feedback_panel.modulate.a = 0.0
+	_feedback_panel.scale = Vector2(0.94, 0.94)
+	_feedback_panel.pivot_offset = _feedback_panel.size / 2.0
+	_feedback_tween = create_tween().set_parallel(true)
+	_feedback_tween.tween_property(_feedback_panel, "modulate:a", 1.0, 0.18)
+	_feedback_tween.tween_property(_feedback_panel, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_feedback_timer.start()
+
+func _hide_feedback() -> void:
+	if _feedback_tween != null and _feedback_tween.is_valid():
+		_feedback_tween.kill()
+	_feedback_tween = create_tween()
+	_feedback_tween.tween_property(_feedback_panel, "modulate:a", 0.0, 0.25)
+	_feedback_tween.tween_callback(_feedback_panel.hide)
