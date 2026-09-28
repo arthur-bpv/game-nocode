@@ -8,7 +8,7 @@ func _run() -> void:
 	var world = load("res://scenes/world/world.tscn").instantiate()
 	root.add_child(world)
 	await process_frame
-	var slot = world.get_node("Entities/CamadasSlot")
+	var slot = world.get_node("Entities/sala_superior_direita_principal")
 	var mission: Control = slot._mission
 	var tablet = world.get_node("CanvasLayer/TabletUi")
 	var player = world.get_node("Entities/player/Player")

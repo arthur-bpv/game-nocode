@@ -76,7 +76,7 @@ rotation = 1.5707964
 [node name="Primary" type="Marker2D" parent="MissionSlots"]
 position = Vector2(0, 90)
 script = ExtResource("2_anchor")
-slot_id = &"principal"
+slot_id = &"sala_central_principal"
 
 ; BEGIN WALL NODES
 [node name="Walls" type="StaticBody2D" parent="."]

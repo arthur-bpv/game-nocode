@@ -1,77 +1,39 @@
 $ErrorActionPreference = "Stop"
 
 $project_root = Split-Path -Parent $PSScriptRoot
-$map_path = Join-Path $project_root "assets/sprites/Mapa.png"
-$mask_path = Join-Path $project_root "assets/sprites/Mapa_anotacoes.png"
 $world_scene = Get-Content -Raw (Join-Path $project_root "scenes/world/world.tscn")
-$walls_script = Get-Content -Raw (Join-Path $project_root "scenes/world/world_walls.gd")
-$generator_script = Get-Content -Raw (Join-Path $project_root "tools/generate_collision_polygons.gd")
-$collision_resource_path = Join-Path $project_root "assets/generated/collision_polygons.tres"
+$catalog = Get-Content -Raw (Join-Path $project_root "data/study/catalog.tres")
+$overview = Join-Path $project_root "assets/sprites/map/modular_map_overview.png"
 
-Add-Type -AssemblyName System.Drawing
+if ($world_scene -notmatch 'name="MapLayout".*instance=ExtResource\("8_modular"\)') {
+    throw "O mundo não instancia o mapa modular."
+}
+if ($world_scene -match 'name="MapSprite"|name="WorldWalls"') {
+    throw "O mapa único e suas colisões antigas não devem estar ativos."
+}
+if (-not (Test-Path -LiteralPath $overview)) {
+    throw "Imagem do mapa do tablet ausente."
+}
 
-foreach ($asset in @(
-	@{ Path = $map_path; Width = 4080; Height = 2295 },
-	@{ Path = $mask_path; Width = 2160; Height = 1215 }
+$room_scenes = @(Get-ChildItem -LiteralPath (Join-Path $project_root "scenes/world/rooms") -Filter "*_room.tscn")
+$corridor_scenes = @(Get-ChildItem -LiteralPath (Join-Path $project_root "scenes/world/corridors") -Filter "*_corridor.tscn")
+if ($room_scenes.Count -ne 7 -or $corridor_scenes.Count -ne 6) {
+    throw "A seção deve ter sete salas e seis tipos de corredor."
+}
+foreach ($piece in @($room_scenes) + @($corridor_scenes)) {
+    $content = Get-Content -Raw -LiteralPath $piece.FullName
+    if ($content -notmatch 'name="Walls" type="StaticBody2D"') {
+        throw "Colisão editável ausente: $($piece.Name)"
+    }
+}
+foreach ($slot_id in @(
+    "sala_inferior_esquerda_principal",
+    "sala_superior_direita_principal",
+    "sala_inferior_central_principal"
 )) {
-	if (-not (Test-Path -LiteralPath $asset.Path)) {
-		throw "Asset de mapa ausente: $($asset.Path)"
-	}
-	$image = [System.Drawing.Image]::FromFile($asset.Path)
-	try {
-		if ($image.Width -ne $asset.Width -or $image.Height -ne $asset.Height) {
-			throw "O asset '$($asset.Path)' deve medir $($asset.Width)x$($asset.Height); atual: $($image.Width)x$($image.Height)."
-		}
-	}
-	finally {
-		$image.Dispose()
-	}
+    if ($catalog -notmatch [regex]::Escape($slot_id)) {
+        throw "Task sem vínculo com o slot físico $slot_id."
+    }
 }
 
-if (-not (Test-Path -LiteralPath $collision_resource_path)) {
-	throw "O recurso persistido de colisões não foi gerado."
-}
-if ($walls_script -match 'Mapa_anotacoes|get_pixel|BitMap\.new') {
-	throw "WorldWalls não pode ler ou classificar pixels em runtime."
-}
-if ($walls_script -notmatch 'collision_polygons\.tres') {
-	throw "WorldWalls deve carregar o recurso persistido de polígonos."
-}
-if ($generator_script -notmatch 'MAP_MASK_PATH := "res://assets/sprites/Mapa_anotacoes\.png"') {
-	throw "A ferramenta deve usar a imagem anotada como fonte de autoria."
-}
-if ($generator_script -notmatch 'ResourceSaver\.save') {
-	throw "A ferramenta deve persistir os polígonos gerados."
-}
-foreach ($classification in @("is_yellow", "is_blue", "is_green")) {
-	if ($generator_script -notmatch $classification) {
-		throw "Classificação de área ausente: $classification"
-	}
-}
-
-$map_node = [regex]::Match(
-	$world_scene,
-	'(?ms)\[node name="MapSprite"[^\]]*\](.*?)(?=\r?\n\[node |\z)'
-)
-if (-not $map_node.Success) {
-	throw "MapSprite ausente da cena do mundo."
-}
-if ($map_node.Groups[1].Value -match '(?m)^position = ' -and $map_node.Groups[1].Value -notmatch '(?m)^position = Vector2\(0, 0\)$') {
-	throw "O novo mapa deve ficar centralizado na origem do mundo."
-}
-if ($world_scene -notmatch '\[node name="WorldWalls" type="StaticBody2D" parent="MapSprite"') {
-	throw "WorldWalls deve estar conectado ao MapSprite."
-}
-if ($world_scene -notmatch 'script = ExtResource\("10_walls"\)') {
-	throw "WorldWalls deve carregar o gerador de colisão."
-}
-
-$player_node = [regex]::Match(
-	$world_scene,
-	'(?ms)\[node name="player"[^\]]*\](.*?)(?=\r?\n\[node |\z)'
-)
-if (-not $player_node.Success -or $player_node.Groups[1].Value -notmatch '(?m)^position = Vector2\(1, -500\)$') {
-	throw "O personagem deve nascer no centro do marcador verde."
-}
-
-Write-Host "World map static checks passed."
+Write-Host "World map modular checks passed."

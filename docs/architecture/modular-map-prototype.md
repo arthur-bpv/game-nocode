@@ -2,16 +2,18 @@
 
 A cena `scenes/world/maps/central_section_prototype.tscn` monta a sala central, as salas
 superior e inferior esquerdas, a sala inferior central, a sala pequena à direita, a sala
-superior direita, a sala inferior direita e seus corredores. É um protótipo
-isolado: o jogo ainda inicia com
-`world.tscn` e seu mapa completo. Isso permite comparar a geometria antes de migrar as
-outras peças e o mapa do tablet.
+superior direita, a sala inferior direita e seus corredores. `scenes/world/world.tscn`
+instancia essa seção como `MapLayout`; o mapa PNG único e suas colisões não participam
+mais da cena jogável. Os arquivos antigos continuam no repositório como referência.
 
 A composição visual atual está em `docs/architecture/modular-map-preview.png`.
 Ela é uma prévia montada a partir dos PNGs e das posições da cena; os marcadores de
 conexão são validados pelo teste `tests/modular_map_runtime_test.gd` no Godot.
 O teste `tests/modular_map_collision_test.gd` verifica a passagem da cápsula do jogador
 pelas entradas e o bloqueio das paredes.
+O tablet usa a mesma composição em `assets/sprites/map/modular_map_overview.png`, com
+limites de mundo de (-1800, -500) a (2400, 1800). Uma mudança visual ou de posição nas
+peças precisa atualizar essa imagem de visão geral.
 
 As imagens originais recebidas estão copiadas para `assets/sprites/map/`. A sala central mede
 431×490 px, a superior esquerda 377×440 px, a inferior esquerda 458×330 px, a inferior
@@ -29,10 +31,16 @@ Cada peça tem cena própria, com sprite e marcadores de conexão. A sala
 central expõe `area_id = sala_central`; as outras expõem `sala_superior_esquerda`,
 `sala_inferior_esquerda`, `sala_inferior_central`, `sala_inferior_centro_direita`,
 `sala_superior_direita` e `sala_inferior_direita`.
-Todas têm um `MapMissionAnchor` com
-`slot_id = principal`. Esses IDs são físicos, não
-IDs de task. Um tema futuro pode ligar uma task a um slot; outro tema pode usar a mesma
-sala com outra task. O protótipo não cria missões fictícias.
+Todas têm um `MapMissionAnchor` chamado `Primary`, cujo `slot_id` é único e inclui o
+ID físico da sala. Esses IDs não são IDs de task. `modular_world_setup.gd` lê os
+marcadores ao carregar o mundo e cria os `MapTaskSlot` em `Entities`, na posição global
+de cada âncora. Assim, as missões mantêm sua escala de interface mesmo quando a seção
+do mapa é ampliada. Mover uma sala também move o ponto de montagem da missão.
+
+O catálogo declara os vínculos do tema atual: `sinais_osi` na sala inferior esquerda,
+`conecta_camadas` na superior direita e `rack_osi` na inferior central. A nova task
+`sinais_osi` foi movida do registro em tempo de execução para `data/study/catalog.tres`.
+O progresso continua identificado pelo ID de cada task, independente do slot físico.
 
 Os corredores entram um pouco nas salas, e os marcadores ficam dentro dessa sobreposição
 para manter os encaixes alinhados. Os sprites dos corredores usam `z_index = 1` para cobrir a borda preta contínua
@@ -62,7 +70,6 @@ Piso verde toca piso verde, sem exigir recorte angular do PNG. Há uma leve dife
 ela forma um retângulo discreto na sobreposição. Isso não impede o encaixe, mas merece
 revisão visual ao finalizar as artes.
 
-Antes de substituir o mapa jogável, ainda faltam as demais salas/corredores, ligar os
-slots ativos às tasks do catálogo, definir o spawn do jogador no layout, atualizar a
-representação do mapa no tablet e validar a movimentação de ponta a ponta na cena
-jogável. O mapa antigo mantém sua colisão existente até a migração.
+O jogador nasce na sala central. A câmera usa os limites do mapa mostrado no tablet.
+Ainda faltam acabamento das junções, uma inspeção visual interativa das missões em
+resolução final e a substituição futura dos corredores PNG por tiles.

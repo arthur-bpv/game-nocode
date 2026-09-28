@@ -32,13 +32,13 @@ func _run() -> void:
 	assert(small_lower_right.area_id == &"sala_inferior_centro_direita")
 	assert(upper_right.area_id == &"sala_superior_direita")
 	assert(lower_right.area_id == &"sala_inferior_direita")
-	assert((room.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"principal")
-	assert((upper_left.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"principal")
-	assert((lower_left.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"principal")
-	assert((lower_central.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"principal")
-	assert((small_lower_right.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"principal")
-	assert((upper_right.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"principal")
-	assert((lower_right.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"principal")
+	assert((room.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"sala_central_principal")
+	assert((upper_left.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"sala_superior_esquerda_principal")
+	assert((lower_left.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"sala_inferior_esquerda_principal")
+	assert((lower_central.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"sala_inferior_central_principal")
+	assert((small_lower_right.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"sala_inferior_centro_direita_principal")
+	assert((upper_right.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"sala_superior_direita_principal")
+	assert((lower_right.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"sala_inferior_direita_principal")
 	for piece in [room, upper_left, lower_left, lower_central, small_lower_right,
 		upper_right, lower_right, west, east, south, diagonal, lower_east,
 		lower_central_east, l_shaped, mini]:

@@ -7,18 +7,18 @@ func _run() -> void:
 	var session := root.get_node("StudySession")
 	# Continua validando o modo físico, disponível por configuração da task.
 	session.catalog = session.catalog.duplicate(true)
-	session.current_topic().tasks[0].presentation = 0
+	session.current_topic().find_task(&"conecta_camadas").presentation = 0
 	assert(not session.select(&"missing", &"tcp_ip_modelo_osi"))
 	assert(session.select(&"redes", &"tcp_ip_modelo_osi"))
 	var world = load("res://scenes/world/world.tscn").instantiate()
 	root.add_child(world)
 	await process_frame
-	var slot = world.get_node("Entities/CamadasSlot")
+	var slot = world.get_node("Entities/sala_superior_direita_principal")
 	assert(slot.get_child_count() == 1)
 	var mission = slot.get_child(0)
 	assert(mission.position == Vector2.ZERO)
 	assert(mission.size == Vector2(680, 460))
-	assert(slot.position == Vector2(1077, -756))
+	assert(slot.global_position == world.get_node("MapLayout/Pieces/UpperRightRoom/MissionSlots/Primary").global_position)
 	assert(mission.visible)
 	# Exercita os eventos reais de arrastar/soltar, incluindo resposta incorreta.
 	_drag(mission, "aplicacao", "internet")
@@ -35,7 +35,7 @@ func _run() -> void:
 	world = load("res://scenes/world/world.tscn").instantiate()
 	root.add_child(world)
 	await process_frame
-	mission = world.get_node("Entities/CamadasSlot").get_child(0)
+	mission = world.get_node("Entities/sala_superior_direita_principal").get_child(0)
 	assert(mission._connected.size() == 7)
 	assert(mission.get_node("StatusLabel").text == "Missão completa!")
 	world.queue_free()
@@ -57,7 +57,7 @@ func _run() -> void:
 	world = load("res://scenes/world/world.tscn").instantiate()
 	root.add_child(world)
 	await process_frame
-	assert(world.get_node("Entities/CamadasSlot").get_child_count() == 0)
+	assert(world.get_node("Entities/sala_superior_direita_principal").get_child_count() == 0)
 	world.queue_free()
 	await process_frame
 	session.catalog = original_catalog

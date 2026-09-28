@@ -20,8 +20,8 @@ func _run() -> void:
 	assert(not tablet.get_node("%StatusLabel").visible, "O texto genérico não deve competir com os cards.")
 	assert(not tablet.map_rect.visible, "O mapa deve ficar oculto na aba de missões.")
 	assert(tablet.get_node("%TopicTitle").text == session.current_topic().title, "O tema atual não foi identificado.")
-	assert(tablet.get_node("%MissionList").get_child_count() == 2, "Cada missão precisa de um card próprio.")
-	assert(tablet.get_node("%MissionProgress").max_value == 2, "O total da barra está incorreto.")
+	assert(tablet.get_node("%MissionList").get_child_count() == 3, "Cada missão precisa de um card próprio.")
+	assert(tablet.get_node("%MissionProgress").max_value == 3, "O total da barra está incorreto.")
 	assert(tablet.get_node("%MissionProgress").value == 0, "O progresso inicial deve começar vazio.")
 
 	var first_card := tablet.get_node("%MissionList").get_child(0)
@@ -36,8 +36,11 @@ func _run() -> void:
 
 	assert(session.complete(session.current_topic().tasks[1].id))
 	await process_frame
-	assert(tablet.get_node("%MissionProgress").value == 2, "A barra não chegou ao total concluído.")
-	assert(tablet.get_node("%ProgressCount").text == "2 / 2")
+	assert(tablet.get_node("%MissionProgress").value == 2)
+	assert(session.complete(session.current_topic().tasks[2].id))
+	await process_frame
+	assert(tablet.get_node("%MissionProgress").value == 3, "A barra não chegou ao total concluído.")
+	assert(tablet.get_node("%ProgressCount").text == "3 / 3")
 	assert(tablet.get_node("%ProgressLabel").text == "TEMA CONCLUÍDO")
 
 	world.queue_free()

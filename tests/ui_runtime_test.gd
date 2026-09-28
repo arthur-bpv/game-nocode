@@ -39,8 +39,9 @@ func _run() -> void:
 	root.add_child(world)
 	await process_frame
 
-	var walls := world.get_node("MapSprite/WorldWalls")
-	assert(walls.get_child_count() == 3, "O mundo deve carregar três polígonos persistidos.")
+	assert(world.get_node_or_null("MapSprite") == null, "O mapa único ainda está ativo.")
+	assert(world.get_node("MapLayout/Pieces/CentralRoom/Walls").get_child_count() > 0,
+		"As paredes modulares não carregaram.")
 	var tablet := world.get_node("CanvasLayer/TabletUi")
 	var pause_menu := world.get_node("CanvasLayer/Pause")
 	var ui_controller := world.get_node("CanvasLayer/UiController")

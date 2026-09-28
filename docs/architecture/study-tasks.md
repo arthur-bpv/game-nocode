@@ -272,3 +272,26 @@ modo, para avaliação; não é uma decisão definitiva sobre sua apresentação
   fechar/reabrir, estado parcial, conclusão e X/ESC/Tab. `study_runtime_test.gd` continua
   verificando o modo MAP por override de catálogo exclusivo do teste.
 - Preview inspecionado: `.godot/tablet_task_preview.png` em 1280×720.
+
+## Migração para o mapa modular — 2026-09-28
+
+O mundo jogável agora instancia `scenes/world/maps/central_section_prototype.tscn`.
+Cada sala declara uma âncora física em `MissionSlots/Primary`. O script
+`scenes/world/modular_world_setup.gd` cria um `MapTaskSlot` nessa posição, fora do
+conjunto de sprites ampliados, para manter o tamanho das atividades. As colisões são
+editáveis nas cenas das salas e corredores.
+
+O catálogo `data/study/catalog.tres` define as três atividades atuais:
+
+| Task | Sala | Apresentação |
+| --- | --- | --- |
+| `sinais_osi` | inferior esquerda | física no mapa |
+| `conecta_camadas` | superior direita | terminal e tablet |
+| `rack_osi` | inferior central | física no mapa |
+
+O progresso continua associado ao ID da task. O slot é apenas a posição física no
+mapa. Para adicionar outra atividade, declare uma âncora de sala com `slot_id` único
+e associe esse valor a `map_slot` no catálogo; não é necessário posicionar o slot
+diretamente em `world.tscn`. A visão geral do tablet usa
+`assets/sprites/map/modular_map_overview.png` e deve ser atualizada quando a disposição
+das peças mudar. O PNG único anterior permanece no repositório como referência.

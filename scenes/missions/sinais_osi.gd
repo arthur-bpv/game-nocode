@@ -155,7 +155,6 @@ func _show_prompt() -> void:
 		monitor.texture = _computer_atlas(false)
 		monitor.modulate = Color.WHITE
 		monitor_screen.show()
-		StudySession.complete(&"sinais_osi")
 		completed.emit()
 		return
 	var item: Dictionary = prompt_order[prompt_index]
@@ -224,4 +223,11 @@ func _press(layer: String) -> void:
 		input_locked = false
 
 func restore_completed() -> void:
-	pass
+	solved = true
+	input_locked = true
+	prompt_index = prompt_order.size()
+	feedback.text = "Sucesso! Painel de camadas concluido."
+	prompt_label.hide()
+	monitor.texture = _computer_atlas(false)
+	monitor.modulate = Color.WHITE
+	monitor_screen.show()

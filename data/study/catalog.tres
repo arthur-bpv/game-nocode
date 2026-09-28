@@ -5,12 +5,19 @@
 [ext_resource type="Script" uid="uid://c6bt67uy7ppcd" path="res://scripts/study/topic_definition.gd" id="3"]
 [ext_resource type="Script" uid="uid://76lf2noli7hk" path="res://scripts/study/task_definition.gd" id="4"]
 
+[sub_resource type="Resource" id="task_sinais_osi"]
+script = ExtResource("4")
+id = &"sinais_osi"
+title = "Decodificador de Camadas OSI"
+mission_scene = "res://scenes/missions/sinais_osi.tscn"
+map_slot = &"sala_inferior_esquerda_principal"
+
 [sub_resource type="Resource" id="task"]
 script = ExtResource("4")
 id = &"conecta_camadas"
 title = "Correspondência OSI e TCP/IP"
 mission_scene = "res://scenes/missions/conecta_camadas.tscn"
-map_slot = &"armarios_camadas"
+map_slot = &"sala_superior_direita_principal"
 presentation = 1
 
 [sub_resource type="Resource" id="task_rack_osi"]
@@ -18,14 +25,14 @@ script = ExtResource("4")
 id = &"rack_osi"
 title = "Montagem do Rack OSI"
 mission_scene = "res://scenes/missions/rack_osi.tscn"
-map_slot = &"rack_osi_slot"
+map_slot = &"sala_inferior_central_principal"
 
 [sub_resource type="Resource" id="tcp_osi"]
 script = ExtResource("3")
 id = &"tcp_ip_modelo_osi"
 title = "TCP/IP + Modelo OSI"
 sequential = false
-tasks = Array[ExtResource("4")]([SubResource("task"), SubResource("task_rack_osi")])
+tasks = Array[ExtResource("4")]([SubResource("task_sinais_osi"), SubResource("task"), SubResource("task_rack_osi")])
 
 [sub_resource type="Resource" id="redes"]
 script = ExtResource("2")

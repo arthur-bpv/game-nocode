@@ -1,6 +1,6 @@
 # Lógica de runtime em GDScript
 
-Atualizado em: 2026-09-21
+Atualizado em: 2026-09-28
 
 Toda a lógica executável do jogo está em scripts de texto versionáveis e pesquisáveis. As
 cenas apenas declaram nós, recursos e conexões de sinais; não há grafos visuais de código.
@@ -13,6 +13,10 @@ cenas apenas declaram nós, recursos e conexões de sinais; não há grafos visu
   exibe a dica de interação e abre `TabletUi` quando a ação `interact` é pressionada.
 - `scenes/world/world_controller.gd`: coordena tablet, missões e menu de pausa, inclusive
   enquanto a árvore está pausada.
+- `scenes/world/modular_world_setup.gd`: lê as âncoras declaradas em cada sala modular,
+  cria os slots das atividades em escala de jogo e ajusta os limites da câmera.
+- `scripts/study/study_session.gd`: lê o catálogo de disciplinas, tópicos e tasks; os
+  vínculos entre task e sala estão declarados em `data/study/catalog.tres`.
 - `scripts/ui/main_menu.gd`, `pause_menu.gd`, `settings_screen.gd` e `volume_screen.gd`:
   controlam navegação e configurações sem lógica embutida nas cenas.
 

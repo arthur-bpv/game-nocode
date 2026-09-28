@@ -51,9 +51,9 @@ position = Vector2(229, 27)
 [node name="MissionSlots" type="Node2D" parent="."]
 
 [node name="Primary" type="Marker2D" parent="MissionSlots"]
-position = Vector2(0, 20)
+position = Vector2(-170, -20)
 script = ExtResource("2_anchor")
-slot_id = &"principal"
+slot_id = &"sala_inferior_esquerda_principal"
 
 ; BEGIN WALL NODES
 [node name="Walls" type="StaticBody2D" parent="."]
