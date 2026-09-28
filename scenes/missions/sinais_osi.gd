@@ -44,6 +44,7 @@ const PROMPTS := [
 	{"text": "HTTPS", "answer": "Aplicacao"},
 	{"text": "DHCP", "answer": "Aplicacao"},
 ]
+const ROUND_LENGTH := 7
 
 var buttons: Dictionary = {}
 var prompt_label: Label
@@ -62,9 +63,24 @@ func _ready() -> void:
 	size = Vector2(720, 480)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	prompt_order = PROMPTS.duplicate()
-	prompt_order.shuffle()
+	prompt_order = _build_round()
 	_build()
+
+func _build_round() -> Array:
+	var selected := []
+	for layer in BUTTON_NORMAL_REGIONS:
+		var choices := []
+		for item in PROMPTS:
+			if item["answer"] == layer:
+				choices.append(item)
+		if choices.is_empty():
+			push_error("Nenhum protocolo configurado para a camada %s." % layer)
+			continue
+		selected.append(choices.pick_random())
+	selected.shuffle()
+	if selected.size() != ROUND_LENGTH:
+		push_error("A rodada do decodificador precisa cobrir as sete camadas OSI.")
+	return selected
 
 func _button_atlas(layer: String, state: StringName) -> AtlasTexture:
 	var texture := AtlasTexture.new()
@@ -192,6 +208,7 @@ func _add_button(layer: String, button_position: Vector2) -> void:
 func _show_prompt() -> void:
 	if prompt_index >= prompt_order.size():
 		solved = true
+		protocol_header.text = "PROTOCOLOS %d/%d" % [prompt_order.size(), prompt_order.size()]
 		feedback.text = "Sucesso! Painel de camadas concluido."
 		prompt_label.hide()
 		prompt_subtitle.hide()
@@ -203,6 +220,7 @@ func _show_prompt() -> void:
 		completed.emit()
 		return
 	var item: Dictionary = prompt_order[prompt_index]
+	protocol_header.text = "PROTOCOLOS %d/%d" % [prompt_index + 1, prompt_order.size()]
 	prompt_label.show()
 	prompt_label.text = item["text"] as String
 	var subtitle := String(item.get("subtitle", ""))
@@ -286,6 +304,7 @@ func restore_completed() -> void:
 	solved = true
 	input_locked = true
 	prompt_index = prompt_order.size()
+	protocol_header.text = "PROTOCOLOS %d/%d" % [prompt_order.size(), prompt_order.size()]
 	feedback.text = "Sucesso! Painel de camadas concluido."
 	prompt_label.hide()
 	prompt_subtitle.hide()

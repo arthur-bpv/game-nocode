@@ -312,10 +312,12 @@ aparecem em uma faixa curta no topo da própria atividade.
 
 ## Protocolos do decodificador — 2026-09-28
 
-O monitor do decodificador sorteia os 14 itens da referência visual. Os nomes são
-desenhados em caixa alta com Press Start 2P, sobre o sprite do monitor; `PPP` também
-mostra `POINT-TO-POINT` em uma segunda linha. O tamanho do monitor foi ampliado sem
-cobrir os botões. Cada item pede a camada OSI indicada abaixo:
+Os 14 itens da referência visual formam o banco do decodificador. Cada rodada sorteia
+sete, um por camada OSI, e termina após sete acertos. Os demais podem aparecer em
+outras rodadas. O monitor mostra `1/7` até `7/7`. Os nomes são desenhados em caixa
+alta com Press Start 2P; `PPP` também mostra `POINT-TO-POINT` em uma segunda linha.
+O tamanho do monitor foi ampliado sem cobrir os botões. Cada item pede a camada OSI
+indicada abaixo:
 
 | Camada | Itens |
 | --- | --- |

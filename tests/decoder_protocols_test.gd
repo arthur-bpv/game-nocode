@@ -25,6 +25,12 @@ func _run() -> void:
 	root.add_child(mission)
 	await process_frame
 	assert(mission.PROMPTS.size() == EXPECTED.size())
+	assert(mission.prompt_order.size() == mission.ROUND_LENGTH)
+	var round: Array = mission.prompt_order.duplicate()
+	var round_layers := {}
+	for item in round:
+		round_layers[item["answer"]] = true
+	assert(round_layers.size() == 7)
 	assert(mission.monitor.size == Vector2(180, 155))
 	var font: Font = mission.prompt_label.get_theme_font("font")
 	assert(font.resource_path == mission.PROJECT_FONT_PATH)
@@ -49,7 +55,20 @@ func _run() -> void:
 		if protocol == "PPP":
 			assert(mission.prompt_subtitle.text == "POINT-TO-POINT")
 	assert(seen.size() == EXPECTED.size())
+	mission.prompt_order = round
+	mission.prompt_index = 0
+	mission._show_prompt()
+	assert(mission.protocol_header.text == "PROTOCOLOS 1/7")
+	var completions := []
+	mission.completed.connect(func(): completions.append(true))
+	for index in range(round.size()):
+		mission._press(String(round[index]["answer"]))
+		await create_timer(0.65).timeout
+		assert(mission.prompt_index == index + 1)
+		assert(mission.solved == (index == round.size() - 1))
+	assert(completions.size() == 1)
+	assert(mission.protocol_header.text == "PROTOCOLOS 7/7")
 	mission.queue_free()
 	await process_frame
-	print("Decoder protocol checks passed: all 14 labels, mappings, font and monitor layout.")
+	print("Decoder protocol checks passed: 14-item pool, seven-layer round, completion, font and layout.")
 	quit()
