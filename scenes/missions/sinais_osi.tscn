@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dyt5c45ipj5hy"]
+
+[ext_resource type="Script" uid="uid://ci5p6ng3h05qh" path="res://scenes/missions/sinais_osi.gd" id="1_xpgps"]
+
+[node name="SinaisOsi" type="Control" unique_id=613684480]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_xpgps")
+
+[node name="Layout" type="Node2D" parent="." unique_id=619532314]
+
+[node name="Fisica" type="Marker2D" parent="Layout" unique_id=569700497]
+position = Vector2(150, -149)
+
+[node name="Transporte" type="Marker2D" parent="Layout" unique_id=302818108]
+position = Vector2(150, -31)
+
+[node name="Monitor" type="Marker2D" parent="Layout" unique_id=498150978]
+position = Vector2(335, -72)
+
+[node name="Rede" type="Marker2D" parent="Layout" unique_id=2112606532]
+position = Vector2(536, -145)
+
+[node name="Aplicacao" type="Marker2D" parent="Layout" unique_id=1423775777]
+position = Vector2(156, 120)
+
+[node name="Enlace" type="Marker2D" parent="Layout" unique_id=862075842]
+position = Vector2(342, 119)
+
+[node name="Apresentacao" type="Marker2D" parent="Layout" unique_id=928793133]
+position = Vector2(545, 122)
+
+[node name="Sessao" type="Marker2D" parent="Layout" unique_id=1027031016]
+position = Vector2(540, -19)
+
+[node name="Feedback" type="Marker2D" parent="Layout" unique_id=338544574]
+position = Vector2(285, -158)

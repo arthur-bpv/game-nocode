@@ -36,8 +36,6 @@ const RUNTIME_PROBE_AUTOLOAD_KEY: String = "autoload/" + RUNTIME_PROBE_AUTOLOAD_
 
 @export var http_port: int = 9080:
 	set(value):
-		if value == http_port:
-			return
 		if value < 1024 or value > 65535:
 			_log_error("Invalid port: " + str(value) + ". Please use a port between 1024 and 65535.")
 			return

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b1cpyfvsa105i" path="res://scenes/tablet/tablet_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bb1tw6h5ojoeu" path="res://assets/sprites/tablet_frame.png" id="2_frame"]
 [ext_resource type="Theme" uid="uid://c15t75c0c1cb7" path="res://assets/ui/netbot_theme.tres" id="3_theme"]
-[ext_resource type="Texture2D" uid="uid://bd44yn2kn3yk" path="res://assets/sprites/Mapa esquemática.png" id="4_73pq8"]
+[ext_resource type="Texture2D" path="res://assets/sprites/GAMIFICAÇÃO - MAPA E TASKS (1).png" id="4_73pq8"]
 
 [sub_resource type="StyleBoxFlat" id="ProgressTrack"]
 bg_color = Color(0.035, 0.105, 0.125, 1)
