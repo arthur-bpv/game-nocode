@@ -1,6 +1,7 @@
 extends Control
 
 signal completed
+signal mentor_message(message: String, duration: float)
 
 const BLOCK_ORDER := [
 	"Aplicacao",
@@ -58,6 +59,10 @@ func _ready() -> void:
 		block.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		start_positions[block_name] = block.position
 	status_label.text = "Arraste as camadas para as baias corretas do rack OSI."
+	status_label.hide()
+
+func mentor_intro() -> String:
+	return "Arraste as camadas para as baias corretas do rack OSI."
 
 
 func _input(event: InputEvent) -> void:
@@ -104,6 +109,7 @@ func _finish_drag(local_pointer: Vector2) -> void:
 		block.position = start_positions[block_name]
 		block.z_index = 0
 		status_label.text = "Essa não é a baia de %s." % BLOCK_LABELS[block_name]
+		mentor_message.emit(status_label.text, 3.0)
 
 
 func _slot_rect(block_name: String) -> Rect2:
@@ -152,6 +158,7 @@ func _insert_block(block_name: String, announce := true, check_completion := tru
 
 	if announce:
 		status_label.text = "Sucesso! %s foi instalada." % BLOCK_LABELS[block_name]
+		mentor_message.emit(status_label.text, 3.0)
 	if check_completion and installed.size() == BLOCK_ORDER.size():
 		_complete_task()
 
@@ -159,6 +166,7 @@ func _insert_block(block_name: String, announce := true, check_completion := tru
 func _complete_task() -> void:
 	solved = true
 	status_label.text = "Rack OSI montado! Missão concluída."
+	mentor_message.emit(status_label.text, 5.0)
 	completed.emit()
 
 

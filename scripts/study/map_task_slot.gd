@@ -8,6 +8,7 @@ var _prompt: Label
 @export var slot_id: StringName
 var _task: StudyTask
 var _mission: Control
+var _intro_shown := false
 
 func _ready() -> void:
 	add_to_group("study_task_slots")
@@ -28,10 +29,47 @@ func _ready() -> void:
 		return
 	add_child(_mission)
 	_mission.connect("completed", _on_completed)
+	if _mission.has_signal("mentor_message"):
+		_mission.connect("mentor_message", _on_mentor_message)
+	if _mission.has_signal("mentor_context"):
+		_mission.connect("mentor_context", _on_mentor_context)
 	StudySession.progress_changed.connect(_refresh)
 	if _task.presentation == StudyTask.Presentation.TABLET:
 		_build_terminal()
+	elif _mission.has_method("mentor_intro"):
+		_build_intro_area()
 	_refresh()
+
+func _build_intro_area() -> void:
+	var area := Area2D.new()
+	area.name = "MentorIntroArea"
+	area.position = _mission.size / 2.0
+	area.collision_layer = 0
+	area.collision_mask = 1
+	var shape := CollisionShape2D.new()
+	var circle := CircleShape2D.new()
+	circle.radius = maxf(_mission.size.x, _mission.size.y) * 0.7
+	shape.shape = circle
+	area.add_child(shape)
+	add_child(area)
+	area.body_entered.connect(func(body: Node2D) -> void:
+		if _intro_shown or not body.is_in_group("player"):
+			return
+		if StudySession.task_state(_task.id) != &"available":
+			return
+		_intro_shown = true
+		_on_mentor_message(_mission.call("mentor_intro"), 6.0)
+	)
+
+func _on_mentor_message(message: String, duration: float = 5.0) -> void:
+	var dialogue := get_tree().get_first_node_in_group("player_dialogue")
+	if dialogue != null:
+		dialogue.say(message, duration)
+
+func _on_mentor_context(message: String) -> void:
+	var dialogue := get_tree().get_first_node_in_group("player_dialogue")
+	if dialogue != null:
+		dialogue.say_context(message)
 
 func _on_completed() -> void:
 	StudySession.complete(_task.id)

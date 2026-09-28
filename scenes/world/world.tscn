@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cgrmoyqphkdh7" path="res://scenes/Pause.tscn" id="7_bq33v"]
 [ext_resource type="PackedScene" path="res://scenes/world/maps/central_section_prototype.tscn" id="8_modular"]
 [ext_resource type="Script" path="res://scenes/world/modular_world_setup.gd" id="9_setup"]
+[ext_resource type="PackedScene" path="res://scenes/ui/player_dialogue.tscn" id="10_dialogue"]
 [ext_resource type="AudioStream" uid="uid://2yodc0wvr8dy" path="res://assets/audio/jogao.mp3" id="11_5qq27"]
 
 [node name="World" type="Node2D" unique_id=60291279]
@@ -42,6 +43,8 @@ script = ExtResource("9_setup")
 [node name="UiController" type="Node" parent="CanvasLayer" unique_id=1392685600]
 process_mode = 3
 script = ExtResource("1_t5ptc")
+
+[node name="PlayerDialogue" parent="CanvasLayer" instance=ExtResource("10_dialogue")]
 
 [node name="TabletUi" parent="CanvasLayer" unique_id=1792993717 instance=ExtResource("4_v5dby")]
 visible = false

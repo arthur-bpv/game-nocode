@@ -128,15 +128,15 @@ func _gui_input(event: InputEvent) -> void:
 				if MAPA_OSI_TCP[_dragging_from] == hit:
 					_connected[_dragging_from] = hit
 					$StatusLabel.text = "Certo: %s -> %s" % [_dragging_from, hit]
-					_show_feedback("CONEXÃO CORRETA!", "%s → %s" % [NOMES_CAMADAS[_dragging_from], NOMES_CAMADAS[hit]], true)
+					_show_feedback("CERTO: %s → %s" % [NOMES_CAMADAS[_dragging_from], NOMES_CAMADAS[hit]], true)
 					if _connected.size() == OSI_CAMADAS.size():
 						$StatusLabel.text = "Missão completa!"
-						_show_feedback("MISSÃO COMPLETA!", "Todas as camadas foram conectadas.", true)
+						_show_feedback("MISSÃO COMPLETA!", true, 3.0)
 						_victory_sound.play()
 						completed.emit()
 				else:
 					$StatusLabel.text = "Errado: %s não conecta em %s" % [_dragging_from, hit]
-					_show_feedback("CONEXÃO INCORRETA!", "%s não corresponde a %s. Tente novamente." % [NOMES_CAMADAS[_dragging_from], NOMES_CAMADAS[hit]], false)
+					_show_feedback("TENTE DE NOVO: %s ≠ %s" % [NOMES_CAMADAS[_dragging_from], NOMES_CAMADAS[hit]], false)
 			_dragging_from = ""
 			$WireLayer.queue_redraw()
 	elif event is InputEventMouseMotion and _dragging_from != "":
@@ -154,20 +154,17 @@ func restore_completed() -> void:
 	$StatusLabel.text = "Missão completa!"
 	$WireLayer.queue_redraw()
 
-func _show_feedback(title: String, detail: String, success: bool) -> void:
+func _show_feedback(message: String, success: bool, duration := 1.4) -> void:
 	if _feedback_tween != null and _feedback_tween.is_valid():
 		_feedback_tween.kill()
 	_feedback_timer.stop()
-	_feedback_label.text = title + "\n" + detail
+	_feedback_label.text = message
 	_feedback_label.add_theme_color_override("font_color", Color("8dffa6") if success else Color("ff8080"))
 	_feedback_panel.show()
 	_feedback_panel.modulate.a = 0.0
-	_feedback_panel.scale = Vector2(0.94, 0.94)
-	_feedback_panel.pivot_offset = _feedback_panel.size / 2.0
-	_feedback_tween = create_tween().set_parallel(true)
+	_feedback_tween = create_tween()
 	_feedback_tween.tween_property(_feedback_panel, "modulate:a", 1.0, 0.18)
-	_feedback_tween.tween_property(_feedback_panel, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	_feedback_timer.start()
+	_feedback_timer.start(duration)
 
 func _hide_feedback() -> void:
 	if _feedback_tween != null and _feedback_tween.is_valid():

@@ -295,3 +295,17 @@ e associe esse valor a `map_slot` no catálogo; não é necessário posicionar o
 diretamente em `world.tscn`. A visão geral do tablet usa
 `assets/sprites/map/modular_map_overview.png` e deve ser atualizada quando a disposição
 das peças mudar. O PNG único anterior permanece no repositório como referência.
+
+## Diálogos do jogador — 2026-09-28
+
+`scenes/ui/player_dialogue.tscn` apresenta falas do NETBOT no canto inferior esquerdo,
+com retrato do personagem, sem cobrir o centro das atividades. `MapTaskSlot` mostra
+uma introdução ao entrar na área de uma missão física que implementa
+`mentor_intro()`. As missões podem emitir `mentor_message(texto, duração)` para
+avisos temporários e `mentor_context(texto)` para instruções de interação que
+permanecem enquanto são úteis. Uma mensagem temporária devolve o contexto ao
+terminar. Essa interface também poderá receber dicas sem mudar a cena do mundo.
+
+O rack e os botões OSI usam esse diálogo; seus labels antigos ficam ocultos e
+continuam guardando o estado textual. Na atividade de fios do tablet, acerto e erro
+aparecem em uma faixa curta no topo da própria atividade.

@@ -12,16 +12,14 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.35, 0.75, 1, 0.85)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-shadow_color = Color(0, 0, 0, 0.45)
-shadow_size = 8
-content_margin_left = 18.0
-content_margin_top = 12.0
-content_margin_right = 18.0
-content_margin_bottom = 12.0
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+content_margin_left = 10.0
+content_margin_top = 3.0
+content_margin_right = 10.0
+content_margin_bottom = 3.0
 
 [node name="ConectaCamadas" type="Control" unique_id=749087538]
 layout_mode = 3
@@ -251,21 +249,21 @@ script = ExtResource("2_wires")
 visible = false
 z_index = 100
 layout_mode = 0
-offset_left = 80.0
-offset_top = 160.0
-offset_right = 600.0
-offset_bottom = 280.0
+offset_left = 55.0
+offset_top = 0.0
+offset_right = 625.0
+offset_bottom = 34.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("FeedbackStyle")
 
 [node name="FeedbackLabel" type="Label" parent="FeedbackPanel"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 14
 text = "CONEXÃO CORRETA!"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 3
+clip_text = true
 
 [node name="FeedbackTimer" type="Timer" parent="."]
 wait_time = 3.0

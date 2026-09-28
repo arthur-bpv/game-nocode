@@ -1,6 +1,8 @@
 extends Control
 
 signal completed
+signal mentor_message(message: String, duration: float)
+signal mentor_context(message: String)
 
 const BUTTON_ATLAS_PATH := "res://assets/sprites/Handshake.png"
 const COMPUTER_ON_REGION := Rect2(114, 130, 168, 147)
@@ -69,6 +71,9 @@ func _layout_position(node_name: String) -> Vector2:
 	var marker := get_node_or_null("Layout/" + node_name) as Node2D
 	return marker.position if marker != null else Vector2.ZERO
 
+func mentor_intro() -> String:
+	return "Leia a pista no monitor. Passe sobre um botão e pressione [E] para escolher a camada OSI."
+
 func _build() -> void:
 	_build_computer()
 	for layer in BUTTON_NORMAL_REGIONS:
@@ -79,6 +84,7 @@ func _build() -> void:
 	feedback.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	feedback.add_theme_font_size_override("font_size", 10)
 	add_child(feedback)
+	feedback.hide()
 	_show_prompt()
 
 func _computer_atlas(off: bool = false) -> AtlasTexture:
@@ -155,6 +161,8 @@ func _show_prompt() -> void:
 		monitor.texture = _computer_atlas(false)
 		monitor.modulate = Color.WHITE
 		monitor_screen.show()
+		mentor_context.emit("")
+		mentor_message.emit("Painel de camadas concluído!", 5.0)
 		completed.emit()
 		return
 	var item: Dictionary = prompt_order[prompt_index]
@@ -164,11 +172,16 @@ func _show_prompt() -> void:
 func _process(_delta: float) -> void:
 	if solved or input_locked:
 		return
+	var previous_layer := nearby_layer
 	nearby_layer = _layer_under_player()
 	if nearby_layer.is_empty():
 		feedback.text = "Passe sobre um botao e pressione [E]."
+		if not previous_layer.is_empty():
+			mentor_context.emit("")
 	else:
 		feedback.text = "[E] Pressionar " + nearby_layer
+		if nearby_layer != previous_layer:
+			mentor_context.emit("Pressione [E] para selecionar %s." % nearby_layer)
 
 func _layer_under_player() -> String:
 	var player := get_tree().get_first_node_in_group("player") as Node2D
@@ -207,6 +220,7 @@ func _press(layer: String) -> void:
 	var correct: bool = layer == str(item["answer"])
 	if correct:
 		feedback.text = "Correto!"
+		mentor_message.emit("Correto! Vamos para a próxima pista.", 2.5)
 		await get_tree().create_timer(0.55).timeout
 		# Um acerto limpa todos os estados visuais anteriores.
 		_reset_button_states()
@@ -217,6 +231,7 @@ func _press(layer: String) -> void:
 		(visual["pressed"] as TextureRect).hide()
 		(visual["error"] as TextureRect).show()
 		feedback.text = "Incorreto: tente novamente."
+		mentor_message.emit("Essa não é a camada da pista. Tente novamente.", 3.0)
 		await get_tree().create_timer(0.75).timeout
 		(visual["error"] as TextureRect).hide()
 		(visual["normal"] as TextureRect).show()

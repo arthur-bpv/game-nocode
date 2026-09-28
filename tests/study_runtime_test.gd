@@ -25,7 +25,8 @@ func _run() -> void:
 	assert(session.task_state(&"conecta_camadas") == &"available")
 	assert(mission._connected.is_empty())
 	assert(mission.get_node("FeedbackPanel").visible)
-	assert("CONEXÃO INCORRETA" in mission.get_node("FeedbackPanel/FeedbackLabel").text)
+	assert("TENTE DE NOVO" in mission.get_node("FeedbackPanel/FeedbackLabel").text)
+	assert(mission.get_node("FeedbackPanel").position.y == 0.0)
 	var wire_layer: Control = mission.get_node("WireLayer")
 	var sample_curve: PackedVector2Array = wire_layer._curve(
 		mission._osi_jacks["aplicacao"].get_center(), mission._tcp_jacks["aplicacao"].get_center()
