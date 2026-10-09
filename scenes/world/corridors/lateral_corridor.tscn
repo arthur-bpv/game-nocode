@@ -1,40 +1,36 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://dma6tr2pw7t2q"]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/map/corridors/lateral.png" id="1_texture"]
+[ext_resource type="Texture2D" uid="uid://4is6snda35sp" path="res://assets/sprites/map/corridors/lateral.png" id="1_texture"]
 
-; BEGIN WALL SHAPES
 [sub_resource type="SegmentShape2D" id="Wall_001"]
-a = Vector2(-149, 61.5)
-b = Vector2(148, 61.5)
+a = Vector2(-161, 61)
+b = Vector2(164, 61)
 
 [sub_resource type="SegmentShape2D" id="Wall_002"]
-a = Vector2(148, -3.5)
-b = Vector2(-149, -3.5)
+a = Vector2(164, -4)
+b = Vector2(-161, -4)
 
-; END WALL SHAPES
+[node name="LateralCorridor" type="Node2D" unique_id=696527704]
 
-[node name="LateralCorridor" type="Node2D"]
-
-[node name="Visual" type="Sprite2D" parent="."]
+[node name="Visual" type="Sprite2D" parent="." unique_id=1067757859]
 z_index = 1
 texture_filter = 1
 texture = ExtResource("1_texture")
 
-[node name="Connections" type="Node2D" parent="."]
+[node name="Connections" type="Node2D" parent="." unique_id=252633699]
 
-[node name="West" type="Marker2D" parent="Connections"]
+[node name="West" type="Marker2D" parent="Connections" unique_id=726437610]
 position = Vector2(-158.5, 27)
 
-[node name="East" type="Marker2D" parent="Connections"]
+[node name="East" type="Marker2D" parent="Connections" unique_id=965044227]
 position = Vector2(158.5, 27)
 
-; BEGIN WALL NODES
-[node name="Walls" type="StaticBody2D" parent="."]
+[node name="Walls" type="StaticBody2D" parent="." unique_id=1390142018]
 
-[node name="Edge001" type="CollisionShape2D" parent="Walls"]
+[node name="Edge001" type="CollisionShape2D" parent="Walls" unique_id=931735855]
+position = Vector2(-2, 0)
 shape = SubResource("Wall_001")
 
-[node name="Edge002" type="CollisionShape2D" parent="Walls"]
+[node name="Edge002" type="CollisionShape2D" parent="Walls" unique_id=520599655]
+position = Vector2(-2, -2)
 shape = SubResource("Wall_002")
-
-; END WALL NODES

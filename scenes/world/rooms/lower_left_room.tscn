@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene format=3 uid="uid://coeafgny5va60"]
 
-[ext_resource type="Script" path="res://scripts/study/map_room.gd" id="1_room"]
-[ext_resource type="Script" path="res://scripts/study/map_mission_anchor.gd" id="2_anchor"]
-[ext_resource type="Texture2D" path="res://assets/sprites/map/rooms/lower_left.png" id="3_texture"]
+[ext_resource type="Script" uid="uid://bt30134oy3v0q" path="res://scripts/study/map_room.gd" id="1_room"]
+[ext_resource type="Script" uid="uid://d0s727qr423gy" path="res://scripts/study/map_mission_anchor.gd" id="2_anchor"]
+[ext_resource type="Texture2D" uid="uid://cgng05hkayuh4" path="res://assets/sprites/map/rooms/lower_left.png" id="3_texture"]
 
-; BEGIN WALL SHAPES
 [sub_resource type="SegmentShape2D" id="Wall_001"]
 a = Vector2(-226, 161)
 b = Vector2(226, 161)
@@ -29,51 +28,52 @@ b = Vector2(-226, -100)
 a = Vector2(-226, -100)
 b = Vector2(-226, 161)
 
-; END WALL SHAPES
-
-[node name="LowerLeftRoom" type="Node2D"]
+[node name="LowerLeftRoom" type="Node2D" unique_id=2147006010]
 script = ExtResource("1_room")
 area_id = &"sala_inferior_esquerda"
 
-[node name="Visual" type="Sprite2D" parent="."]
+[node name="Visual" type="Sprite2D" parent="." unique_id=388082278]
 texture_filter = 1
 texture = ExtResource("3_texture")
 
-[node name="Connections" type="Node2D" parent="."]
+[node name="Connections" type="Node2D" parent="." unique_id=11492221]
 
-[node name="North" type="Marker2D" parent="Connections"]
+[node name="North" type="Marker2D" parent="Connections" unique_id=284019397]
 position = Vector2(9, -97)
 rotation = -1.5707964
 
-[node name="East" type="Marker2D" parent="Connections"]
+[node name="East" type="Marker2D" parent="Connections" unique_id=247849978]
 position = Vector2(229, 27)
 
-[node name="MissionSlots" type="Node2D" parent="."]
+[node name="MissionSlots" type="Node2D" parent="." unique_id=1182880321]
 
-[node name="Primary" type="Marker2D" parent="MissionSlots"]
+[node name="Primary" type="Marker2D" parent="MissionSlots" unique_id=1036354115]
 position = Vector2(-170, -20)
 script = ExtResource("2_anchor")
 slot_id = &"sala_inferior_esquerda_principal"
 
-; BEGIN WALL NODES
-[node name="Walls" type="StaticBody2D" parent="."]
+[node name="Walls" type="StaticBody2D" parent="." unique_id=783311431]
 
-[node name="Edge001" type="CollisionShape2D" parent="Walls"]
+[node name="Edge001" type="CollisionShape2D" parent="Walls" unique_id=1306831399]
+position = Vector2(0, 2)
 shape = SubResource("Wall_001")
 
-[node name="Edge002" type="CollisionShape2D" parent="Walls"]
+[node name="Edge002" type="CollisionShape2D" parent="Walls" unique_id=823537692]
+position = Vector2(1, 0)
 shape = SubResource("Wall_002")
 
-[node name="Edge003" type="CollisionShape2D" parent="Walls"]
+[node name="Edge003" type="CollisionShape2D" parent="Walls" unique_id=644554135]
+position = Vector2(2, 0)
 shape = SubResource("Wall_003")
 
-[node name="Edge004" type="CollisionShape2D" parent="Walls"]
+[node name="Edge004" type="CollisionShape2D" parent="Walls" unique_id=1401516780]
+position = Vector2(1, -2)
 shape = SubResource("Wall_004")
 
-[node name="Edge005" type="CollisionShape2D" parent="Walls"]
+[node name="Edge005" type="CollisionShape2D" parent="Walls" unique_id=1521307229]
+position = Vector2(0, -2)
 shape = SubResource("Wall_005")
 
-[node name="Edge006" type="CollisionShape2D" parent="Walls"]
+[node name="Edge006" type="CollisionShape2D" parent="Walls" unique_id=1879150997]
+position = Vector2(-2, 0)
 shape = SubResource("Wall_006")
-
-; END WALL NODES

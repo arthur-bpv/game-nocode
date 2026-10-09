@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://bp8hp30gepic0" path="res://scripts/player_sprite_color.gd" id="4_pscolor"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dovo2"]
-radius = 32.0
-height = 78.0
+radius = 24.0
+height = 70.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p47bc"]
 atlas = ExtResource("3_lvxji")

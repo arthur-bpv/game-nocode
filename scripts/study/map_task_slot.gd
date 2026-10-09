@@ -43,12 +43,13 @@ func _ready() -> void:
 func _build_intro_area() -> void:
 	var area := Area2D.new()
 	area.name = "MentorIntroArea"
-	area.position = _mission.size / 2.0
+	var mission_scale := maxf(absf(_mission.scale.x), absf(_mission.scale.y))
+	area.position = _mission.position + _mission.size * _mission.scale * 0.5
 	area.collision_layer = 0
 	area.collision_mask = 1
 	var shape := CollisionShape2D.new()
 	var circle := CircleShape2D.new()
-	circle.radius = maxf(_mission.size.x, _mission.size.y) * 0.7
+	circle.radius = maxf(_mission.size.x, _mission.size.y) * mission_scale * 0.7
 	shape.shape = circle
 	area.add_child(shape)
 	add_child(area)

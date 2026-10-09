@@ -6,8 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://bsa43g68bptth" path="res://scenes/tablet/Tablet.tscn" id="3_6m72w"]
 [ext_resource type="PackedScene" uid="uid://c8n1qk4v6xr2a" path="res://scenes/tablet/TabletMenu.tscn" id="4_v5dby"]
 [ext_resource type="PackedScene" uid="uid://cgrmoyqphkdh7" path="res://scenes/Pause.tscn" id="7_bq33v"]
-[ext_resource type="PackedScene" path="res://scenes/world/maps/central_section_prototype.tscn" id="8_modular"]
-[ext_resource type="Script" path="res://scenes/world/modular_world_setup.gd" id="9_setup"]
+[ext_resource type="PackedScene" uid="uid://yqliiet58og5" path="res://scenes/world/maps/central_section_prototype.tscn" id="8_modular"]
+[ext_resource type="Script" uid="uid://b5dvwepji8cso" path="res://scenes/world/modular_world_setup.gd" id="9_setup"]
 [ext_resource type="PackedScene" path="res://scenes/ui/player_dialogue.tscn" id="10_dialogue"]
 [ext_resource type="AudioStream" uid="uid://2yodc0wvr8dy" path="res://assets/audio/jogao.mp3" id="11_5qq27"]
 
@@ -32,10 +32,10 @@ position = Vector2(-140, 27)
 top_level = true
 position = Vector2(0, 0)
 
-[node name="MapLayout" parent="." instance=ExtResource("8_modular")]
+[node name="MapLayout" parent="." unique_id=2015112372 instance=ExtResource("8_modular")]
 z_index = -2
 
-[node name="ModularWorldSetup" type="Node" parent="."]
+[node name="ModularWorldSetup" type="Node" parent="." unique_id=1431200938]
 script = ExtResource("9_setup")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=301927456]
@@ -44,7 +44,7 @@ script = ExtResource("9_setup")
 process_mode = 3
 script = ExtResource("1_t5ptc")
 
-[node name="PlayerDialogue" parent="CanvasLayer" instance=ExtResource("10_dialogue")]
+[node name="PlayerDialogue" parent="CanvasLayer" unique_id=1655860413 instance=ExtResource("10_dialogue")]
 
 [node name="TabletUi" parent="CanvasLayer" unique_id=1792993717 instance=ExtResource("4_v5dby")]
 visible = false

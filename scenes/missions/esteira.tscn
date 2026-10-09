@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://cqnjvmy5q4ao2"]
+
+[ext_resource type="Script" uid="uid://dlktx6tmmurvy" path="res://scenes/missions/esteira.gd" id="1_chvkm"]
+
+[node name="esteira" type="Control" unique_id=418800629]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_chvkm")
+
+[node name="Layout" type="Node2D" parent="." unique_id=1180577190]
+
+[node name="Cabin1" type="Marker2D" parent="Layout" unique_id=2049938505]
+position = Vector2(158, 57)
+
+[node name="Cabin2" type="Marker2D" parent="Layout" unique_id=352777186]
+position = Vector2(351, 57)
+
+[node name="Cabin3" type="Marker2D" parent="Layout" unique_id=1983070034]
+position = Vector2(547, 57)
+
+[node name="Cabin4" type="Marker2D" parent="Layout" unique_id=660605763]
+position = Vector2(388, 247)
+
+[node name="Cabin5" type="Marker2D" parent="Layout" unique_id=831471950]
+position = Vector2(250, 472)
+
+[node name="Cabin6" type="Marker2D" parent="Layout" unique_id=1868031552]
+position = Vector2(444, 472)
+
+[node name="Cabin7" type="Marker2D" parent="Layout" unique_id=956946656]
+position = Vector2(640, 472)
+
+[node name="TopBelt1" type="Marker2D" parent="Layout" unique_id=377482598]
+position = Vector2(50, 78)
+
+[node name="TopBelt2" type="Marker2D" parent="Layout" unique_id=465594347]
+position = Vector2(160, 78)
+
+[node name="TopBelt3" type="Marker2D" parent="Layout" unique_id=449570824]
+position = Vector2(270, 78)
+
+[node name="TopBelt4" type="Marker2D" parent="Layout" unique_id=93675091]
+position = Vector2(380, 78)
+
+[node name="TopBelt5" type="Marker2D" parent="Layout" unique_id=938593429]
+position = Vector2(490, 78)
+
+[node name="TopBelt6" type="Marker2D" parent="Layout" unique_id=95036903]
+position = Vector2(600, 78)
+
+[node name="MiddleBelt1" type="Marker2D" parent="Layout" unique_id=1944428355]
+position = Vector2(180, 280)
+
+[node name="MiddleBelt2" type="Marker2D" parent="Layout" unique_id=971855318]
+position = Vector2(285, 280)
+
+[node name="MiddleBelt3" type="Marker2D" parent="Layout" unique_id=1259387512]
+position = Vector2(390, 280)
+
+[node name="MiddleBelt4" type="Marker2D" parent="Layout" unique_id=546306047]
+position = Vector2(495, 280)
+
+[node name="MiddleBelt5" type="Marker2D" parent="Layout" unique_id=695207595]
+position = Vector2(600, 280)
+
+[node name="BottomBelt1" type="Marker2D" parent="Layout" unique_id=858496947]
+position = Vector2(230, 494)
+
+[node name="BottomBelt2" type="Marker2D" parent="Layout" unique_id=1033771756]
+position = Vector2(335, 494)
+
+[node name="BottomBelt3" type="Marker2D" parent="Layout" unique_id=1664522903]
+position = Vector2(440, 494)
+
+[node name="BottomBelt4" type="Marker2D" parent="Layout" unique_id=2028379629]
+position = Vector2(545, 494)
+
+[node name="BottomBelt5" type="Marker2D" parent="Layout" unique_id=1391091707]
+position = Vector2(650, 494)
+
+[node name="VerticalBelt1" type="Marker2D" parent="Layout" unique_id=955869783]
+position = Vector2(613, 196)
+
+[node name="VerticalBelt2" type="Marker2D" parent="Layout" unique_id=1265408990]
+position = Vector2(96, 352)
+
+[node name="VerticalBelt3" type="Marker2D" parent="Layout" unique_id=23574968]
+position = Vector2(96, 440)
+
+[node name="Corner1" type="Marker2D" parent="Layout" unique_id=623236691]
+position = Vector2(613, 112)
+
+[node name="Corner2" type="Marker2D" parent="Layout" unique_id=1582920991]
+position = Vector2(613, 280)
+
+[node name="Corner3" type="Marker2D" parent="Layout" unique_id=645130208]
+position = Vector2(96, 280)
+
+[node name="Corner4" type="Marker2D" parent="Layout" unique_id=847523417]
+position = Vector2(96, 494)
+
+[node name="Panel" type="Marker2D" parent="Layout" unique_id=5016705]
+position = Vector2(233, 541)
+
+[node name="PowerButton" type="Marker2D" parent="Layout" unique_id=2042320968]
+position = Vector2(249, 566)

@@ -10,6 +10,8 @@ func state(discipline_id: StringName, topic: StudyTopic, task_id: StringName) ->
 		return &"unavailable"
 	if _is_completed(discipline_id, topic.id, task_id):
 		return &"completed"
+	if task.always_available:
+		return &"available"
 	if topic.sequential:
 		for previous in topic.tasks:
 			if previous.id == task_id:
