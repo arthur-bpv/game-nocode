@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ckc2cv1bb14wo"
+path="res://.godot/imported/Glitch.mp3-39f06090261a2fadbb2e5c7236a9dde4.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/efeitos sonoros/Glitch.mp3"
+dest_files=["res://.godot/imported/Glitch.mp3-39f06090261a2fadbb2e5c7236a9dde4.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

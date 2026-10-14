@@ -4,6 +4,7 @@ class_name SettingsScreen
 @onready var volume_screen: Control = $Volume
 
 func _ready() -> void:
+	BackgroundMusic.play_menu()
 	volume_screen.back_requested.connect(_on_back_requested)
 	volume_screen.open_screen()
 

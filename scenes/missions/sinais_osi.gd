@@ -208,6 +208,7 @@ func _add_button(layer: String, button_position: Vector2) -> void:
 func _show_prompt() -> void:
 	if prompt_index >= prompt_order.size():
 		solved = true
+		SoundEffects.play_task_complete()
 		protocol_header.text = "PROTOCOLOS %d/%d" % [prompt_order.size(), prompt_order.size()]
 		feedback.text = "Sucesso! Painel de camadas concluido."
 		prompt_label.hide()
@@ -282,6 +283,7 @@ func _press(layer: String) -> void:
 	var item: Dictionary = prompt_order[prompt_index]
 	var correct: bool = layer == str(item["answer"])
 	if correct:
+		SoundEffects.play_correct()
 		feedback.text = "Correto!"
 		mentor_message.emit("Correto! Vamos para a próxima pista.", 2.5)
 		await get_tree().create_timer(0.55).timeout
@@ -291,6 +293,7 @@ func _press(layer: String) -> void:
 		input_locked = false
 		_show_prompt()
 	else:
+		SoundEffects.play_error()
 		(visual["pressed"] as TextureRect).hide()
 		(visual["error"] as TextureRect).show()
 		feedback.text = "Incorreto: tente novamente."

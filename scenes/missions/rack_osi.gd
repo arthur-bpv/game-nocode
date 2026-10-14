@@ -108,6 +108,7 @@ func _finish_drag(local_pointer: Vector2) -> void:
 	else:
 		block.position = start_positions[block_name]
 		block.z_index = 0
+		SoundEffects.play_error()
 		status_label.text = "Essa não é a baia de %s." % BLOCK_LABELS[block_name]
 		mentor_message.emit(status_label.text, 3.0)
 
@@ -157,6 +158,7 @@ func _insert_block(block_name: String, announce := true, check_completion := tru
 	marker.add_child(label)
 
 	if announce:
+		SoundEffects.play_correct()
 		status_label.text = "Sucesso! %s foi instalada." % BLOCK_LABELS[block_name]
 		mentor_message.emit(status_label.text, 3.0)
 	if check_completion and installed.size() == BLOCK_ORDER.size():
@@ -165,6 +167,7 @@ func _insert_block(block_name: String, announce := true, check_completion := tru
 
 func _complete_task() -> void:
 	solved = true
+	SoundEffects.play_task_complete()
 	status_label.text = "Rack OSI montado! Missão concluída."
 	mentor_message.emit(status_label.text, 5.0)
 	completed.emit()

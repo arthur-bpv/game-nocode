@@ -16,8 +16,14 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
+	BackgroundMusic.stop_menu()
+	SoundEffects.set_world_ambience_enabled(true)
 	for slot in get_tree().get_nodes_in_group("study_task_slots"):
 		slot.open_requested.connect(_open_task)
+
+
+func _exit_tree() -> void:
+	SoundEffects.set_world_ambience_enabled(false)
 
 func _open_task(mission: Control) -> void:
 	if not tablet.visible and not pause_menu.visible:

@@ -7,11 +7,17 @@ func open_ui():
 	if visible:
 		return
 	show()
+	SoundEffects.play_tablet()
+	SoundEffects.set_tablet_open(true)
 	_set_player_movement(false)
 	$PanelLeft/Terminal/InputLine.grab_focus()
 
 func _close_ui():
+	if not visible:
+		return
 	hide()
+	SoundEffects.play_tablet()
+	SoundEffects.set_tablet_open(false)
 	_set_player_movement(true)
 
 func _set_player_movement(enabled: bool):

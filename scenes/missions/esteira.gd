@@ -815,6 +815,7 @@ func _feedback_success() -> void:
 	if state != TaskState.PROCESSING:
 		return
 	state = TaskState.SUCCESS
+	SoundEffects.play_correct()
 	_set_light(stage_index, Color("38e34b"), true)
 	status_label.text = "Correto! Cabine liberada."
 	challenge_panel.hide()
@@ -826,6 +827,7 @@ func _feedback_success() -> void:
 
 func _feedback_error(message: String) -> void:
 	state = TaskState.ERROR
+	SoundEffects.play_error()
 	_set_light(stage_index, Color("e43d3d"), true)
 	status_label.text = message
 	mentor_message.emit(message, 2.5)
@@ -878,6 +880,7 @@ func _move_package(points: Array[Vector2], duration: float, callback: Callable) 
 
 func _finish_task() -> void:
 	state = TaskState.COMPLETED
+	SoundEffects.play_task_complete()
 	conveyor_on = false
 	queue_redraw()
 	stage_index = STAGES.size()

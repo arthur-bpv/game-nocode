@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://mu2kjdkmss4j"
+path="res://.godot/imported/Finzalizartask.mp3-9c72da235573732080adbe56a1693c01.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/efeitos sonoros/Finzalizartask.mp3"
+dest_files=["res://.godot/imported/Finzalizartask.mp3-9c72da235573732080adbe56a1693c01.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

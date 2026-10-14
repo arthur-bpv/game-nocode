@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cq32o4c464gul"
+path="res://.godot/imported/Robovoa.mp3-dd413425d71c6f41ca5819db9fb8e229.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/efeitos sonoros/Robovoa.mp3"
+dest_files=["res://.godot/imported/Robovoa.mp3-dd413425d71c6f41ca5819db9fb8e229.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

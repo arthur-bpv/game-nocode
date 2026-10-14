@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dmt1jjah5q6ts"
+path="res://.godot/imported/Fogo.mp3-17fa34fe6fa3af1108b27f4b78897103.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/efeitos sonoros/Fogo.mp3"
+dest_files=["res://.godot/imported/Fogo.mp3-17fa34fe6fa3af1108b27f4b78897103.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

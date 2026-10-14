@@ -23,6 +23,9 @@ func open_pause() -> void:
 	confirmation.hide()
 	_show_actions()
 	show()
+	_pause_world_music()
+	BackgroundMusic.play_menu()
+	SoundEffects.set_world_ambience_paused(true)
 	get_tree().paused = true
 	continue_button.grab_focus()
 
@@ -32,6 +35,9 @@ func resume_game() -> void:
 	volume_screen.hide()
 	hide()
 	get_tree().paused = false
+	BackgroundMusic.pause_menu()
+	_resume_world_music()
+	SoundEffects.set_world_ambience_paused(false)
 
 func handle_cancel() -> void:
 	if confirmation.visible:
@@ -67,12 +73,25 @@ func _on_confirmation_confirmed() -> void:
 		PendingAction.RETURN_TO_MENU:
 			get_tree().paused = false
 			hide()
+			_pause_world_music()
+			SoundEffects.set_world_ambience_enabled(false)
 			SceneTransition.change_scene(MAIN_MENU_SCENE)
 		PendingAction.QUIT_GAME:
 			get_tree().paused = false
+			SoundEffects.set_world_ambience_enabled(false)
 			get_tree().quit()
 	_pending_action = PendingAction.NONE
 
 func _on_confirmation_cancelled() -> void:
 	_pending_action = PendingAction.NONE
 	continue_button.grab_focus()
+
+func _pause_world_music() -> void:
+	var world_music := get_tree().current_scene.get_node_or_null("WorldMusic") as AudioStreamPlayer
+	if world_music != null:
+		world_music.stream_paused = true
+
+func _resume_world_music() -> void:
+	var world_music := get_tree().current_scene.get_node_or_null("WorldMusic") as AudioStreamPlayer
+	if world_music != null:
+		world_music.stream_paused = false

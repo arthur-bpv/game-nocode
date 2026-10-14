@@ -7,6 +7,7 @@ var _topics: OptionButton
 @onready var confirmation: Control = %ConfirmationModal
 
 func _ready() -> void:
+	BackgroundMusic.play_menu()
 	_build_study_selection()
 	singleplayer_button.grab_focus()
 	confirmation.confirmed.connect(_quit_game)
@@ -15,6 +16,9 @@ func _on_singleplayer_pressed() -> void:
 	var discipline := StudySession.catalog.disciplines[_disciplines.selected]
 	var topic := discipline.topics[_topics.selected]
 	if StudySession.select(discipline.id, topic.id):
+		# Interrompe a faixa do menu antes do carregamento para não sobrepor
+		# Menu.mp3 e jogao.mp3 durante o primeiro frame do mapa.
+		BackgroundMusic.stop_menu()
 		SceneTransition.change_scene(discipline.map_scene)
 
 func _on_quit_pressed() -> void:

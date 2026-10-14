@@ -22,6 +22,8 @@ MCPRuntimeProbe="*uid://bsg12huaf1u5i"
 PlayerData="*res://scripts/player_data.gd"
 StudySession="*res://scripts/study/study_session.gd"
 AudioSettings="*res://scripts/autoload/audio_settings.gd"
+BackgroundMusic="*res://scripts/autoload/background_music.gd"
+SoundEffects="*res://scripts/autoload/sound_effects.gd"
 SceneTransition="*res://scripts/autoload/scene_transition.gd"
 
 [display]

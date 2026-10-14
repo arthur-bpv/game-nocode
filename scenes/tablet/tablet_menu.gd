@@ -79,6 +79,8 @@ func open_ui() -> void:
 	if visible:
 		return
 	show()
+	SoundEffects.play_tablet()
+	SoundEffects.set_tablet_open(true)
 	_set_player_movement(false)
 	_on_map_pressed()
 	map_button.grab_focus()
@@ -88,6 +90,8 @@ func close_ui() -> void:
 		return
 	_leave_mission()
 	hide()
+	SoundEffects.play_tablet()
+	SoundEffects.set_tablet_open(false)
 	_set_player_movement(true)
 
 func toggle_ui() -> void:

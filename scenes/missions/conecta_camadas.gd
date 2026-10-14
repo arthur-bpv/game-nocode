@@ -127,14 +127,16 @@ func _gui_input(event: InputEvent) -> void:
 			if hit != "":
 				if MAPA_OSI_TCP[_dragging_from] == hit:
 					_connected[_dragging_from] = hit
+					SoundEffects.play_correct()
 					$StatusLabel.text = "Certo: %s -> %s" % [_dragging_from, hit]
 					_show_feedback("CERTO: %s → %s" % [NOMES_CAMADAS[_dragging_from], NOMES_CAMADAS[hit]], true)
 					if _connected.size() == OSI_CAMADAS.size():
 						$StatusLabel.text = "Missão completa!"
 						_show_feedback("MISSÃO COMPLETA!", true, 3.0)
-						_victory_sound.play()
+						SoundEffects.play_task_complete()
 						completed.emit()
 				else:
+					SoundEffects.play_error()
 					$StatusLabel.text = "Errado: %s não conecta em %s" % [_dragging_from, hit]
 					_show_feedback("TENTE DE NOVO: %s ≠ %s" % [NOMES_CAMADAS[_dragging_from], NOMES_CAMADAS[hit]], false)
 			_dragging_from = ""
