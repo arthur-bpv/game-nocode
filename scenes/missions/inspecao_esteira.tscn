@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://b0os26ot268m7"]
+
+[ext_resource type="Script" uid="uid://c517pypnwqlxy" path="res://scenes/missions/inspecao_esteira.gd" id="1_u8l84"]
+
+[node name="inspecao_esteira" type="Control" unique_id=921478658]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_u8l84")
