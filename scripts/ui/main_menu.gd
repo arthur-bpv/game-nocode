@@ -19,7 +19,7 @@ func _on_singleplayer_pressed() -> void:
 		# Interrompe a faixa do menu antes do carregamento para não sobrepor
 		# Menu.mp3 e jogao.mp3 durante o primeiro frame do mapa.
 		BackgroundMusic.stop_menu()
-		SceneTransition.change_scene(discipline.map_scene)
+		SceneTransition.change_scene(topic.map_scene if not topic.map_scene.is_empty() else discipline.map_scene)
 
 func _on_quit_pressed() -> void:
 	confirmation.ask("SAIR DO JOGO", "Deseja fechar o NETBOT?", "SAIR")

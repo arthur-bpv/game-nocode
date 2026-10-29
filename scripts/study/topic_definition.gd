@@ -3,6 +3,7 @@ extends Resource
 
 @export var id: StringName
 @export var title: String
+@export_file("*.tscn") var map_scene: String
 # A posição no array é a ordem pedagógica. Não duplicar com números nos scripts.
 @export var sequential: bool = true
 @export var tasks: Array[StudyTask] = []

@@ -6,6 +6,12 @@ extends Node
 func _unhandled_input(event: InputEvent) -> void:
 	if not event.is_action_pressed("ui_cancel"):
 		return
+	# Enquanto a inspeção direta estiver aberta, Esc somente a fecha.
+	for inspection in get_tree().get_nodes_in_group("inspection_tasks"):
+		if inspection.has_method("is_inspection_active") and inspection.call("is_inspection_active"):
+			inspection.call("close_task")
+			get_viewport().set_input_as_handled()
+			return
 	if tablet.visible:
 		tablet.close_ui()
 	elif pause_menu.visible:
@@ -14,13 +20,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		pause_menu.open_pause()
 	get_viewport().set_input_as_handled()
 
-
 func _ready() -> void:
 	BackgroundMusic.stop_menu()
 	SoundEffects.set_world_ambience_enabled(true)
 	for slot in get_tree().get_nodes_in_group("study_task_slots"):
 		slot.open_requested.connect(_open_task)
-
 
 func _exit_tree() -> void:
 	SoundEffects.set_world_ambience_enabled(false)

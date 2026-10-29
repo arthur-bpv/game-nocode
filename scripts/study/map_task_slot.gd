@@ -15,6 +15,7 @@ var _task: StudyTask
 var _mission: Control
 var _intro_shown := false
 var _inspection_station := false
+var _last_mentor_context := "__unset__"
 
 func _ready() -> void:
 	add_to_group("study_task_slots")
@@ -94,13 +95,14 @@ func _build_inspection_station() -> void:
 	area.collision_mask = 1
 	var shape := CollisionShape2D.new()
 	var circle := CircleShape2D.new()
-	circle.radius = 56.0
+	circle.radius = 76.0
 	shape.shape = circle
 	area.add_child(shape)
 	add_child(area)
 	area.body_entered.connect(func(body: Node2D) -> void:
 		if body.is_in_group("player") and not _nearby.has(body):
 			_nearby.append(body)
+			_show_intro_once(body)
 			_refresh_prompt()
 	)
 	area.body_exited.connect(func(body: Node2D) -> void:
@@ -124,8 +126,10 @@ func _open_inspection_overlay() -> void:
 		return
 	if _mission.get_parent() != _inspection_overlay:
 		_mission.reparent(_inspection_overlay)
-	_mission.position = Vector2(240, 105)
+	var viewport_size := get_viewport().get_visible_rect().size
+	_mission.position = (viewport_size - _mission.size) * 0.5
 	_mission.show()
+	_set_player_movement(false)
 	get_viewport().set_input_as_handled()
 
 func _close_inspection_overlay() -> void:
@@ -134,6 +138,11 @@ func _close_inspection_overlay() -> void:
 	_mission.hide()
 	if _mission.get_parent() != self:
 		_mission.reparent(self)
+	_set_player_movement(true)
+
+func _set_player_movement(enabled: bool) -> void:
+	for player in get_tree().get_nodes_in_group("player"):
+		player.set_physics_process(enabled)
 
 func _build_intro_area() -> void:
 	var area := Area2D.new()
@@ -148,14 +157,20 @@ func _build_intro_area() -> void:
 	shape.shape = circle
 	area.add_child(shape)
 	add_child(area)
-	area.body_entered.connect(func(body: Node2D) -> void:
-		if _intro_shown or not body.is_in_group("player"):
-			return
-		if StudySession.task_state(_task.id) != &"available":
-			return
-		_intro_shown = true
-		_on_mentor_message(_mission.call("mentor_intro"), 6.0)
+	area.body_entered.connect(_show_intro_once)
+
+func _show_intro_once(body: Node2D) -> void:
+	if _intro_shown or not body.is_in_group("player"):
+		return
+	if StudySession.task_state(_task.id) != &"available":
+		return
+	_intro_shown = true
+	var introduction := (
+		String(_mission.call("mentor_intro"))
+		if _mission.has_method("mentor_intro")
+		else "Você encontrou a atividade “%s”. Aproxime-se do terminal e pressione [E] para começar." % _task.title
 	)
+	_on_mentor_message(introduction, 6.0)
 
 func _on_mentor_message(message: String, duration: float = 5.0) -> void:
 	var dialogue := get_tree().get_first_node_in_group("player_dialogue")
@@ -163,9 +178,18 @@ func _on_mentor_message(message: String, duration: float = 5.0) -> void:
 		dialogue.say(message, duration)
 
 func _on_mentor_context(message: String) -> void:
+	# Contextos são dicas breves, não texto fixo. As missões podem emiti-los
+	# a cada frame, então deduplicamos o conteúdo até ele mudar ou ser limpo.
+	if message == _last_mentor_context:
+		return
+	_last_mentor_context = message
 	var dialogue := get_tree().get_first_node_in_group("player_dialogue")
-	if dialogue != null:
-		dialogue.say_context(message)
+	if dialogue == null:
+		return
+	if message.is_empty():
+		dialogue.clear()
+	else:
+		dialogue.say(message, 4.0)
 
 func _on_completed() -> void:
 	StudySession.complete(_task.id)

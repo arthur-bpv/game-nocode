@@ -40,45 +40,45 @@ enum TaskState { IDLE, MOVING, ENTERING, PROCESSING, SUCCESS, ERROR, LEAVING, CO
 const STAGES: Array[Dictionary] = [
 	{
 		"layer": "1. APLICAÇÃO", "tcp": "TCP/IP: Aplicação",
-		"concept": "Protocolos usados diretamente por programas.",
-		"prompt": "Abrir uma página web segura.",
-		"choices": ["HTTPS", "SMTP", "FTP"], "answer": 1
+		"concept": "Protocolos de aplicação definem como clientes e servidores trocam dados.",
+		"prompt": "Um navegador precisa buscar uma página com confidencialidade e autenticação do servidor. Qual protocolo deve usar?",
+		"choices": ["HTTPS", "DNS", "DHCP"], "answer": 1
 	},
 	{
 		"layer": "2. APRESENTAÇÃO", "tcp": "TCP/IP: Aplicação",
-		"concept": "Codifica e prepara os dados.",
-		"prompt": "Preservar ç, ã e emoji na mensagem.",
-		"choices": ["UTF-8", "ASCII", "Somente números"], "answer": 1
+		"concept": "No modelo TCP/IP, codificação e formato dos dados fazem parte da aplicação.",
+		"prompt": "Uma API deve enviar “café ☕” sem perder acentos ou emoji. Qual codificação deve declarar na resposta?",
+		"choices": ["UTF-8", "ASCII", "Binário sem charset"], "answer": 1
 	},
 	{
 		"layer": "3. SESSÃO", "tcp": "TCP/IP: Aplicação",
-		"concept": "Mantém a comunicação entre as partes.",
-		"prompt": "Selecione a sessão que ainda pode continuar.",
-		"choices": ["ID 42 — ativa", "ID 17 — encerrada", "ID 08 — expirada"], "answer": 1
+		"concept": "No TCP/IP, o controle de sessão é tratado pelos protocolos e aplicações.",
+		"prompt": "Após o login, o servidor precisa reconhecer as próximas requisições do mesmo usuário. O que identifica essa sessão?",
+		"choices": ["Cookie/token de sessão", "Endereço MAC do servidor", "Máscara de sub-rede"], "answer": 1
 	},
 	{
 		"layer": "4. TRANSPORTE", "tcp": "TCP/IP: Transporte",
-		"concept": "Organiza segmentos para uma entrega confiável.",
-		"prompt": "Segmentos recebidos: 3, 1, 2. Pressione as teclas na ordem correta.",
-		"choices": ["1", "2", "3"], "answer": 0, "segments": true
+		"concept": "O TCP usa números de sequência para remontar dados recebidos fora de ordem.",
+		"prompt": "Chegaram segmentos TCP com início de sequência 3001, 1001 e 2001. Selecione a ordem para remontar os dados.",
+		"choices": ["Seq 1001", "Seq 2001", "Seq 3001"], "answer": 0, "segments": true
 	},
 	{
 		"layer": "5. REDE", "tcp": "TCP/IP: Internet",
-		"concept": "Escolhe a rota de destino usando IP.",
-		"prompt": "Destino 10.20.8.44. Tabela: 10.20.8.0/24 → R2.",
-		"choices": ["R1", "R2", "R3"], "answer": 2
+		"concept": "Roteadores escolhem a rota mais específica que corresponde ao IP de destino.",
+		"prompt": "Destino: 192.168.20.45. Rotas: 192.168.0.0/16 → GW-A; 192.168.20.0/24 → GW-B; padrão → GW-C. Qual gateway será usado?",
+		"choices": ["GW-A", "GW-B", "GW-C"], "answer": 2
 	},
 	{
 		"layer": "6. ENLACE", "tcp": "TCP/IP: Acesso à Rede",
-		"concept": "Entrega quadros ao próximo dispositivo.",
-		"prompt": "Próximo salto: SW-2 (MAC 7C:8A:10:01).",
-		"choices": ["00:AA:21:19", "FF:FF:FF:FF", "7C:8A:10:01"], "answer": 3
+		"concept": "Em uma LAN, o quadro Ethernet é endereçado ao próximo salto, não ao host remoto.",
+		"prompt": "O servidor está em outra rede. Para enviar o primeiro quadro, qual MAC deve ser usado como destino?",
+		"choices": ["MAC do computador emissor", "MAC do gateway padrão", "MAC do servidor remoto"], "answer": 2
 	},
 	{
 		"layer": "7. FÍSICA", "tcp": "TCP/IP: Acesso à Rede",
-		"concept": "Converte bits em sinais no meio físico.",
-		"prompt": "Bits 10110010. Convenção: 1 = alto; 0 = baixo.",
-		"choices": ["alto/baixo/alto/alto/baixo/baixo/alto/baixo", "baixo/alto/baixo/baixo/alto/alto/baixo/alto", "sinal constante"], "answer": 1
+		"concept": "A camada física representa bits como sinais adequados ao meio de transmissão.",
+		"prompt": "Em um enlace de fibra óptica, qual forma física pode representar os bits transmitidos?",
+		"choices": ["Pulsos de luz", "Endereços IP", "Números de porta TCP"], "answer": 1
 	}
 ]
 

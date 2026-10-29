@@ -47,15 +47,96 @@ map_slot = &"sala_inferior_centro_direita_principal"
 script = ExtResource("3")
 id = &"tcp_ip_modelo_osi"
 title = "TCP/IP + Modelo OSI"
+map_scene = "res://scenes/world/world.tscn"
 sequential = false
 tasks = Array[ExtResource("4")]([SubResource("task_sinais_osi"), SubResource("task"), SubResource("task_rack_osi"), SubResource("Resource_33vwa"), SubResource("Resource_uf8ad")])
+
+[sub_resource type="Resource" id="task_ipv4_subnets"]
+script = ExtResource("4")
+id = &"ipv4_subnets"
+title = "Planejamento IPv4 e Sub-redes"
+mission_scene = "res://scenes/missions/ipv4_subnets.tscn"
+map_slot = &"sala_superior_esquerda_principal"
+presentation = 1
+
+[sub_resource type="Resource" id="task_subnet_allocator"]
+script = ExtResource("4")
+id = &"subnet_allocator"
+title = "Alocador de Sub-redes"
+mission_scene = "res://scenes/missions/subnet_allocator.tscn"
+map_slot = &"sala_superior_direita_principal"
+presentation = 1
+
+[sub_resource type="Resource" id="task_routing_simulator"]
+script = ExtResource("4")
+id = &"routing_simulator"
+title = "Simulador de Roteamento"
+mission_scene = "res://scenes/missions/routing_simulator.tscn"
+map_slot = &"sala_inferior_central_principal"
+presentation = 1
+
+[sub_resource type="Resource" id="ipv4_subnets"]
+script = ExtResource("3")
+id = &"ipv4_subnets"
+title = "Endereçamento IPv4 e Sub-redes"
+map_scene = "res://scenes/world/world_ipv4_subnets.tscn"
+sequential = false
+tasks = Array[ExtResource("4")]([SubResource("task_ipv4_subnets"), SubResource("task_subnet_allocator"), SubResource("task_routing_simulator")])
+
+[sub_resource type="Resource" id="task_routing_diagnostics"]
+script = ExtResource("4")
+id = &"routing_diagnostics"
+title = "Console de Rotas Estáticas e Dinâmicas"
+mission_scene = "res://scenes/missions/routing_policy.tscn"
+map_slot = &"sala_superior_esquerda_principal"
+presentation = 1
+
+[sub_resource type="Resource" id="task_routing_table_lab"]
+script = ExtResource("4")
+id = &"routing_table_lab"
+title = "Trilhos DNS"
+mission_scene = "res://scenes/missions/dns_rails.tscn"
+map_slot = &"sala_superior_direita_principal"
+presentation = 1
+
+[sub_resource type="Resource" id="task_route_forwarding"]
+script = ExtResource("4")
+id = &"route_forwarding"
+title = "Convergência de Rotas"
+mission_scene = "res://scenes/missions/route_recovery.tscn"
+map_slot = &"sala_inferior_central_principal"
+presentation = 1
+
+[sub_resource type="Resource" id="routing"]
+script = ExtResource("3")
+id = &"routing"
+title = "Roteamento Estático e Dinâmico"
+map_scene = "res://scenes/world/world_routing.tscn"
+sequential = false
+tasks = Array[ExtResource("4")]([SubResource("task_routing_diagnostics"), SubResource("task_routing_table_lab"), SubResource("task_route_forwarding")])
+
+[sub_resource type="Resource" id="task_services_security"]
+script = ExtResource("4")
+id = &"services_security"
+title = "Serviços e Segurança de Rede"
+mission_scene = "res://scenes/missions/services_security.tscn"
+map_slot = &"sala_superior_esquerda_principal"
+presentation = 1
+
+[sub_resource type="Resource" id="services_security"]
+script = ExtResource("3")
+id = &"services_security"
+title = "Serviços e Segurança"
+map_scene = "res://scenes/world/world_services_security.tscn"
+sequential = false
+tasks = Array[ExtResource("4")]([SubResource("task_services_security")])
 
 [sub_resource type="Resource" id="redes"]
 script = ExtResource("2")
 id = &"redes"
 title = "Redes de Computadores"
 map_scene = "res://scenes/world/world.tscn"
-topics = Array[ExtResource("3")]([SubResource("tcp_osi")])
+topics = Array[ExtResource("3")]([SubResource("tcp_osi"), SubResource("ipv4_subnets"), SubResource("routing")])
 
 [resource]
 script = ExtResource("1")

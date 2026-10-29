@@ -25,6 +25,8 @@ func validate() -> PackedStringArray:
 				errors.append("Tema nulo")
 				continue
 			_check_id(topic.id, topic_ids, "tema", errors)
+			if not topic.map_scene.is_empty() and not ResourceLoader.exists(topic.map_scene, "PackedScene"):
+				errors.append("Mapa do tema ausente: " + topic.map_scene)
 			var task_ids := {}
 			var slots := {}
 			for task in topic.tasks:
