@@ -75,6 +75,7 @@ func _on_confirmation_confirmed() -> void:
 			hide()
 			_pause_world_music()
 			SoundEffects.set_world_ambience_enabled(false)
+			StudySession.reset_singleplayer()
 			SceneTransition.change_scene(MAIN_MENU_SCENE)
 		PendingAction.QUIT_GAME:
 			get_tree().paused = false

@@ -4,8 +4,10 @@ signal progress_changed
 
 var catalog: StudyCatalog = preload("res://data/study/catalog.tres")
 var progress := TaskProgress.new()
-var discipline_id: StringName = &"redes"
-var topic_id: StringName = &"tcp_ip_modelo_osi"
+const DEFAULT_DISCIPLINE_ID: StringName = &"redes"
+const DEFAULT_TOPIC_ID: StringName = &"tcp_ip_modelo_osi"
+var discipline_id: StringName = DEFAULT_DISCIPLINE_ID
+var topic_id: StringName = DEFAULT_TOPIC_ID
 
 func _ready() -> void:
 	for error in catalog.validate():
@@ -39,3 +41,12 @@ func restore_progress(data: Dictionary) -> bool:
 		return false
 	progress_changed.emit()
 	return true
+
+func reset_singleplayer() -> void:
+	# A sessão singleplayer é descartada por completo ao retornar ao menu.
+	# Uma instância nova impede que qualquer task concluída ou desbloqueada
+	# permaneça em memória, mesmo se o jogador não tiver concluído nenhuma.
+	progress = TaskProgress.new()
+	discipline_id = DEFAULT_DISCIPLINE_ID
+	topic_id = DEFAULT_TOPIC_ID
+	progress_changed.emit()

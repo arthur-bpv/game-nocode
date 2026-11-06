@@ -1,14 +1,29 @@
 {
-    "activeFile": "",
+    "activeFile": "Teste.tsx",
     "expandedProjectPaths": [
+        "."
     ],
+    "file.lastUsedOpenFilter": "Todos os Ficheiros (*)",
     "fileStates": {
+        "Teste.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        }
     },
+    "last.imagePath": "C:/Users/ifrn/Downloads",
     "map.height": 32,
+    "map.tileWidth": 64,
     "map.width": 32,
     "openFiles": [
+        "Teste.tsx"
     ],
     "project": "Mapa.tiled-project",
     "recentFiles": [
-    ]
+        "Teste.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 64,
+        "width": 64
+    }
 }
