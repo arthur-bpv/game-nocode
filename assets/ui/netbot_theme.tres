@@ -1,6 +1,10 @@
 [gd_resource type="Theme" format=3 uid="uid://c15t75c0c1cb7"]
 
 [ext_resource type="FontFile" uid="uid://dd7pesxl03p7f" path="res://assets/fonts/press_start_2p/PressStart2P-Regular.ttf" id="1_font"]
+[ext_resource type="Texture2D" path="res://assets/ui/pixellab/ui-input.png" id="tex_input"]
+[ext_resource type="Texture2D" path="res://assets/ui/pixellab/ui-primary.png" id="tex_primary"]
+[ext_resource type="Texture2D" path="res://assets/ui/pixellab/ui-secondary.png" id="tex_secondary"]
+[ext_resource type="Texture2D" path="res://assets/ui/pixellab/ui-panel.png" id="tex_panel"]
 
 [sub_resource type="StyleBoxFlat" id="ButtonDisabled"]
 content_margin_left = 20.0
@@ -34,37 +38,27 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[sub_resource type="StyleBoxFlat" id="ButtonNormal"]
+[sub_resource type="StyleBoxTexture" id="ButtonNormal"]
 content_margin_left = 20.0
 content_margin_top = 14.0
 content_margin_right = 20.0
 content_margin_bottom = 14.0
-bg_color = Color(0.055, 0.14, 0.18, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.04, 0.65, 0.74, 0.8)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+texture = ExtResource("tex_secondary")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
 
-[sub_resource type="StyleBoxFlat" id="ButtonPressed"]
+[sub_resource type="StyleBoxTexture" id="ButtonPressed"]
 content_margin_left = 20.0
 content_margin_top = 14.0
 content_margin_right = 20.0
 content_margin_bottom = 14.0
-bg_color = Color(0.02, 0.72, 0.78, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.75, 1, 1, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+texture = ExtResource("tex_primary")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
 
 [sub_resource type="StyleBoxFlat" id="SliderFill"]
 content_margin_top = 7.0
@@ -84,21 +78,27 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id="Panel"]
+[sub_resource type="StyleBoxTexture" id="Panel"]
 content_margin_left = 34.0
 content_margin_top = 30.0
 content_margin_right = 34.0
 content_margin_bottom = 30.0
-bg_color = Color(0.025, 0.07, 0.09, 0.97)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.04, 0.75, 0.82, 0.85)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
+texture = ExtResource("tex_panel")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="Input"]
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+texture = ExtResource("tex_input")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
 
 [resource]
 default_font = ExtResource("1_font")
@@ -120,3 +120,7 @@ HSlider/styles/slider = SubResource("Slider")
 Label/colors/font_color = Color(0.86, 0.98, 1, 1)
 Label/font_sizes/font_size = 17
 PanelContainer/styles/panel = SubResource("Panel")
+LineEdit/styles/normal = SubResource("Input")
+OptionButton/styles/normal = SubResource("ButtonNormal")
+OptionButton/styles/hover = SubResource("ButtonHover")
+OptionButton/styles/pressed = SubResource("ButtonPressed")

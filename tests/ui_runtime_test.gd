@@ -21,7 +21,18 @@ func _run() -> void:
 	await process_frame
 	assert(menu.get_node("%SingleplayerButton") != null, "Singleplayer ausente.")
 	var multiplayer := menu.get_node("Center/Panel/Content/ModeButtons/MultiplayerColumn/MultiplayerButton") as Button
-	assert(multiplayer.disabled, "Multiplayer deve estar desabilitado.")
+	assert(not multiplayer.disabled, "A prévia de configuração multiplayer deve estar disponível.")
+	multiplayer.pressed.emit()
+	assert(menu._nickname.is_visible_in_tree(), "O multiplayer deve pedir o nome antes da sala.")
+	menu._nickname.text = "Ana"
+	menu._choose_room_flow(true)
+	assert(menu._password.secret, "A senha da sala deve ser mascarada.")
+	menu._room_field.text = "Turma de Redes"
+	menu._review_room(true)
+	assert("Prévia local" in menu._feedback.text)
+	menu._on_singleplayer_pressed()
+	assert(menu._topics.item_count > 0 and menu._trail.get_child_count() > 1,
+		"A trilha deve refletir o tema do catálogo.")
 	menu.queue_free()
 	await process_frame
 	var settings_scene := load("res://scenes/configurações.tscn") as PackedScene
