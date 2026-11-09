@@ -4,6 +4,7 @@ signal open_requested(mission: Control)
 
 const INSPECTION_STATION_TEXTURE := preload("res://assets/sprites/EsteiraParede.png")
 const INSPECTION_STATION_POSITION := Vector2(0, -348)
+const TASK_TERMINAL_TEXTURE := preload("res://assets/sprites/task_terminal.png")
 
 var _nearby: Array[Node2D] = []
 var _prompt: Label
@@ -209,6 +210,13 @@ func _refresh() -> void:
 
 func _build_terminal() -> void:
 	_mission.hide()
+	var terminal_sprite := Sprite2D.new()
+	terminal_sprite.name = "TaskTerminalSprite"
+	terminal_sprite.texture = TASK_TERMINAL_TEXTURE
+	terminal_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	terminal_sprite.position = _task.terminal_offset + Vector2(0, 4)
+	terminal_sprite.scale = Vector2(2, 2)
+	add_child(terminal_sprite)
 	var area := Area2D.new()
 	area.position = _task.terminal_offset
 	area.collision_layer = 0
@@ -235,24 +243,11 @@ func _build_terminal() -> void:
 	_prompt.add_theme_font_size_override("font_size", 20)
 	_prompt.hide()
 	add_child(_prompt)
-	queue_redraw()
 
 func _refresh_prompt() -> void:
 	if _prompt != null:
 		_prompt.visible = not _nearby.is_empty()
 
-
-func _draw() -> void:
-	if _task == null or _task.presentation != StudyTask.Presentation.TABLET:
-		return
-	# Totem visual da atividade aberta pelo tablet.
-	var origin := _task.terminal_offset
-	draw_rect(Rect2(origin + Vector2(-28, -2), Vector2(56, 60)), Color("394550"))
-	draw_rect(Rect2(origin + Vector2(-50, -50), Vector2(100, 72)), Color("111b25"))
-	draw_rect(Rect2(origin + Vector2(-41, -41), Vector2(82, 48)), Color("16b4ba"))
-	draw_line(origin + Vector2(0, -32), origin + Vector2(0, -5), Color.WHITE, 4)
-	draw_line(origin + Vector2(-10, -15), origin + Vector2(0, -5), Color.WHITE, 4)
-	draw_line(origin + Vector2(10, -15), origin + Vector2(0, -5), Color.WHITE, 4)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _task == null:
