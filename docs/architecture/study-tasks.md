@@ -275,26 +275,26 @@ modo, para avaliação; não é uma decisão definitiva sobre sua apresentação
 
 ## Migração para o mapa modular — 2026-09-28
 
-O mundo jogável agora instancia `scenes/world/maps/central_section_prototype.tscn`.
+O mundo jogável instancia `scenes/world/maps/tile_station.tscn`.
 Cada sala declara uma âncora física em `MissionSlots/Primary`. O script
 `scenes/world/modular_world_setup.gd` cria um `MapTaskSlot` nessa posição, fora do
-conjunto de sprites ampliados, para manter o tamanho das atividades. As colisões são
-editáveis nas cenas das salas e corredores.
+TileMap, para manter o tamanho das atividades. As colisões são pintadas na
+camada `Walls` do mapa.
 
-O catálogo `data/study/catalog.tres` define as três atividades atuais:
+O catálogo `data/study/catalog.tres` define as atividades do tema TCP/IP e Modelo OSI:
 
 | Task | Sala | Apresentação |
 | --- | --- | --- |
 | `sinais_osi` | inferior esquerda | física no mapa |
 | `conecta_camadas` | superior direita | terminal e tablet |
 | `rack_osi` | inferior central | física no mapa |
+| `esteira_pacotes` | octogonal superior esquerda | terminal e janela animada no tablet |
+| `inspecao_pacotes` | inferior centro-direita | estação física de inspeção |
 
 O progresso continua associado ao ID da task. O slot é apenas a posição física no
 mapa. Para adicionar outra atividade, declare uma âncora de sala com `slot_id` único
 e associe esse valor a `map_slot` no catálogo; não é necessário posicionar o slot
-diretamente em `world.tscn`. A visão geral do tablet usa
-`assets/sprites/map/modular_map_overview.png` e deve ser atualizada quando a disposição
-das peças mudar. O PNG único anterior permanece no repositório como referência.
+diretamente em `world.tscn`. A visão geral do tablet lê as camadas de tiles da cena ativa. O PNG único anterior permanece no repositório como referência.
 
 ## Diálogos do jogador — 2026-09-28
 

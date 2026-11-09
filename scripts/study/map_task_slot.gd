@@ -210,7 +210,7 @@ func _refresh() -> void:
 func _build_terminal() -> void:
 	_mission.hide()
 	var area := Area2D.new()
-	area.position = Vector2(340, 230)
+	area.position = _task.terminal_offset
 	area.collision_layer = 0
 	area.collision_mask = 1
 	var shape := CollisionShape2D.new()
@@ -229,7 +229,7 @@ func _build_terminal() -> void:
 		_refresh_prompt()
 	)
 	_prompt = Label.new()
-	_prompt.position = Vector2(190, 140)
+	_prompt.position = _task.terminal_offset + Vector2(-150, -90)
 	_prompt.size = Vector2(300, 40)
 	_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_prompt.add_theme_font_size_override("font_size", 20)
@@ -246,12 +246,13 @@ func _draw() -> void:
 	if _task == null or _task.presentation != StudyTask.Presentation.TABLET:
 		return
 	# Totem visual da atividade aberta pelo tablet.
-	draw_rect(Rect2(312, 228, 56, 60), Color("394550"))
-	draw_rect(Rect2(290, 180, 100, 72), Color("111b25"))
-	draw_rect(Rect2(299, 189, 82, 48), Color("16b4ba"))
-	draw_line(Vector2(340, 198), Vector2(340, 225), Color.WHITE, 4)
-	draw_line(Vector2(330, 215), Vector2(340, 225), Color.WHITE, 4)
-	draw_line(Vector2(350, 215), Vector2(340, 225), Color.WHITE, 4)
+	var origin := _task.terminal_offset
+	draw_rect(Rect2(origin + Vector2(-28, -2), Vector2(56, 60)), Color("394550"))
+	draw_rect(Rect2(origin + Vector2(-50, -50), Vector2(100, 72)), Color("111b25"))
+	draw_rect(Rect2(origin + Vector2(-41, -41), Vector2(82, 48)), Color("16b4ba"))
+	draw_line(origin + Vector2(0, -32), origin + Vector2(0, -5), Color.WHITE, 4)
+	draw_line(origin + Vector2(-10, -15), origin + Vector2(0, -5), Color.WHITE, 4)
+	draw_line(origin + Vector2(10, -15), origin + Vector2(0, -5), Color.WHITE, 4)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _task == null:

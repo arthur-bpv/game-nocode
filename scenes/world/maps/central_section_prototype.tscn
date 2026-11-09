@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" path="res://scenes/world/corridors/lateral_corridor.tscn" id="2_lateral"]
 [ext_resource type="PackedScene" path="res://scenes/world/corridors/lower_corridor.tscn" id="3_lower"]
 [ext_resource type="PackedScene" path="res://scenes/world/rooms/upper_left_room.tscn" id="4_upper_left"]
-[ext_resource type="PackedScene" path="res://scenes/world/corridors/lower_diagonal_corridor.tscn" id="5_diagonal"]
 [ext_resource type="PackedScene" path="res://scenes/world/rooms/lower_left_room.tscn" id="6_lower_left"]
 [ext_resource type="PackedScene" path="res://scenes/world/rooms/lower_central_room.tscn" id="7_lower_central"]
 [ext_resource type="PackedScene" uid="uid://c2whiiuoywyjd" path="res://scenes/world/corridors/medium_corridor.tscn" id="8_medium"]
@@ -17,8 +16,8 @@
 [node name="CentralSectionPrototype" type="Node2D" unique_id=916742516]
 
 [node name="Background" type="Polygon2D" parent="." unique_id=448131697]
-color = Color(0.365, 0.378, 0.431, 1)
-polygon = PackedVector2Array(-2200, -900, 2366, -900, 2366, 1903, -2200, 1900)
+color = Color(0.065, 0.105, 0.14, 1)
+polygon = PackedVector2Array(-2200, -900, 2400, -900, 2400, 1903, -2200, 1900)
 
 [node name="Pieces" type="Node2D" parent="." unique_id=606913176]
 scale = Vector2(2, 2)
@@ -54,8 +53,9 @@ scale = Vector2(0.87, 1)
 [node name="SouthCorridor" parent="Pieces" unique_id=329465825 instance=ExtResource("3_lower")]
 position = Vector2(0, 326)
 
-[node name="UpperLeftSouthCorridor" parent="Pieces" unique_id=796108702 instance=ExtResource("5_diagonal")]
-position = Vector2(-529.3333, 311.5)
+[node name="UpperLeftSouthCorridor" parent="Pieces" unique_id=796108702 instance=ExtResource("3_lower")]
+position = Vector2(-529.3333, 334.5)
+scale = Vector2(1.33, 1.48765432)
 
 [node name="LowerLeftEastCorridor" parent="Pieces" unique_id=537902865 instance=ExtResource("2_lateral")]
 position = Vector2(-196.9167, 552)

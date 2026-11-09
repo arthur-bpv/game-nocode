@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 $project_root = Split-Path -Parent $PSScriptRoot
 $world_scene = Get-Content -Raw (Join-Path $project_root "scenes/world/world.tscn")
 $catalog = Get-Content -Raw (Join-Path $project_root "data/study/catalog.tres")
-$overview = Join-Path $project_root "assets/sprites/map/modular_map_overview.png"
+$tablet = Get-Content -Raw (Join-Path $project_root "scenes/tablet/TabletMenu.tscn")
 
 if ($world_scene -notmatch 'name="MapLayout".*instance=ExtResource\("8_modular"\)') {
     throw "O mundo não instancia o mapa modular."
@@ -11,8 +11,8 @@ if ($world_scene -notmatch 'name="MapLayout".*instance=ExtResource\("8_modular"\
 if ($world_scene -match 'name="MapSprite"|name="WorldWalls"') {
     throw "O mapa único e suas colisões antigas não devem estar ativos."
 }
-if (-not (Test-Path -LiteralPath $overview)) {
-    throw "Imagem do mapa do tablet ausente."
+if ($tablet -notmatch 'name="StationMinimap" type="Control"' -or $tablet -match 'modular_map_overview\.png|tablet_frame\.png') {
+    throw "O tablet deve usar moldura nativa e minimapa desenhado a partir dos tiles."
 }
 
 $room_scenes = @(Get-ChildItem -LiteralPath (Join-Path $project_root "scenes/world/rooms") -Filter "*_room.tscn")

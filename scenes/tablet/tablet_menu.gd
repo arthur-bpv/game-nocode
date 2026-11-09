@@ -13,7 +13,7 @@ const MISSION_STATE_COLORS := {
 	&"completed": Color("61e294"),
 	&"unavailable": Color("59676c"),
 }
-const MAP_MARKER_OFFSET := Vector2(0.00, 0.00)
+const StationMinimap := preload("res://scenes/tablet/station_minimap.gd")
 
 var _active_mission: Control
 
@@ -25,51 +25,7 @@ var _active_mission: Control
 @onready var progress_label: Label = %ProgressLabel
 @onready var progress_count: Label = %ProgressCount
 @onready var mission_progress: ProgressBar = %MissionProgress
-@onready var map_rect: TextureRect = $ScreenCenter/Screen/Content/Body/Section/SectionContent/TextureRect
-@onready var player_marker: ColorRect = $ScreenCenter/Screen/Content/Body/Section/SectionContent/TextureRect/PlayerMarker
-@onready var player: Node2D = get_tree().get_first_node_in_group("player") as Node2D
-@onready var map_top_left: Node2D = get_tree().get_first_node_in_group("map_top_left") as Node2D
-@onready var map_bottom_right: Node2D = get_tree().get_first_node_in_group("map_bottom_right") as Node2D
-
-func _process(_delta: float) -> void:
-	if player == null or map_rect == null or player_marker == null:
-		return
-	if map_top_left == null or map_bottom_right == null:
-		return
-	if map_rect.texture == null:
-		return
-
-	var world_map_bounds := Rect2(
-		map_top_left.global_position,
-		map_bottom_right.global_position - map_top_left.global_position
-	)
-	if world_map_bounds.size.x <= 0.0 or world_map_bounds.size.y <= 0.0:
-		return
-
-	var normalized_position := (
-		player.global_position - world_map_bounds.position
-	) / world_map_bounds.size
-
-	normalized_position = (normalized_position + MAP_MARKER_OFFSET).clamp(
-		Vector2.ZERO,
-		Vector2.ONE
-	)
-
-	# Área ocupada de verdade pela imagem dentro do TextureRect.
-	var texture_size := map_rect.texture.get_size()
-	var scale_factor := minf(
-		map_rect.size.x / texture_size.x,
-		map_rect.size.y / texture_size.y
-	)
-
-	var drawn_size := texture_size * scale_factor
-	var drawn_position := (map_rect.size - drawn_size) / 2.0
-
-	player_marker.position = (
-		drawn_position
-		+ normalized_position * drawn_size
-		- player_marker.size / 2.0
-	)
+@onready var map_rect: StationMinimap = %StationMinimap
 
 func _ready() -> void:
 	hide()
@@ -105,6 +61,9 @@ func _input(event: InputEvent) -> void:
 		return
 	if event is InputEventKey and event.echo:
 		return
+	if get_tree().has_group("active_conveyor_challenge"):
+		get_viewport().set_input_as_handled()
+		return
 	toggle_ui()
 	get_viewport().set_input_as_handled()
 
@@ -113,7 +72,14 @@ func _set_player_movement(enabled: bool) -> void:
 		node.set_physics_process(enabled)
 
 func _on_map_pressed() -> void:
-	_show_section("MAPA", "Mapa do ambiente disponível em breve.", true)
+	var floor_layer := get_node_or_null("../../MapLayout/Floor") as TileMapLayer
+	var wall_layer := get_node_or_null("../../MapLayout/Walls") as TileMapLayer
+	var player := get_tree().get_first_node_in_group("player") as Node2D
+	map_rect.configure(floor_layer, wall_layer, player)
+	if map_rect.has_layout():
+		_show_section("MAPA", "O ponto coral indica sua posição.", true)
+	else:
+		_show_section("MAPA", "Mapa indisponível neste setor.")
 
 func _on_missions_pressed() -> void:
 	%SectionTitle.text = "MISSÕES"

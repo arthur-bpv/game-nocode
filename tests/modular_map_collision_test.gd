@@ -36,7 +36,7 @@ func _run() -> void:
 		assert(hit.is_empty(), "Entrada bloqueada: %s" % item[0])
 	var solid_walls := [
 		["CentralRoom", Vector2(0, -155), Vector2(0, -205)],
-		["UpperLeftRoom", Vector2(-120, 0), Vector2(-205, 0)],
+		["UpperLeftRoom", Vector2(-120, 0), Vector2(-275, 0)],
 		["LowerLeftRoom", Vector2(-180, 0), Vector2(-245, 0)],
 		["LowerCentralRoom", Vector2(0, 175), Vector2(0, 250)],
 		["SmallLowerRightRoom", Vector2(0, 130), Vector2(0, 190)],
@@ -63,6 +63,16 @@ func _run() -> void:
 		var start := marker.global_position + offset - direction * 40
 		var blocked := player_body.test_move(Transform2D(0, start), direction * 80, null, 0.001)
 		assert(not blocked, "Jogador não atravessa a entrada: %s" % item[0])
+	var straight := section.get_node("Pieces/UpperLeftSouthCorridor") as Node2D
+	var north := straight.get_node("Connections/North") as Marker2D
+	var south := straight.get_node("Connections/South") as Marker2D
+	assert(not player_body.test_move(
+		Transform2D(0, north.global_position - Vector2(0, 45)),
+		south.global_position - north.global_position + Vector2(0, 90), null, 0.001),
+		"O jogador deve atravessar o corredor sul em linha reta.")
+	var cross_wall := PhysicsRayQueryParameters2D.create(
+		straight.global_position, straight.global_position + Vector2(100, 0))
+	assert(not space.intersect_ray(cross_wall).is_empty(), "Falta uma parede lateral no corredor reto.")
 	var l_corridor := section.get_node("Pieces/UpperRightSouthCorridor") as Node2D
 	assert(not player_body.test_move(
 		Transform2D(0, l_corridor.to_global(Vector2(87, -150))),

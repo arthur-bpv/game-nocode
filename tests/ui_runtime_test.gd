@@ -37,10 +37,11 @@ func _run() -> void:
 	assert(world_scene != null, "Mundo não carregou.")
 	var world := world_scene.instantiate()
 	root.add_child(world)
+	current_scene = world
 	await process_frame
 
 	assert(world.get_node_or_null("MapSprite") == null, "O mapa único ainda está ativo.")
-	assert(world.get_node("MapLayout/Pieces/CentralRoom/Walls").get_child_count() > 0,
+	assert((world.get_node("MapLayout/Walls") as TileMapLayer).get_used_cells().size() > 0,
 		"As paredes modulares não carregaram.")
 	var tablet := world.get_node("CanvasLayer/TabletUi")
 	var pause_menu := world.get_node("CanvasLayer/Pause")

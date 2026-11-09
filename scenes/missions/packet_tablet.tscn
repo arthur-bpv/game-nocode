@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/missions/packet_tablet.gd" id="1"]
+
+[node name="PacketTablet" type="Control"]
+layout_mode = 0
+offset_right = 680.0
+offset_bottom = 460.0
+script = ExtResource("1")

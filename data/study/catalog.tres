@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="StudyCatalog" format=3 uid="uid://dwnevjp8si6hb"]
 
-[ext_resource type="Script" uid="uid://bqdfrhh3yg5fo" path="res://scripts/study/study_catalog.gd" id="1"]
+[ext_resource type="Script" uid="uid://ddl23hg1heea7" path="res://scripts/study/study_catalog.gd" id="1"]
 [ext_resource type="Script" uid="uid://dgxwfeyu6o1mt" path="res://scripts/study/discipline_definition.gd" id="2"]
-[ext_resource type="Script" uid="uid://c6bt67uy7ppcd" path="res://scripts/study/topic_definition.gd" id="3"]
+[ext_resource type="Script" uid="uid://blnin0c1qg8wi" path="res://scripts/study/topic_definition.gd" id="3"]
 [ext_resource type="Script" uid="uid://1lydqiktj48s" path="res://scripts/study/task_definition.gd" id="4"]
 
 [sub_resource type="Resource" id="task_sinais_osi"]
@@ -32,8 +32,10 @@ script = ExtResource("4")
 id = &"esteira_pacotes"
 title = "Esteira de Pacotes"
 always_available = true
-mission_scene = "res://scenes/missions/esteira.tscn"
+mission_scene = "res://scenes/missions/packet_tablet.tscn"
 map_slot = &"sala_superior_esquerda_principal"
+presentation = 1
+terminal_offset = Vector2(185, 175)
 
 [sub_resource type="Resource" id="Resource_uf8ad"]
 script = ExtResource("4")
@@ -114,22 +116,6 @@ title = "Roteamento Estático e Dinâmico"
 map_scene = "res://scenes/world/world_routing.tscn"
 sequential = false
 tasks = Array[ExtResource("4")]([SubResource("task_routing_diagnostics"), SubResource("task_routing_table_lab"), SubResource("task_route_forwarding")])
-
-[sub_resource type="Resource" id="task_services_security"]
-script = ExtResource("4")
-id = &"services_security"
-title = "Serviços e Segurança de Rede"
-mission_scene = "res://scenes/missions/services_security.tscn"
-map_slot = &"sala_superior_esquerda_principal"
-presentation = 1
-
-[sub_resource type="Resource" id="services_security"]
-script = ExtResource("3")
-id = &"services_security"
-title = "Serviços e Segurança"
-map_scene = "res://scenes/world/world_services_security.tscn"
-sequential = false
-tasks = Array[ExtResource("4")]([SubResource("task_services_security")])
 
 [sub_resource type="Resource" id="redes"]
 script = ExtResource("2")

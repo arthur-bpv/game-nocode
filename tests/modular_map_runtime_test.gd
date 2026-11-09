@@ -20,7 +20,7 @@ func _run() -> void:
 	var west := section.get_node("Pieces/WestCorridor") as Node2D
 	var east := section.get_node("Pieces/EastCorridor") as Node2D
 	var south := section.get_node("Pieces/SouthCorridor") as Node2D
-	var diagonal := section.get_node("Pieces/UpperLeftSouthCorridor") as Node2D
+	var straight := section.get_node("Pieces/UpperLeftSouthCorridor") as Node2D
 	var lower_east := section.get_node("Pieces/LowerLeftEastCorridor") as Node2D
 	var lower_central_east := section.get_node("Pieces/LowerCentralEastCorridor") as Node2D
 	var l_shaped := section.get_node("Pieces/UpperRightSouthCorridor") as Node2D
@@ -40,7 +40,7 @@ func _run() -> void:
 	assert((upper_right.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"sala_superior_direita_principal")
 	assert((lower_right.get_node("MissionSlots/Primary") as MapMissionAnchor).slot_id == &"sala_inferior_direita_principal")
 	for piece in [room, upper_left, lower_left, lower_central, small_lower_right,
-		upper_right, lower_right, west, east, south, diagonal, lower_east,
+		upper_right, lower_right, west, east, south, straight, lower_east,
 		lower_central_east, l_shaped, mini]:
 		var walls := piece.get_node("Walls") as StaticBody2D
 		assert(walls != null and walls.get_child_count() > 0,
@@ -53,8 +53,11 @@ func _run() -> void:
 	_check_join(upper_left.get_node("Connections/East"), west.get_node("Connections/West"))
 	_check_join(room.get_node("Connections/East"), east.get_node("Connections/West"))
 	_check_join(room.get_node("Connections/South"), south.get_node("Connections/North"))
-	_check_join(upper_left.get_node("Connections/South"), diagonal.get_node("Connections/North"))
-	_check_join(lower_left.get_node("Connections/North"), diagonal.get_node("Connections/South"))
+	_check_join(upper_left.get_node("Connections/South"), straight.get_node("Connections/North"))
+	_check_join(lower_left.get_node("Connections/North"), straight.get_node("Connections/South"))
+	assert(is_equal_approx(
+		straight.get_node("Connections/North").global_position.x,
+		straight.get_node("Connections/South").global_position.x))
 	_check_join(lower_left.get_node("Connections/East"), lower_east.get_node("Connections/West"))
 	_check_join(lower_central.get_node("Connections/North"), south.get_node("Connections/South"))
 	_check_join(lower_central.get_node("Connections/West"), lower_east.get_node("Connections/East"))

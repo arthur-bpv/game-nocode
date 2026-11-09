@@ -88,16 +88,16 @@ position = Vector2(96, 352)
 position = Vector2(96, 440)
 
 [node name="Corner1" type="Marker2D" parent="Layout" unique_id=623236691]
-position = Vector2(613, 112)
+position = Vector2(656, 112)
 
 [node name="Corner2" type="Marker2D" parent="Layout" unique_id=1582920991]
-position = Vector2(613, 280)
+position = Vector2(656, 280)
 
 [node name="Corner3" type="Marker2D" parent="Layout" unique_id=645130208]
-position = Vector2(96, 280)
+position = Vector2(122, 280)
 
 [node name="Corner4" type="Marker2D" parent="Layout" unique_id=847523417]
-position = Vector2(96, 494)
+position = Vector2(122, 494)
 
 [node name="Panel" type="Marker2D" parent="Layout" unique_id=5016705]
 position = Vector2(233, 541)

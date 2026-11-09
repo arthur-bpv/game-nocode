@@ -1,41 +1,49 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/study/map_room.gd" id="1_room"]
 [ext_resource type="Script" path="res://scripts/study/map_mission_anchor.gd" id="2_anchor"]
-[ext_resource type="Texture2D" path="res://assets/sprites/map/rooms/upper_left.png" id="3_texture"]
+[ext_resource type="Texture2D" path="res://assets/sprites/map/rooms/upper_left_octagon.svg" id="3_texture"]
 
 ; BEGIN WALL SHAPES
 [sub_resource type="SegmentShape2D" id="Wall_001"]
-a = Vector2(-43.5, -153)
-b = Vector2(-183.5, 30)
+a = Vector2(-187, -84)
+b = Vector2(-130, -169)
 
 [sub_resource type="SegmentShape2D" id="Wall_002"]
-a = Vector2(-184.5, 30)
-b = Vector2(-174.5, 43)
+a = Vector2(-130, -169)
+b = Vector2(130, -169)
 
 [sub_resource type="SegmentShape2D" id="Wall_003"]
-a = Vector2(-174.5, 45)
-b = Vector2(-43.5, 215)
+a = Vector2(130, -169)
+b = Vector2(187, -84)
 
 [sub_resource type="SegmentShape2D" id="Wall_004"]
-a = Vector2(-43.5, 216)
-b = Vector2(17, 197.077)
+a = Vector2(187, -84)
+b = Vector2(187, -5)
 
 [sub_resource type="SegmentShape2D" id="Wall_005"]
-a = Vector2(140, 158.606)
-b = Vector2(183.5, 145)
+a = Vector2(187, 64)
+b = Vector2(187, 131)
 
 [sub_resource type="SegmentShape2D" id="Wall_006"]
-a = Vector2(185.5, 145)
-b = Vector2(185.5, 64)
+a = Vector2(187, 131)
+b = Vector2(130, 216)
 
 [sub_resource type="SegmentShape2D" id="Wall_007"]
-a = Vector2(185.5, -4)
-b = Vector2(185.5, -83)
+a = Vector2(130, 216)
+b = Vector2(125, 216)
 
 [sub_resource type="SegmentShape2D" id="Wall_008"]
-a = Vector2(185.5, -83)
-b = Vector2(-43.5, -154)
+a = Vector2(47, 216)
+b = Vector2(-130, 216)
+
+[sub_resource type="SegmentShape2D" id="Wall_009"]
+a = Vector2(-130, 216)
+b = Vector2(-187, 131)
+
+[sub_resource type="SegmentShape2D" id="Wall_010"]
+a = Vector2(-187, 131)
+b = Vector2(-187, -84)
 
 ; END WALL SHAPES
 
@@ -53,7 +61,7 @@ texture = ExtResource("3_texture")
 position = Vector2(188.5, 27)
 
 [node name="South" type="Marker2D" parent="Connections"]
-position = Vector2(86, 177)
+position = Vector2(86, 214)
 rotation = 1.5707964
 
 [node name="MissionSlots" type="Node2D" parent="."]
@@ -89,5 +97,11 @@ shape = SubResource("Wall_007")
 
 [node name="Edge008" type="CollisionShape2D" parent="Walls"]
 shape = SubResource("Wall_008")
+
+[node name="Edge009" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_009")
+
+[node name="Edge010" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("Wall_010")
 
 ; END WALL NODES

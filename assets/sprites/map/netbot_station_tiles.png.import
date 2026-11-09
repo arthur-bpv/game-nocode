@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bacnna8h7qmo5"
-path="res://.godot/imported/upper_left.png-9a86065ea4fc2a99982d76ae6b1e50db.ctex"
+uid="uid://n6x0pk8jwu3a"
+path="res://.godot/imported/netbot_station_tiles.png-f3dd5596d49d61bf04e5b516ed88762c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/map/rooms/upper_left.png"
-dest_files=["res://.godot/imported/upper_left.png-9a86065ea4fc2a99982d76ae6b1e50db.ctex"]
+source_file="res://assets/sprites/map/netbot_station_tiles.png"
+dest_files=["res://.godot/imported/netbot_station_tiles.png-f3dd5596d49d61bf04e5b516ed88762c.ctex"]
 
 [params]
 

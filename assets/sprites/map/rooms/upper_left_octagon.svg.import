@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b07rcqsxddddp"
-path="res://.godot/imported/modular_map_overview.png-8a444af9d27e77b9d452b2b6cc155c22.ctex"
+uid="uid://b1uh45aytc0bk"
+path="res://.godot/imported/upper_left_octagon.svg-d4883d149100761220ed1d8f62889708.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/map/modular_map_overview.png"
-dest_files=["res://.godot/imported/modular_map_overview.png-8a444af9d27e77b9d452b2b6cc155c22.ctex"]
+source_file="res://assets/sprites/map/rooms/upper_left_octagon.svg"
+dest_files=["res://.godot/imported/upper_left_octagon.svg-d4883d149100761220ed1d8f62889708.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

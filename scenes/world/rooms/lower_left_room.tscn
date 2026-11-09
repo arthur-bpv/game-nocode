@@ -18,10 +18,10 @@ b = Vector2(226, -100)
 
 [sub_resource type="SegmentShape2D" id="Wall_004"]
 a = Vector2(226, -100)
-b = Vector2(61, -100)
+b = Vector2(46, -100)
 
 [sub_resource type="SegmentShape2D" id="Wall_005"]
-a = Vector2(-56, -100)
+a = Vector2(-30, -100)
 b = Vector2(-226, -100)
 
 [sub_resource type="SegmentShape2D" id="Wall_006"]

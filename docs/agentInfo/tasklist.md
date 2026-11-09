@@ -54,3 +54,9 @@ Atualizado em: 2026-09-01
 - [x] Validação visual em 720p, 1080p e 4K.
 - [x] Toda a lógica de runtime foi consolidada em GDScript textual.
 - [x] Dependência de scripting visual removida do projeto e dos instaladores.
+
+## Sala e inspeção de pacotes
+
+- [x] 1. Substituir a sala pentagonal por uma octogonal e alinhar o corredor reto.
+- [x] 2. Adicionar colisão à esteira e abrir a missão em um painel lateral direito. Manter o pacote visível no mapa e sincronizar o painel com cada etapa, sem exigir deslocamento entre paradas.
+- [x] 3. Revisar a jogabilidade, colisões e composição visual do mapa e do painel.

@@ -10,6 +10,17 @@ const SPRITESHEET_PATH := "res://assets/sprites/esteirasprites.png"
 const PACKAGE_TEXTURE_PATH := "res://assets/sprites/Pacote.png"
 const CABIN_SCALE := Vector2(0.86, 0.86)
 const PACKAGE_SCALE := Vector2(0.040, 0.040)
+# Coordenadas da arte composta depois do recorte para 720 × 532.
+const CABIN_BODIES: Array[Rect2] = [
+	Rect2(108, 2, 100, 111), Rect2(301, 3, 99, 111), Rect2(498, 3, 99, 111),
+	Rect2(222, 188, 334, 117), Rect2(201, 417, 99, 113),
+	Rect2(393, 418, 100, 111), Rect2(591, 418, 99, 111),
+]
+const CABIN_WINDOWS: Array[Rect2] = [
+	Rect2(116, 43, 83, 31), Rect2(310, 44, 82, 31), Rect2(506, 44, 83, 31),
+	Rect2(234, 236, 308, 47), Rect2(208, 460, 83, 31),
+	Rect2(403, 460, 81, 31), Rect2(600, 460, 81, 31),
+]
 
 # Regiões da folha de sprites (base 1476 x 1080, sem os títulos de referência).
 const SHEET_SMALL_MACHINE := Rect2i(50, 466, 217, 210)
@@ -33,7 +44,7 @@ const ORIGINAL_FACTORY_LAYOUT := Rect2i(0, 0, 9731, 7200)
 
 # Ajustáveis pela cena da missão para futuros reposicionamentos no mapa.
 @export var map_scale := 0.82
-@export var map_offset := Vector2(-255, -195)
+@export var map_offset := Vector2(-301, -195)
 
 enum TaskState { IDLE, MOVING, ENTERING, PROCESSING, SUCCESS, ERROR, LEAVING, COMPLETED }
 
@@ -105,15 +116,18 @@ var delivery_point := Vector2(688, 520)
 
 var state: int = TaskState.IDLE
 var stage_index: int = 0
-var nearby_cabin: int = -1
 var package: Sprite2D
 var cabin_sprites: Array[Sprite2D] = []
 var cabin_lights: Array[ColorRect] = []
 var cabin_window_points: Array[Vector2] = []
-var stage_label: Label
-var tcp_label: Label
+var cabin_exit_points: Array[Vector2] = []
 var status_label: Label
-var challenge_panel: ColorRect
+var challenge_panel: PanelContainer
+var challenge_step: Label
+var challenge_camera: Camera2D
+var previous_camera: Camera2D
+var challenge_player: CharacterBody2D
+var console_prompt: Label
 var challenge_title: Label
 var challenge_text: Label
 var choice_labels: Array[Button] = []
@@ -121,12 +135,6 @@ var segment_order: Array[int] = []
 var completed_once := false
 var move_tween: Tween
 var conveyor_on := false
-var has_started := false
-var paused_state := -1
-var paused_target := Vector2.ZERO
-var paused_callback := Callable()
-var move_target := Vector2.ZERO
-var move_callback := Callable()
 var panel_sprite: Sprite2D
 
 func _ready() -> void:
@@ -141,6 +149,11 @@ func _ready() -> void:
 	_sync_layout_markers()
 	_build_visuals()
 	_reset_task(false)
+	visibility_changed.connect(func() -> void:
+		if not is_visible_in_tree():
+			_close_challenge()
+	)
+	get_viewport().size_changed.connect(_frame_challenge)
 	call_deferred("_keep_player_in_front")
 
 func _sync_layout_markers() -> void:
@@ -158,35 +171,25 @@ func _sync_layout_markers() -> void:
 	var button_marker := get_node_or_null("Layout/PowerButton") as Marker2D
 	if button_marker != null:
 		green_button_rect.position = button_marker.position
-	_sync_package_route()
 
-func _sync_package_route() -> void:
-	# A rota não possui coordenadas verticais fixas: acompanha as peças que foram
-	# reposicionadas visualmente na cena, inclusive a esteira inferior.
-	if top_belt_centers.is_empty() or middle_belt_centers.is_empty() or bottom_belt_centers.is_empty() or cabin_centers.size() < 7:
-		return
-	package_stops = [
-		Vector2(cabin_centers[0].x, _belt_y_at(cabin_centers[0].x, top_belt_centers)),
-		Vector2(cabin_centers[1].x, _belt_y_at(cabin_centers[1].x, top_belt_centers)),
-		Vector2(cabin_centers[2].x, _belt_y_at(cabin_centers[2].x, top_belt_centers)),
-		Vector2(cabin_centers[3].x, _belt_y_at(cabin_centers[3].x, middle_belt_centers)),
-		Vector2(cabin_centers[4].x, _belt_y_at(cabin_centers[4].x, bottom_belt_centers)),
-		Vector2(cabin_centers[5].x, _belt_y_at(cabin_centers[5].x, bottom_belt_centers)),
-		Vector2(cabin_centers[6].x, _belt_y_at(cabin_centers[6].x, bottom_belt_centers))
-	]
-	cabin_window_points = cabin_centers.duplicate()
-	# A janela da máquina central é um pouco abaixo do centro do sprite.
-	if cabin_window_points.size() > 3:
-		cabin_window_points[3] += Vector2(0, 13)
-	start_point = Vector2(top_belt_centers[0].x - 53.0, top_belt_centers[0].y)
-	delivery_point = Vector2(bottom_belt_centers[bottom_belt_centers.size() - 1].x + 53.0, bottom_belt_centers[bottom_belt_centers.size() - 1].y)
-
-func _belt_y_at(x: float, belt_centers: Array[Vector2]) -> float:
-	var closest := belt_centers[0]
-	for belt_center in belt_centers:
-		if absf(belt_center.x - x) < absf(closest.x - x):
-			closest = belt_center
-	return closest.y
+func _sync_package_route(using_composed_art: bool) -> void:
+	package_stops.clear()
+	cabin_window_points.clear()
+	cabin_exit_points.clear()
+	for index in STAGES.size():
+		var belt := top_belt_centers if index < 3 else (middle_belt_centers if index == 3 else bottom_belt_centers)
+		var center := Vector2(cabin_centers[index].x, belt[0].y)
+		var half_width := 60.0
+		if using_composed_art:
+			center = CABIN_WINDOWS[index].get_center()
+			half_width = CABIN_BODIES[index].size.x * 0.5
+		var direction := -1.0 if index == 3 else 1.0
+		var side := Vector2((half_width + 8.0) * direction, 0)
+		package_stops.append(center - side)
+		cabin_window_points.append(center)
+		cabin_exit_points.append(center + side)
+	start_point = Vector2(maxf(14.0, top_belt_centers[0].x - 53.0), package_stops[0].y)
+	delivery_point = Vector2(maxf(bottom_belt_centers[-1].x + 53.0, cabin_exit_points[-1].x), package_stops[-1].y)
 
 func _marker_positions(prefix: String, defaults: Array[Vector2]) -> Array[Vector2]:
 	var positions: Array[Vector2] = []
@@ -201,12 +204,12 @@ func _keep_player_in_front() -> void:
 		player.z_index = maxi(player.z_index, 5)
 
 func mentor_intro() -> String:
-	return "Esta é a esteira didática OSI/TCP-IP. Leve o pacote por sete cabines e pressione [E] em cada etapa."
+	return "Aproxime-se do console verde e pressione [E]. Acompanhe as sete cabines pelo painel lateral."
 
 func _build_visuals() -> void:
-	_build_header()
 	_build_conveyor_collision()
 	var using_composed_art := use_composed_factory_art and _build_factory_sprite()
+	_sync_package_route(using_composed_art)
 	if using_composed_art:
 		_build_cabin_lights()
 	else:
@@ -217,59 +220,25 @@ func _build_visuals() -> void:
 	queue_redraw()
 
 func _build_conveyor_collision() -> void:
-	# A esteira é somente visual. Assim o jogador pode atravessar as correias
-	# e alcançar livremente todas as cabines.
-	pass
-
-func _build_header() -> void:
-	var title := Label.new()
-	title.text = "ESTEIRA DE PACOTES — OSI / TCP-IP"
-	title.position = Vector2(0, 0)
-	title.size = Vector2(size.x, 22)
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 12)
-	title.add_theme_color_override("font_color", Color.WHITE)
-	title.add_theme_color_override("font_outline_color", Color.BLACK)
-	title.add_theme_constant_override("outline_size", 3)
-	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(title)
-	title.hide()
-
-	stage_label = Label.new()
-	stage_label.position = Vector2(18, 26)
-	stage_label.size = Vector2(300, 20)
-	stage_label.add_theme_font_size_override("font_size", 10)
-	stage_label.add_theme_color_override("font_color", Color("f8dd78"))
-	stage_label.add_theme_color_override("font_outline_color", Color.BLACK)
-	stage_label.add_theme_constant_override("outline_size", 2)
-	stage_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(stage_label)
-	stage_label.hide()
-
-	tcp_label = Label.new()
-	tcp_label.position = Vector2(350, 26)
-	tcp_label.size = Vector2(350, 20)
-	tcp_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	tcp_label.add_theme_font_size_override("font_size", 9)
-	tcp_label.add_theme_color_override("font_color", Color("8edcf2"))
-	tcp_label.add_theme_color_override("font_outline_color", Color.BLACK)
-	tcp_label.add_theme_constant_override("outline_size", 2)
-	tcp_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(tcp_label)
-	tcp_label.hide()
-
-	status_label = Label.new()
-	status_label.position = Vector2(18, 448)
-	status_label.size = Vector2(684, 22)
-	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	status_label.add_theme_font_size_override("font_size", 10)
-	status_label.add_theme_color_override("font_color", Color.WHITE)
-	status_label.add_theme_color_override("font_outline_color", Color.BLACK)
-	status_label.add_theme_constant_override("outline_size", 2)
-	status_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(status_label)
-	status_label.hide()
+	# As formas cobrem as correias e cabines da arte 720 × 532.
+	var body := StaticBody2D.new()
+	body.name = "ConveyorCollision"
+	add_child(body)
+	var footprints: Array[Rect2] = [
+		Rect2(2, 45, 684, 68), Rect2(613, 45, 72, 260),
+		Rect2(95, 240, 591, 65), Rect2(95, 240, 55, 289),
+		Rect2(95, 460, 624, 69), Rect2(222, 188, 334, 118),
+		Rect2(108, 2, 100, 113), Rect2(301, 2, 99, 113), Rect2(498, 3, 99, 112),
+		Rect2(200, 417, 100, 112), Rect2(393, 417, 100, 112), Rect2(591, 417, 100, 112),
+		panel_rect
+	]
+	for footprint in footprints:
+		var shape := RectangleShape2D.new()
+		shape.size = footprint.size
+		var collision := CollisionShape2D.new()
+		collision.shape = shape
+		collision.position = footprint.get_center()
+		body.add_child(collision)
 
 func _load_runtime_texture(path: String) -> Texture2D:
 	var image := Image.load_from_file(path)
@@ -299,51 +268,61 @@ func _build_factory_sprite() -> bool:
 	var factory := _sheet_sprite(factory_texture, Vector2(360, 266))
 	factory.name = "FactoryArtwork"
 	factory.z_index = 0
-	var glass_overlay_texture := _load_factory_glass_overlay()
-	if glass_overlay_texture != null:
-		var glass_overlay := _sheet_sprite(glass_overlay_texture, Vector2(360, 266))
-		glass_overlay.name = "FactoryGlassOverlay"
-		# Molduras na frente do pacote; somente o vidro recebe transparência.
-		glass_overlay.z_index = 2
+	_build_glass_foreground(factory_texture)
 	return true
 
-func _load_factory_glass_overlay() -> Texture2D:
-	var source := Image.load_from_file(CONVEYOR_SOURCE_PATH)
-	if source == null or source.is_empty():
-		return null
-	var factor := Vector2(float(source.get_width()) / 9731.0, float(source.get_height()) / 10415.0)
-	var source_region := Rect2i(
-		Vector2i(Vector2(ORIGINAL_FACTORY_LAYOUT.position) * factor),
-		Vector2i(Vector2(ORIGINAL_FACTORY_LAYOUT.size) * factor)
-	)
-	var overlay := source.get_region(source_region)
-	overlay.resize(720, 532, Image.INTERPOLATE_NEAREST)
-	for y in overlay.get_height():
-		for x in overlay.get_width():
-			var pixel := overlay.get_pixel(x, y)
-			# Azul e ciano pertencem aos visores; a moldura e a máquina seguem opacas.
-			if pixel.b > 0.5 and pixel.b > pixel.r + 0.08 and pixel.b > pixel.g + 0.05:
-				pixel.a = 0.42
-				overlay.set_pixel(x, y, pixel)
-	return ImageTexture.create_from_image(overlay)
+func _build_glass_foreground(factory_texture: Texture2D) -> void:
+	# Redesenha a moldura sobre o pacote, deixando só a abertura do vidro livre.
+	for index in CABIN_WINDOWS.size():
+		var body := CABIN_BODIES[index]
+		var glass := CABIN_WINDOWS[index]
+		var strips: Array[Rect2] = [
+			Rect2(body.position, Vector2(body.size.x, glass.position.y - body.position.y)),
+			Rect2(body.position.x, glass.end.y, body.size.x, body.end.y - glass.end.y),
+			Rect2(body.position.x, glass.position.y, glass.position.x - body.position.x, glass.size.y),
+			Rect2(glass.end.x, glass.position.y, body.end.x - glass.end.x, glass.size.y),
+		]
+		for strip in strips:
+			var frame := _sheet_sprite(factory_texture, strip.get_center())
+			frame.region_enabled = true
+			frame.region_rect = strip
+			frame.z_index = 4
+
+	var reflections := Node2D.new()
+	reflections.name = "CentralCabinReflections"
+	reflections.z_index = 5
+	add_child(reflections)
+	for x in [278, 301, 376, 399]:
+		var glint := Polygon2D.new()
+		glint.polygon = PackedVector2Array([
+			Vector2(x + 25, 238), Vector2(x + 34, 238),
+			Vector2(x + 9, 281), Vector2(x, 281),
+		])
+		glint.color = Color(0.78, 0.94, 1.0, 0.32)
+		reflections.add_child(glint)
 
 func _build_cabin_lights() -> void:
-	# A arte composta contém LEDs fixos. Máscaras neutras os apagam até a
-	# cabine realmente processar uma resposta; a seguir um LED é exibido acima.
-	for index in cabin_centers.size():
-		var is_central := index == 3
-		var lamp_offset := Vector2(128, 38) if is_central else Vector2(20, 37)
-		if is_central:
-			lamp_offset = Vector2(128, 6)
-		var lamp_position := cabin_centers[index] + lamp_offset
+	# A arte composta tem dois LEDs fixos por cabine. A moldura cobre ambos
+	# e o indicador dinâmico ocupa a mesma posição.
+	var lamp_positions: Array[Vector2] = [
+		Vector2(182, 95), Vector2(374, 96), Vector2(571, 96), Vector2(521, 291),
+		Vector2(274, 510), Vector2(467, 511), Vector2(663, 511)
+	]
+	for lamp_position in lamp_positions:
+		var housing := ColorRect.new()
+		housing.position = lamp_position
+		housing.size = Vector2(20, 10)
+		housing.color = Color("202529")
+		housing.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		housing.z_index = 5
+		add_child(housing)
+
 		var light := ColorRect.new()
-		light.position = lamp_position + Vector2(2, 2)
-		light.size = Vector2(20, 8)
-		light.color = Color("38e34b")
+		light.position = Vector2(3, 2)
+		light.size = Vector2(14, 6)
 		light.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		light.z_index = 3
 		light.hide()
-		add_child(light)
+		housing.add_child(light)
 		cabin_lights.append(light)
 
 func _build_original_sprite_belts() -> void:
@@ -486,7 +465,7 @@ func _build_package() -> void:
 	package.position = start_point
 	package.scale = PACKAGE_SCALE
 	package.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	# Acima da arte enquanto viaja; ao entrar na cabine, fica sob o vidro.
+	# Mantém o pacote visível também quando ele para no visor.
 	package.z_index = 3
 	add_child(package)
 	if package.texture == null:
@@ -496,92 +475,95 @@ func _build_package() -> void:
 		package.add_child(fallback)
 
 func _build_challenge_panel() -> void:
-	# O desafio pertence à HUD, não ao mapa: assim não herda a escala da sala
-	# nem fica escondido atrás de cabines, paredes ou do jogador.
 	var hud := CanvasLayer.new()
 	hud.name = "EsteiraChallengeHUD"
 	hud.layer = 30
 	add_child(hud)
-
-	challenge_panel = ColorRect.new()
-	challenge_panel.set_anchors_preset(Control.PRESET_CENTER)
-	challenge_panel.offset_left = -310
-	challenge_panel.offset_top = -145
-	challenge_panel.offset_right = 310
-	challenge_panel.offset_bottom = 145
-	challenge_panel.color = Color(0.025, 0.065, 0.095, 0.98)
-	challenge_panel.mouse_filter = Control.MOUSE_FILTER_STOP
-	challenge_panel.z_index = 30
+	challenge_panel = PanelContainer.new()
+	challenge_panel.name = "CabinPanel"
+	challenge_panel.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	challenge_panel.hide()
 	hud.add_child(challenge_panel)
+	challenge_panel.anchor_left = 0.55
+	challenge_panel.anchor_right = 1.0
+	challenge_panel.anchor_top = 0.12
+	challenge_panel.anchor_bottom = 0.88
+	challenge_panel.offset_left = 12
+	challenge_panel.offset_right = -24
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("0b1a25")
+	style.border_color = Color("3697a6")
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(14)
+	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+		style.set_content_margin(side, 28)
+	challenge_panel.add_theme_stylebox_override("panel", style)
 
-	var top_line := ColorRect.new()
-	top_line.position = Vector2(0, 0)
-	top_line.size = Vector2(620, 6)
-	top_line.color = Color("23d6ec")
-	top_line.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	challenge_panel.add_child(top_line)
+	var layout := VBoxContainer.new()
+	layout.add_theme_constant_override("separation", 16)
+	challenge_panel.add_child(layout)
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 12)
+	layout.add_child(header)
+	var caption := _panel_label("ESTEIRA DE PACOTES  /  OSI + TCP/IP", 20, Color("79d7df"))
+	caption.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(caption)
+	var close_button := Button.new()
+	close_button.text = "Fechar [Esc]"
+	close_button.focus_mode = Control.FOCUS_NONE
+	close_button.add_theme_font_size_override("font_size", 18)
+	close_button.pressed.connect(_close_challenge)
+	header.add_child(close_button)
 
-	var frame := ReferenceRect.new()
-	frame.position = Vector2(8, 8)
-	frame.size = Vector2(604, 274)
-	frame.border_color = Color("23d6ec")
-	frame.border_width = 3.0
-	frame.editor_only = false
-	challenge_panel.add_child(frame)
-
-	challenge_title = Label.new()
-	challenge_title.position = Vector2(20, 22)
-	challenge_title.size = Vector2(580, 34)
-	challenge_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	challenge_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	challenge_title.add_theme_font_size_override("font_size", 18)
-	challenge_title.add_theme_color_override("font_color", Color("35edff"))
-	challenge_title.add_theme_color_override("font_outline_color", Color.BLACK)
-	challenge_title.add_theme_constant_override("outline_size", 4)
-	challenge_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	challenge_panel.add_child(challenge_title)
-
-	challenge_text = Label.new()
-	challenge_text.position = Vector2(30, 66)
-	challenge_text.size = Vector2(560, 66)
-	challenge_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	challenge_step = _panel_label("", 21, Color("e1b956"))
+	layout.add_child(challenge_step)
+	challenge_title = _panel_label("", 32, Color("ecf7fc"))
+	layout.add_child(challenge_title)
+	challenge_text = _panel_label("", 25, Color("ecf7fc"))
+	challenge_text.custom_minimum_size.y = 112
 	challenge_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	challenge_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	challenge_text.add_theme_font_size_override("font_size", 17)
-	challenge_text.add_theme_color_override("font_color", Color.WHITE)
-	challenge_text.add_theme_color_override("font_outline_color", Color.BLACK)
-	challenge_text.add_theme_constant_override("outline_size", 3)
-	challenge_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	challenge_panel.add_child(challenge_text)
+	layout.add_child(challenge_text)
 
 	for option_index in 3:
-		var option_box := ColorRect.new()
-		option_box.position = Vector2(20 + option_index * 200, 154)
-		option_box.size = Vector2(180, 94)
-		option_box.color = Color("123646")
-		option_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		challenge_panel.add_child(option_box)
 		var choice := Button.new()
-		choice.position = Vector2(8, 8)
-		choice.size = Vector2(164, 78)
+		choice.custom_minimum_size.y = 64
+		choice.focus_mode = Control.FOCUS_NONE
 		choice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		choice.add_theme_font_size_override("font_size", 13)
-		choice.add_theme_color_override("font_color", Color("f4f8ff"))
-		choice.add_theme_color_override("font_outline_color", Color.BLACK)
-		choice.add_theme_constant_override("outline_size", 3)
-		choice.tooltip_text = "Clique para selecionar esta resposta."
-		option_box.add_child(choice)
+		choice.add_theme_font_size_override("font_size", 23)
+		layout.add_child(choice)
 		choice_labels.append(choice)
-		choice.pressed.connect(func() -> void:
-			if state != TaskState.PROCESSING:
-				return
-			var stage: Dictionary = STAGES[stage_index]
-			if bool(stage.get("segments", false)):
-				_handle_segment_choice(option_index + 1)
-			else:
-				_validate_answer(option_index + 1)
-		)
+		choice.pressed.connect(_choose_answer.bind(option_index + 1))
+
+	status_label = _panel_label("", 21, Color("9fbdc9"))
+	status_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	layout.add_child(status_label)
+	layout.add_child(_panel_label("[1] [2] [3]  Responder     •     [R]  Reiniciar", 17, Color("9fbdc9")))
+
+	challenge_camera = Camera2D.new()
+	challenge_camera.name = "ConveyorCamera"
+	challenge_camera.enabled = false
+	add_child(challenge_camera)
+	console_prompt = _panel_label("[E] PAINEL DA ESTEIRA", 18, Color("eafcff"))
+	console_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	console_prompt.position = panel_rect.position + Vector2(-232, 18)
+	console_prompt.size.x = 220
+	console_prompt.add_theme_color_override("font_outline_color", Color("0b1a25"))
+	console_prompt.add_theme_constant_override("outline_size", 6)
+	console_prompt.z_index = 4
+	console_prompt.hide()
+	add_child(console_prompt)
+
+func _panel_label(text: String, font_size: int, color: Color) -> Label:
+	var label := Label.new()
+	label.text = text
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", color)
+	var inset := StyleBoxEmpty.new()
+	inset.content_margin_left = 3
+	inset.content_margin_right = 3
+	label.add_theme_stylebox_override("normal", inset)
+	return label
 
 func _draw() -> void:
 	# Painel de controle no início da linha: botão verde liga, vermelho pausa.
@@ -593,106 +575,94 @@ func _draw() -> void:
 	draw_string(ThemeDB.fallback_font, green_button_rect.position + Vector2(12, 23), "LIGAR", HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color.BLACK)
 
 func _process(_delta: float) -> void:
-	if conveyor_on and (state == TaskState.MOVING or state == TaskState.ENTERING or state == TaskState.LEAVING):
-		package.position.y += sin(Time.get_ticks_msec() * 0.012) * 0.18
-	var panel_action := _panel_action_under_player()
-	if panel_action != 0 and state != TaskState.PROCESSING:
-		if conveyor_on:
-			status_label.text = "A esteira já está ligada."
-		else:
-			status_label.text = "Pressione E para ligar a esteira."
-			mentor_context.emit("Pressione [E] no botão verde para ligar a esteira.")
-		return
-	if state != TaskState.PROCESSING and state != TaskState.COMPLETED:
-		var previous := nearby_cabin
-		nearby_cabin = _cabine_under_player()
-		if nearby_cabin != previous and nearby_cabin >= 0:
-			mentor_context.emit("Cabine " + str(nearby_cabin + 1) + ". Pressione [E] quando o pacote estiver aqui.")
+	var player := get_tree().get_first_node_in_group("player") as CharacterBody2D
+	console_prompt.visible = not is_challenge_open() and _is_at_console(player)
 
-func _panel_action_under_player() -> int:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
-	var slot := get_parent() as Node2D
-	if player == null or slot == null:
-		return 0
+func _is_at_console(player: CharacterBody2D) -> bool:
+	if not is_instance_valid(player):
+		return false
 	var local_position := get_global_transform().affine_inverse() * player.global_position
-	if green_button_rect.grow(16.0).has_point(local_position):
-		return 1
-	if panel_rect.grow(20.0).has_point(local_position):
-		return 1
-	return 0
+	return panel_rect.grow(66.0).has_point(local_position)
 
-func _cabine_under_player() -> int:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
-	var slot := get_parent() as Node2D
-	if player == null or slot == null:
-		return -1
-	var local_position := get_global_transform().affine_inverse() * player.global_position
-	for index in cabin_centers.size():
-		# As áreas ficam na frente de cada máquina. A cabine central recebe a
-		# mesma largura das demais e uma faixa um pouco maior abaixo dela.
-		var zone: Rect2
-		if index == 3:
-			zone = Rect2(cabin_centers[index] + Vector2(-76, 0), Vector2(152, 74))
-		elif index >= 4:
-			zone = Rect2(cabin_centers[index] + Vector2(-76, -15), Vector2(152, 60))
-		else:
-			zone = Rect2(cabin_centers[index] + Vector2(-76, -12), Vector2(152, 45))
-		if zone.has_point(local_position):
-			return index
-	return -1
+func is_challenge_open() -> bool:
+	return challenge_panel != null and challenge_panel.visible
 
 func _input(event: InputEvent) -> void:
-	if challenge_panel != null and challenge_panel.visible and event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+	if is_challenge_open() and event.is_action_pressed("ui_cancel") and not event.is_echo():
 		_close_challenge()
 		get_viewport().set_input_as_handled()
 
-func _close_challenge() -> void:
-	if state != TaskState.PROCESSING and state != TaskState.ERROR:
+func _frame_challenge() -> void:
+	if not is_challenge_open():
 		return
-	segment_order.clear()
-	challenge_panel.hide()
-	state = TaskState.IDLE
-	_set_light(stage_index, Color("f4c842"))
-	status_label.text = "Desafio fechado. Volte à cabine e pressione [E] para tentar novamente."
+	var viewport_size := get_viewport_rect().size
+	var camera_zoom := minf(1.3, minf(viewport_size.x * 0.49 / (size.x * map_scale),
+		viewport_size.y * 0.83 / (650.0 * map_scale)))
+	challenge_camera.zoom = Vector2.ONE * camera_zoom
+	var factory_center := get_global_transform() * Vector2(360, 312)
+	# Centraliza a instalação no espaço à esquerda do painel.
+	challenge_camera.global_position = factory_center + Vector2(viewport_size.x * 0.225 / camera_zoom, 0)
+	challenge_camera.force_update_scroll()
+
+func _open_challenge(player: CharacterBody2D) -> void:
+	if is_challenge_open() or not player.is_physics_processing():
+		return
+	add_to_group("active_conveyor_challenge")
+	challenge_player = player
+	challenge_player.set_physics_process(false)
 	mentor_context.emit("")
+	previous_camera = get_viewport().get_camera_2d()
+	challenge_panel.show()
+	challenge_camera.enabled = true
+	_frame_challenge()
+	challenge_camera.make_current()
+
+func _close_challenge() -> void:
+	if not is_challenge_open():
+		return
+	challenge_panel.hide()
+	remove_from_group("active_conveyor_challenge")
+	challenge_camera.enabled = false
+	if is_instance_valid(previous_camera) and previous_camera.is_inside_tree():
+		previous_camera.make_current()
+	previous_camera = null
+	if is_instance_valid(challenge_player):
+		challenge_player.set_physics_process(true)
+	challenge_player = null
+
+func _exit_tree() -> void:
+	if is_instance_valid(challenge_player):
+		challenge_player.set_physics_process(true)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_R:
-		# R reinicia a simulação inclusive depois da conclusão. completed_once
-		# permanece verdadeiro, portanto o progresso salvo da missão não é perdido.
-		_reset_task(true)
+	if not is_visible_in_tree() or event.is_echo():
+		return
+	var player := get_tree().get_first_node_in_group("player") as CharacterBody2D
+	if event is InputEventKey and event.pressed and event.keycode == KEY_R:
+		if is_challenge_open() or (_is_at_console(player) and player.is_physics_processing()):
+			_reset_task(true)
+			if is_challenge_open():
+				_turn_conveyor_on()
+			get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("interact") and _is_at_console(player):
+		if is_challenge_open() or not player.is_physics_processing():
+			return
+		if state == TaskState.COMPLETED:
+			mentor_message.emit("Entrega concluída. Pressione [R] junto ao console para repetir.", 3.0)
+		else:
+			_open_challenge(player)
+			_turn_conveyor_on()
 		get_viewport().set_input_as_handled()
 		return
-	if not event.is_action_pressed("interact") or event.is_echo():
-		if state == TaskState.PROCESSING:
-			_handle_choice_input(event)
+	if not is_challenge_open() or state != TaskState.PROCESSING or not (event is InputEventKey) or not event.pressed:
 		return
-	var panel_action := _panel_action_under_player()
-	if panel_action != 0:
-		_turn_conveyor_on()
-		get_viewport().set_input_as_handled()
-		return
-	if not conveyor_on:
-		status_label.text = "Ligue a esteira no painel verde antes de processar o pacote."
-		return
-	if state == TaskState.IDLE and nearby_cabin == stage_index:
-		_enter_current_cabin()
-		get_viewport().set_input_as_handled()
-	elif state == TaskState.IDLE and nearby_cabin >= 0:
-		_feedback_error("O pacote ainda não chegou a esta cabine.")
+	if event.keycode in [KEY_1, KEY_2, KEY_3]:
+		_choose_answer(event.keycode - KEY_1 + 1)
 		get_viewport().set_input_as_handled()
 
-func _handle_choice_input(event: InputEvent) -> void:
-	if not (event is InputEventKey) or not event.pressed or event.echo:
-		return
-	var option := 0
-	if event.keycode == KEY_1:
-		option = 1
-	elif event.keycode == KEY_2:
-		option = 2
-	elif event.keycode == KEY_3:
-		option = 3
-	else:
+func _choose_answer(option: int) -> void:
+	if state != TaskState.PROCESSING:
 		return
 	var stage: Dictionary = STAGES[stage_index]
 	if bool(stage.get("segments", false)):
@@ -701,91 +671,50 @@ func _handle_choice_input(event: InputEvent) -> void:
 		_validate_answer(option)
 
 func _turn_conveyor_on() -> void:
-	if state == TaskState.COMPLETED:
-		mentor_message.emit("Esta esteira já concluiu a entrega.", 3.0)
-		return
-	if conveyor_on:
+	if state == TaskState.COMPLETED or conveyor_on:
 		return
 	conveyor_on = true
 	queue_redraw()
-	if paused_state >= 0:
-		state = paused_state
-		var callback := paused_callback
-		var target := paused_target
-		paused_state = -1
-		paused_callback = Callable()
-		_move_package([package.position, target], 0.55, callback)
-		status_label.text = "Esteira religada. O pacote continua o percurso."
-		return
-	if not has_started:
-		has_started = true
-		package.visible = true
-		state = TaskState.MOVING
-		status_label.text = "Esteira ligada. O pacote está seguindo para a cabine 1."
-		_move_package([start_point, package_stops[0]], 0.85, func() -> void:
-			if state != TaskState.MOVING:
-				return
-			_move_package_into_current_cabin()
-		)
-	else:
-		status_label.text = "Esteira ligada. O pacote está aguardando a próxima cabine."
+	package.show()
+	state = TaskState.MOVING
+	_show_transit("O pacote está seguindo para a primeira cabine.")
+	_move_package([start_point, package_stops[0]], 0.85, _move_package_into_current_cabin)
 
-func _turn_conveyor_off() -> void:
-	if not conveyor_on:
-		return
-	if state == TaskState.PROCESSING:
-		status_label.text = "Conclua o desafio atual antes de interromper a esteira."
-		return
-	conveyor_on = false
-	if state == TaskState.MOVING or state == TaskState.ENTERING or state == TaskState.LEAVING:
-		paused_state = state
-		paused_target = move_target
-		paused_callback = move_callback
-		if move_tween != null and move_tween.is_valid():
-			move_tween.kill()
-	queue_redraw()
-	status_label.text = "Esteira desligada. O progresso do pacote foi preservado."
-	mentor_message.emit(status_label.text, 3.0)
-
-func _enter_current_cabin() -> void:
-	if state != TaskState.IDLE:
-		return
-	state = TaskState.PROCESSING
-	_set_light(stage_index, Color("f4c842"))
-	status_label.text = "Processando pacote na cabine…"
-	mentor_context.emit("")
-	_show_challenge()
+func _show_transit(message: String) -> void:
+	challenge_step.text = "EM MOVIMENTO  /  %02d DE %02d" % [mini(stage_index + 1, STAGES.size()), STAGES.size()]
+	challenge_title.text = String(STAGES[stage_index]["layer"]) if stage_index < STAGES.size() else "Saída da esteira"
+	challenge_text.text = message
+	status_label.text = "Acompanhe o pacote no mapa à esquerda."
+	for choice in choice_labels:
+		choice.hide()
+		choice.disabled = true
 
 func _move_package_into_current_cabin() -> void:
 	state = TaskState.ENTERING
 	package.z_index = 3
-	_set_light(stage_index, Color("f4c842"))
-	status_label.text = "Pacote entrando na cabine…"
+	_set_light(stage_index, Color("f4c842"), true)
 	var target := cabin_window_points[stage_index]
 	_move_package([package.position, target], 0.35, func() -> void:
-		if state != TaskState.ENTERING:
-			return
-		package.z_index = 1
-		state = TaskState.IDLE
-		status_label.text = "Pacote dentro da cabine " + str(stage_index + 1) + ". Aproxime-se e pressione [E]."
-		mentor_context.emit("Cabine " + str(stage_index + 1) + " pronta. Pressione [E] para iniciar o desafio.")
+		state = TaskState.PROCESSING
+		_show_challenge()
 	)
 
 func _show_challenge() -> void:
 	var stage: Dictionary = STAGES[stage_index]
-	challenge_panel.show()
-	challenge_title.text = String(stage["layer"]) + "  •  " + String(stage["tcp"])
+	challenge_step.text = "CABINE %02d DE %02d  /  %s" % [stage_index + 1, STAGES.size(), stage["tcp"]]
+	challenge_title.text = String(stage["layer"])
 	challenge_text.text = String(stage["prompt"])
 	for index in choice_labels.size():
 		var choice := choice_labels[index]
-		choice.text = "[" + str(index + 1) + "] " + String(stage["choices"][index])
+		choice.text = "[%d]  %s" % [index + 1, stage["choices"][index]]
 		choice.modulate = Color.WHITE
-	status_label.text = String(stage["concept"]) + "  Escolha com [1], [2] ou [3]."
-	mentor_message.emit(status_label.text, 4.0)
+		choice.disabled = false
+		choice.show()
+	status_label.text = String(stage["concept"])
 
 func _handle_segment_choice(segment: int) -> void:
 	if segment_order.has(segment):
-		_feedback_error("Esse segmento já foi escolhido. Reinicie a ordem: 1, 2, 3.")
+		_feedback_error("Esse segmento já foi escolhido. Monte a sequência novamente.")
 		segment_order.clear()
 		_refresh_segment_text()
 		return
@@ -795,12 +724,12 @@ func _handle_segment_choice(segment: int) -> void:
 		if segment_order == [1, 2, 3]:
 			_feedback_success()
 		else:
-			_feedback_error("Ordem incorreta. Os segmentos voltaram para 3, 1, 2.")
+			_feedback_error("Ordem incorreta. Selecione os segmentos em ordem crescente.")
 			segment_order.clear()
 			_refresh_segment_text()
 
 func _refresh_segment_text() -> void:
-	challenge_text.text = "Ordem escolhida: " + str(segment_order) + ". Forme 1, 2, 3."
+	challenge_text.text = "Ordem escolhida: " + str(segment_order) + ". Ordene os segmentos do menor para o maior."
 	for index in choice_labels.size():
 		choice_labels[index].modulate = Color("4cf475") if segment_order.has(index + 1) else Color.WHITE
 
@@ -818,9 +747,9 @@ func _feedback_success() -> void:
 	SoundEffects.play_correct()
 	_set_light(stage_index, Color("38e34b"), true)
 	status_label.text = "Correto! Cabine liberada."
-	challenge_panel.hide()
-	mentor_message.emit("Correto! O pacote seguirá para a próxima camada.", 2.5)
-	await get_tree().create_timer(0.6).timeout
+	for choice in choice_labels:
+		choice.disabled = true
+	await get_tree().create_timer(0.6, false).timeout
 	if state != TaskState.SUCCESS:
 		return
 	_leave_cabin()
@@ -830,12 +759,14 @@ func _feedback_error(message: String) -> void:
 	SoundEffects.play_error()
 	_set_light(stage_index, Color("e43d3d"), true)
 	status_label.text = message
-	mentor_message.emit(message, 2.5)
-	await get_tree().create_timer(0.7).timeout
+	for choice in choice_labels:
+		choice.disabled = true
+	await get_tree().create_timer(0.7, false).timeout
 	if state != TaskState.ERROR:
 		return
-	_set_light(stage_index, Color("f4c842"))
+	_set_light(stage_index, Color("f4c842"), true)
 	state = TaskState.PROCESSING
+	_show_challenge()
 	status_label.text = "Tente novamente com [1], [2] ou [3]."
 
 func _leave_cabin() -> void:
@@ -843,40 +774,41 @@ func _leave_cabin() -> void:
 	package.z_index = 3
 	var old_stage := stage_index
 	stage_index += 1
+	segment_order.clear()
+	_show_transit("O pacote está seguindo para a próxima parada.")
 	if stage_index >= STAGES.size():
-		_move_package([package.position, package_stops[old_stage], delivery_point], 0.8, func() -> void:
+		_move_package([package.position, cabin_exit_points[old_stage], delivery_point], 0.8, func() -> void:
 			_finish_task()
 		)
 		return
-	# O pacote deixa o visor e retorna primeiro para a correia da etapa atual.
-	var points: Array[Vector2] = [package.position, package_stops[old_stage]]
+	# O pacote deixa o visor e sai pelo lado oposto, seguindo o sentido da correia.
+	var points: Array[Vector2] = [package.position, cabin_exit_points[old_stage]]
 	if old_stage == 2:
-		points.append(corner_centers[0])
-		points.append(corner_centers[1])
+		points.append(Vector2(corner_centers[0].x, cabin_exit_points[old_stage].y))
+		points.append(Vector2(corner_centers[0].x, package_stops[stage_index].y))
 	elif old_stage == 3:
-		points.append(corner_centers[2])
-		points.append(corner_centers[3])
+		points.append(Vector2(corner_centers[2].x, cabin_exit_points[old_stage].y))
+		points.append(Vector2(corner_centers[2].x, package_stops[stage_index].y))
 	points.append(package_stops[stage_index])
 	_move_package(points, 0.65, func() -> void:
 		if state != TaskState.LEAVING:
 			return
-		_update_header()
 		_move_package_into_current_cabin()
 	)
 
 func _move_package(points: Array[Vector2], duration: float, callback: Callable) -> void:
-	move_target = points[points.size() - 1]
-	move_callback = callback
 	if move_tween != null and move_tween.is_valid():
 		move_tween.kill()
 	move_tween = create_tween()
-	var segments := maxi(points.size() - 1, 1)
+	var distance := 0.0
 	for index in range(1, points.size()):
-		move_tween.tween_property(package, "position", points[index], duration / float(segments)).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	move_tween.tween_callback(func() -> void:
-		move_callback = Callable()
-		callback.call()
-	)
+		distance += points[index - 1].distance_to(points[index])
+	var travel_time := maxf(duration, distance / 470.0)
+	for index in range(1, points.size()):
+		var segment_length := points[index - 1].distance_to(points[index])
+		if segment_length > 0.0:
+			move_tween.tween_property(package, "position", points[index], travel_time * segment_length / distance)
+	move_tween.tween_callback(callback)
 
 func _finish_task() -> void:
 	state = TaskState.COMPLETED
@@ -884,8 +816,7 @@ func _finish_task() -> void:
 	conveyor_on = false
 	queue_redraw()
 	stage_index = STAGES.size()
-	_update_header()
-	challenge_panel.hide()
+	_close_challenge()
 	status_label.text = "Entrega concluída! O pacote passou pelas sete camadas."
 	mentor_context.emit("")
 	mentor_message.emit(status_label.text + " Pressione [R] para repetir.", 5.0)
@@ -898,31 +829,18 @@ func _reset_task(user_requested: bool) -> void:
 		move_tween.kill()
 	state = TaskState.IDLE
 	conveyor_on = false
-	has_started = false
-	paused_state = -1
-	paused_callback = Callable()
 	queue_redraw()
 	stage_index = 0
-	nearby_cabin = -1
 	segment_order.clear()
 	package.position = start_point
 	package.visible = false
 	for index in cabin_lights.size():
 		_set_light(index, Color("d72e2e"))
-	challenge_panel.hide()
-	_update_header()
-	status_label.text = "Pacote pronto. Vá até a cabine 1 (Aplicação) e pressione [E]."
+	_show_transit("Pressione [E] no console para iniciar.")
 	if user_requested:
 		mentor_message.emit("Esteira reiniciada. O progresso da missão já concluída permanece salvo.", 3.0)
 
-func _update_header() -> void:
-	if stage_index >= STAGES.size():
-		stage_label.text = "ETAPA 7/7 — ENTREGA"
-		tcp_label.text = "TCP/IP: pacote entregue"
-		return
-	var stage: Dictionary = STAGES[stage_index]
-	stage_label.text = "ETAPA " + str(stage_index + 1) + "/7 — " + String(stage["layer"])
-	tcp_label.text = String(stage["tcp"])
+
 
 func _set_light(index: int, color: Color, lit: bool = false) -> void:
 	if index >= 0 and index < cabin_lights.size():
@@ -932,6 +850,8 @@ func _set_light(index: int, color: Color, lit: bool = false) -> void:
 func restore_completed() -> void:
 	if package == null:
 		return
+	if move_tween != null and move_tween.is_valid():
+		move_tween.kill()
 	completed_once = true
 	state = TaskState.COMPLETED
 	conveyor_on = false
@@ -940,6 +860,6 @@ func restore_completed() -> void:
 	package.position = delivery_point
 	for index in cabin_lights.size():
 		_set_light(index, Color("38e34b"), true)
-	challenge_panel.hide()
-	_update_header()
+	package.show()
+	_close_challenge()
 	status_label.text = "Entrega já concluída. Pressione [R] para repetir a simulação."

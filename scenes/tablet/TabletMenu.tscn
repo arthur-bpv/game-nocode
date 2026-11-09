@@ -1,9 +1,44 @@
-[gd_scene load_steps=7 format=3 uid="uid://c8n1qk4v6xr2a"]
+[gd_scene load_steps=8 format=3 uid="uid://c8n1qk4v6xr2a"]
 
 [ext_resource type="Script" uid="uid://b1cpyfvsa105i" path="res://scenes/tablet/tablet_menu.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://bb1tw6h5ojoeu" path="res://assets/sprites/tablet_frame.png" id="2_frame"]
 [ext_resource type="Theme" uid="uid://c15t75c0c1cb7" path="res://assets/ui/netbot_theme.tres" id="3_theme"]
-[ext_resource type="Texture2D" path="res://assets/sprites/map/modular_map_overview.png" id="4_73pq8"]
+
+[ext_resource type="Script" path="res://scenes/tablet/station_minimap.gd" id="4_minimap"]
+
+[sub_resource type="StyleBoxFlat" id="TabletShell"]
+content_margin_left = 34.0
+content_margin_top = 24.0
+content_margin_right = 34.0
+content_margin_bottom = 28.0
+bg_color = Color(0.075, 0.12, 0.17, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.25, 0.36, 0.44, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0.015, 0.028, 0.048, 0.8)
+shadow_size = 12
+shadow_offset = Vector2(0, 8)
+
+[sub_resource type="StyleBoxFlat" id="TabletSection"]
+content_margin_left = 24.0
+content_margin_top = 22.0
+content_margin_right = 24.0
+content_margin_bottom = 22.0
+bg_color = Color(0.044, 0.075, 0.11, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.26, 0.43, 0.49, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="ProgressTrack"]
 bg_color = Color(0.035, 0.105, 0.125, 1)
@@ -41,35 +76,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.002, 0.008, 0.015, 0.92)
+color = Color(0.025, 0.05, 0.075, 0.76)
 
-[node name="Frame" type="TextureRect" parent="." unique_id=389415843]
+[node name="ScreenCenter" type="CenterContainer" parent="." unique_id=2008494816]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("2_frame")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="ScreenCenter" type="CenterContainer" parent="." unique_id=2008494816]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.28
-anchor_top = 0.212
-anchor_right = 0.731
-anchor_bottom = 0.761
-offset_top = -25.97998
-offset_right = -14.800049
-offset_bottom = 25.97998
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="Screen" type="PanelContainer" parent="ScreenCenter" unique_id=730695445]
-custom_minimum_size = Vector2(830, 590)
+custom_minimum_size = Vector2(1080, 630)
+theme_override_styles/panel = SubResource("TabletShell")
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -102,7 +121,7 @@ size_flags_vertical = 3
 theme_override_constants/separation = 24
 
 [node name="Navigation" type="VBoxContainer" parent="ScreenCenter/Screen/Content/Body" unique_id=888310522]
-custom_minimum_size = Vector2(260, 0)
+custom_minimum_size = Vector2(228, 0)
 layout_mode = 2
 theme_override_constants/separation = 14
 
@@ -124,6 +143,7 @@ text = "TUTORIAL"
 
 [node name="Section" type="PanelContainer" parent="ScreenCenter/Screen/Content/Body" unique_id=1071636677]
 layout_mode = 2
+theme_override_styles/panel = SubResource("TabletSection")
 size_flags_horizontal = 3
 
 [node name="SectionContent" type="VBoxContainer" parent="ScreenCenter/Screen/Content/Body/Section" unique_id=280126961]
@@ -218,21 +238,13 @@ theme_override_styles/background = SubResource("ProgressTrack")
 theme_override_styles/fill = SubResource("ProgressFill")
 show_percentage = false
 
-[node name="TextureRect" type="TextureRect" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent" unique_id=1712576936]
+[node name="StationMinimap" type="Control" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 260)
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("4_73pq8")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="PlayerMarker" type="ColorRect" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent/TextureRect" unique_id=2017546169]
-custom_minimum_size = Vector2(12, 12)
-layout_mode = 0
-offset_right = 6.0
-offset_bottom = 6.0
 mouse_filter = 2
-color = Color(1, 0.05490196, 0.15294118, 1)
+script = ExtResource("4_minimap")
 
 [node name="StatusLabel" type="Label" parent="ScreenCenter/Screen/Content/Body/Section/SectionContent" unique_id=1975784377]
 unique_name_in_owner = true
