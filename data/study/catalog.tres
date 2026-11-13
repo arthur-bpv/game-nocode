@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ddl23hg1heea7" path="res://scripts/study/study_catalog.gd" id="1"]
 [ext_resource type="Script" uid="uid://dgxwfeyu6o1mt" path="res://scripts/study/discipline_definition.gd" id="2"]
 [ext_resource type="Script" uid="uid://blnin0c1qg8wi" path="res://scripts/study/topic_definition.gd" id="3"]
-[ext_resource type="Script" uid="uid://1lydqiktj48s" path="res://scripts/study/task_definition.gd" id="4"]
+[ext_resource type="Script" uid="uid://ddra4k4atnvv" path="res://scripts/study/task_definition.gd" id="4"]
 
 [sub_resource type="Resource" id="task_sinais_osi"]
 script = ExtResource("4")
@@ -32,10 +32,8 @@ script = ExtResource("4")
 id = &"esteira_pacotes"
 title = "Esteira de Pacotes"
 always_available = true
-mission_scene = "res://scenes/missions/packet_tablet.tscn"
+mission_scene = "res://scenes/missions/esteira.tscn"
 map_slot = &"sala_superior_esquerda_principal"
-presentation = 1
-terminal_offset = Vector2(185, 175)
 
 [sub_resource type="Resource" id="Resource_uf8ad"]
 script = ExtResource("4")
@@ -48,42 +46,10 @@ map_slot = &"sala_inferior_centro_direita_principal"
 [sub_resource type="Resource" id="tcp_osi"]
 script = ExtResource("3")
 id = &"tcp_ip_modelo_osi"
-title = "TCP/IP + Modelo OSI"
+title = "Protocolos e Endereçamento"
 map_scene = "res://scenes/world/world.tscn"
 sequential = false
 tasks = Array[ExtResource("4")]([SubResource("task_sinais_osi"), SubResource("task"), SubResource("task_rack_osi"), SubResource("Resource_33vwa"), SubResource("Resource_uf8ad")])
-
-[sub_resource type="Resource" id="task_ipv4_subnets"]
-script = ExtResource("4")
-id = &"ipv4_subnets"
-title = "Planejamento IPv4 e Sub-redes"
-mission_scene = "res://scenes/missions/ipv4_subnets.tscn"
-map_slot = &"sala_superior_esquerda_principal"
-presentation = 1
-
-[sub_resource type="Resource" id="task_subnet_allocator"]
-script = ExtResource("4")
-id = &"subnet_allocator"
-title = "Alocador de Sub-redes"
-mission_scene = "res://scenes/missions/subnet_allocator.tscn"
-map_slot = &"sala_superior_direita_principal"
-presentation = 1
-
-[sub_resource type="Resource" id="task_routing_simulator"]
-script = ExtResource("4")
-id = &"routing_simulator"
-title = "Simulador de Roteamento"
-mission_scene = "res://scenes/missions/routing_simulator.tscn"
-map_slot = &"sala_inferior_central_principal"
-presentation = 1
-
-[sub_resource type="Resource" id="ipv4_subnets"]
-script = ExtResource("3")
-id = &"ipv4_subnets"
-title = "Endereçamento IPv4 e Sub-redes"
-map_scene = "res://scenes/world/world_ipv4_subnets.tscn"
-sequential = false
-tasks = Array[ExtResource("4")]([SubResource("task_ipv4_subnets"), SubResource("task_subnet_allocator"), SubResource("task_routing_simulator")])
 
 [sub_resource type="Resource" id="task_routing_diagnostics"]
 script = ExtResource("4")
@@ -122,7 +88,7 @@ script = ExtResource("2")
 id = &"redes"
 title = "Redes de Computadores"
 map_scene = "res://scenes/world/world.tscn"
-topics = Array[ExtResource("3")]([SubResource("tcp_osi"), SubResource("ipv4_subnets"), SubResource("routing")])
+topics = Array[ExtResource("3")]([SubResource("tcp_osi"), SubResource("routing")])
 
 [resource]
 script = ExtResource("1")

@@ -46,7 +46,9 @@ var _target_buttons: Array[Button] = []
 var _status: Label
 
 func _ready() -> void:
-	_lab = LABS[lab_id]
+	_lab = (LABS[lab_id] as Dictionary).duplicate(true)
+	_lab["items"] = ChallengeSession.shuffled(StringName("network_matcher/" + lab_id + "/items"), _lab["items"] as Array)
+	_lab["targets"] = ChallengeSession.shuffled(StringName("network_matcher/" + lab_id + "/targets"), _lab["targets"] as Array)
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_build_ui()
 

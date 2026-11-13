@@ -192,6 +192,7 @@ area_id = &"sala_inferior_central"
 [node name="MissionSlots" type="Node2D" parent="Pieces/LowerCentralRoom" unique_id=795442306]
 
 [node name="Primary" type="Marker2D" parent="Pieces/LowerCentralRoom/MissionSlots" unique_id=12898933]
+position = Vector2(-340, -235)
 script = ExtResource("3_em7l8")
 slot_id = &"sala_inferior_central_principal"
 

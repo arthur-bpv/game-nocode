@@ -35,7 +35,16 @@ var _feedback: Label
 var _buttons: Array[Button] = []
 
 func _ready() -> void:
-	_simulator = SIMULATORS[simulator_id]
+	_simulator = (SIMULATORS[simulator_id] as Dictionary).duplicate(true)
+	var rng := ChallengeSession.make_rng(StringName("network_forwarder/" + simulator_id))
+	_simulator["rounds"] = ChallengeSession.shuffled(StringName("network_forwarder/" + simulator_id + "/rounds"), _simulator["rounds"] as Array)
+	_simulator["choices"] = ChallengeSession.shuffled(StringName("network_forwarder/" + simulator_id + "/choices"), _simulator["choices"] as Array)
+	if simulator_id == "routing":
+		var host := rng.randi_range(2, 250)
+		var rounds: Array = _simulator["rounds"]
+		for round_data in rounds:
+			if String(round_data["answer"]) == "R2":
+				round_data["packet"] = "Destino 10.10.20.%d" % host
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_build_ui()
 	_show_round()

@@ -9,7 +9,7 @@ o tema escolhe suas tasks. A missão comunica sucesso por sinal; o progresso det
 quais tasks podem ser usadas. Manter a arte, colisões, escala do jogador e posição da
 missão existentes. Não gerar mapas, inventar atividades ou reconstruir sistemas legados.
 
-O catálogo atual contém Redes de Computadores e **um único tema: TCP/IP + Modelo OSI**
+O catálogo atual contém Redes de Computadores e **um único tema: Protocolos e Endereçamento**
 (`tcp_ip_modelo_osi`), conforme correção do usuário em 2026-09-08. A primeira rodada
 reúne ambos os modelos; não oferecer OSI e TCP/IP como seleções separadas. A atividade
 real de correspondência é a primeira task dessa rodada. O sistema continua permitindo
@@ -136,7 +136,7 @@ fronteira quando aparecer um caso real, não expandir o sistema antecipadamente.
 
 ## Próxima etapa
 
-1. Definir as próximas atividades e a ordem pedagógica da rodada conjunta TCP/IP + Modelo OSI.
+1. Definir as próximas atividades e a ordem pedagógica da rodada de Protocolos e Endereçamento.
 2. Criar cenas reais que emitam completed e cadastrar seus IDs/slots no catálogo.
 3. Posicionar os novos slots; validar que todo slot citado existe no mapa da disciplina.
    O validador atual verifica catálogo/caminhos, não inspeciona hierarquias de todas as cenas.

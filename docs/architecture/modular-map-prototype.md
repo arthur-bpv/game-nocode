@@ -2,7 +2,7 @@
 
 O mapa jogável está em `scenes/world/maps/tile_station.tscn`. Abra a cena no
 Godot e selecione uma camada para pintar ou apagar células de **32 × 32**.
-`world.tscn` e `world_ipv4_subnets.tscn` usam essa cena.
+`world.tscn` e as variações de mundo usam essa cena.
 
 | Camada | Função |
 | --- | --- |

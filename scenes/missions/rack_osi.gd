@@ -30,10 +30,9 @@ const BLOCK_COLORS := {
 	"Enlace": Color("2d56de"),
 	"Fisica": Color("f4d328"),
 }
-const SLOT_LEFT := 0.12
-const SLOT_RIGHT := 0.88
-const SLOT_TOP := 0.35
-const SLOT_BOTTOM := 0.95
+# As sete aberturas do sprite novo foram desenhadas em uma grade regular.
+@export_group("Rack Slots")
+@export var slot_size := Vector2(134, 30)
 
 var dragging_block: TextureRect
 var drag_offset := Vector2.ZERO
@@ -50,6 +49,18 @@ func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	rack.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rack.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	var shuffled_starts: Array = ChallengeSession.shuffled(&"rack_osi/start_positions", BLOCK_ORDER)
+	var source_positions: Array[Vector2] = []
+	for source_name in BLOCK_ORDER:
+		var source_block := get_node_or_null(source_name) as TextureRect
+		if source_block != null:
+			source_positions.append(source_block.position)
+	for index in BLOCK_ORDER.size():
+		var target_block := get_node_or_null(BLOCK_ORDER[index]) as TextureRect
+		if target_block != null:
+			var source_index := BLOCK_ORDER.find(shuffled_starts[index])
+			if source_index >= 0 and source_index < source_positions.size():
+				target_block.position = source_positions[source_index]
 	for block_name in BLOCK_ORDER:
 		var block := get_node_or_null(block_name) as TextureRect
 		if block == null:
@@ -57,12 +68,29 @@ func _ready() -> void:
 			continue
 		block.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		block.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		block.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		_add_block_label(block, block_name)
 		start_positions[block_name] = block.position
 	status_label.text = "Arraste as camadas para as baias corretas do rack OSI."
 	status_label.hide()
 
 func mentor_intro() -> String:
 	return "Arraste as camadas para as baias corretas do rack OSI."
+
+
+func _add_block_label(block: TextureRect, block_name: String) -> void:
+	var label := Label.new()
+	label.name = "LayerLabel"
+	label.text = BLOCK_LABELS[block_name]
+	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 11 if label.text.length() > 10 else 14)
+	label.add_theme_color_override("font_color", Color.WHITE)
+	label.add_theme_color_override("font_outline_color", Color("05080c"))
+	label.add_theme_constant_override("outline_size", 2)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	block.add_child(label)
 
 
 func _input(event: InputEvent) -> void:
@@ -114,17 +142,12 @@ func _finish_drag(local_pointer: Vector2) -> void:
 
 
 func _slot_rect(block_name: String) -> Rect2:
-	var slots_position := Vector2(rack.size.x * SLOT_LEFT, rack.size.y * SLOT_TOP)
-	var slots_size := Vector2(
-		rack.size.x * (SLOT_RIGHT - SLOT_LEFT),
-		rack.size.y * (SLOT_BOTTOM - SLOT_TOP)
-	)
-	var slot_height := slots_size.y / float(BLOCK_ORDER.size())
+	var slot_marker := rack.get_node_or_null("Slots/" + block_name) as Marker2D
+	if slot_marker != null:
+		return Rect2(slot_marker.position - slot_size * 0.5, slot_size)
+	# Reserva para cenas antigas que ainda não têm os marcadores visuais.
 	var index := BLOCK_ORDER.find(block_name)
-	return Rect2(
-		slots_position + Vector2(0, slot_height * index),
-		Vector2(slots_size.x, slot_height)
-	)
+	return Rect2(Vector2(58, 79 + 44 * index), slot_size)
 
 
 func _insert_block(block_name: String, announce := true, check_completion := true) -> void:
@@ -138,11 +161,14 @@ func _insert_block(block_name: String, announce := true, check_completion := tru
 	installed[block_name] = true
 
 	var slot := _slot_rect(block_name)
-	var marker := ColorRect.new()
+	var marker := TextureRect.new()
 	marker.name = "Installed" + block_name
-	marker.color = BLOCK_COLORS[block_name]
-	marker.position = slot.position + Vector2(8.0, slot.size.y * 0.16)
-	marker.size = Vector2(slot.size.x - 16.0, slot.size.y * 0.68)
+	marker.texture = block.texture
+	marker.position = slot.position
+	marker.size = slot.size
+	marker.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	marker.stretch_mode = TextureRect.STRETCH_SCALE
+	marker.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rack.add_child(marker)
 
@@ -151,9 +177,10 @@ func _insert_block(block_name: String, announce := true, check_completion := tru
 	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", 9)
+	label.add_theme_font_size_override("font_size", 9 if label.text.length() > 10 else 11)
 	label.add_theme_color_override("font_outline_color", Color.BLACK)
 	label.add_theme_constant_override("outline_size", 2)
+	label.clip_text = false
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	marker.add_child(label)
 

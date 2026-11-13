@@ -2,8 +2,10 @@ extends Node2D
 
 signal open_requested(mission: Control)
 
-const INSPECTION_STATION_TEXTURE := preload("res://assets/sprites/EsteiraParede.png")
-const INSPECTION_STATION_POSITION := Vector2(0, -348)
+const INSPECTION_STATION_TEXTURE := preload("res://assets/sprites/Analisar_Pacotes.png")
+# Encostada na parede superior do setor, deixando a área livre para o jogador.
+# Parte superior embutida na parede: ficam expostos somente a saída e os roletes.
+const INSPECTION_STATION_POSITION := Vector2(0, -435)
 const TASK_TERMINAL_TEXTURE := preload("res://assets/sprites/task_terminal.png")
 
 var _nearby: Array[Node2D] = []
@@ -72,21 +74,33 @@ func _build_inspection_station() -> void:
 	sprite.name = "EsteiraParede"
 	sprite.texture = INSPECTION_STATION_TEXTURE
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	sprite.scale = Vector2(0.72, 0.72)
+	# A arte da estação é 1024px; mantém a mesma presença física no mapa.
+	sprite.scale = Vector2(0.052, 0.052)
 	sprite.position = INSPECTION_STATION_POSITION
 	add_child(sprite)
 
 	_timer_label = Label.new()
 	_timer_label.name = "Timer"
-	# O visor verde da arte ocupa a faixa superior da esteira.
-	_timer_label.position = INSPECTION_STATION_POSITION + Vector2(-34, -43)
-	_timer_label.size = Vector2(68, 23)
+	# O contador fica no trilho de scanner iluminado do novo sprite.
+	# Painel auxiliar externo: fica à direita, sem ocultar o scanner.
+	_timer_label.position = INSPECTION_STATION_POSITION + Vector2(36, -20)
+	_timer_label.size = Vector2(50, 17)
 	_timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_timer_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_timer_label.add_theme_font_size_override("font_size", 11)
-	_timer_label.add_theme_color_override("font_color", Color("07140a"))
-	_timer_label.add_theme_color_override("font_outline_color", Color("c8ffd0"))
-	_timer_label.add_theme_constant_override("outline_size", 1)
+	_timer_label.add_theme_font_override("font", ThemeDB.fallback_font)
+	_timer_label.add_theme_font_size_override("font_size", 10)
+	_timer_label.add_theme_color_override("font_color", Color("d9ffff"))
+	_timer_label.add_theme_color_override("font_outline_color", Color("061018"))
+	_timer_label.add_theme_constant_override("outline_size", 2)
+	var timer_style := StyleBoxFlat.new()
+	timer_style.bg_color = Color("102a38")
+	timer_style.border_color = Color("17ddeb")
+	timer_style.set_border_width_all(2)
+	timer_style.corner_radius_top_left = 3
+	timer_style.corner_radius_top_right = 3
+	timer_style.corner_radius_bottom_left = 3
+	timer_style.corner_radius_bottom_right = 3
+	_timer_label.add_theme_stylebox_override("normal", timer_style)
 	add_child(_timer_label)
 
 	var area := Area2D.new()
@@ -96,7 +110,7 @@ func _build_inspection_station() -> void:
 	area.collision_mask = 1
 	var shape := CollisionShape2D.new()
 	var circle := CircleShape2D.new()
-	circle.radius = 76.0
+	circle.radius = 52.0
 	shape.shape = circle
 	area.add_child(shape)
 	add_child(area)

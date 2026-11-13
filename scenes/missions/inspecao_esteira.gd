@@ -48,7 +48,7 @@ const DEFECT_OPTIONS := [
 	"Protocolo de aplicação incorreto",
 	"Caminho inacessível/congestionado"
 ]
-const CONVEYOR_WALL_TEXTURE := preload("res://assets/sprites/EsteiraParede.png")
+const CONVEYOR_WALL_TEXTURE := preload("res://assets/sprites/Analisar_Pacotes.png")
 const TABLET_FRAME_TEXTURE := preload("res://assets/sprites/tablet_frame.png")
 const INSPECTION_PACKAGE_TEXTURE := preload("res://assets/sprites/Pacote.png")
 
@@ -70,8 +70,9 @@ var expected_application_protocol := ""
 var shown_application_protocol := ""
 var expected_transport_protocol := ""
 var shown_transport_protocol := ""
+var _round_index := 0
 
-var map_sprite: TextureRect
+var map_sprite: Sprite2D
 var map_timer: Label
 var status_label: Label
 var timer_label: Label
@@ -167,6 +168,9 @@ func _build_inspection_screen() -> void:
 	machine.add_theme_stylebox_override("panel", _panel_style(Color("0b1217"), Color("40e4ff")))
 	add_child(machine)
 	var machine_view := Control.new()
+	# O PNG da estação é quadrado e grande; recorta qualquer excedente para
+	# ele nunca escapar do painel esquerdo da tela do tablet.
+	machine_view.clip_contents = true
 	machine.add_child(machine_view)
 
 	var machine_label := Label.new()
@@ -178,27 +182,35 @@ func _build_inspection_screen() -> void:
 	machine_label.add_theme_color_override("font_color", Color("e8fcff"))
 	machine_view.add_child(machine_label)
 
-	map_sprite = TextureRect.new()
+	# Sprite2D evita que o Container redimensione o PNG de 1024px.
+	map_sprite = Sprite2D.new()
 	map_sprite.texture = CONVEYOR_WALL_TEXTURE
-	map_sprite.position = Vector2(103, 67)
-	map_sprite.size = Vector2(224, 224)
-	map_sprite.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	map_sprite.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	map_sprite.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# A arte é quadrada (1024px); 0.185 deixa uma estação de ~190px no painel.
+	map_sprite.position = Vector2(215, 165)
+	map_sprite.scale = Vector2(0.185, 0.185)
+	map_sprite.centered = true
+	map_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	machine_view.add_child(map_sprite)
 
 	map_timer = Label.new()
-	map_timer.position = Vector2(113, 83)
-	map_timer.size = Vector2(212, 100)
+	# Visor ciano do sprite Analisar_Pacotes.png.
+	map_timer.position = Vector2(132, 122)
+	map_timer.size = Vector2(166, 32)
 	map_timer.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	map_timer.add_theme_font_size_override("font_size", 22)
-	map_timer.add_theme_color_override("font_color", Color("101419"))
-	map_timer.add_theme_color_override("font_outline_color", Color("d6ffd7"))
-	map_timer.add_theme_constant_override("outline_size", 1)
+	map_timer.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	map_timer.add_theme_font_override("font", ThemeDB.fallback_font)
+	map_timer.add_theme_font_size_override("font_size", 18)
+	map_timer.add_theme_color_override("font_color", Color("e9ffff"))
+	map_timer.add_theme_color_override("font_outline_color", Color("061018"))
+	map_timer.add_theme_constant_override("outline_size", 2)
+	map_timer.add_theme_stylebox_override("normal", _panel_style(Color("0b2533"), Color("17ddeb"), 2))
 	map_timer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	machine_view.add_child(map_timer)
+	# O estado do pacote já é mostrado no painel amarelo do terminal.
+	# Mantemos o nó para a lógica de atualização, mas sem duplicá-lo sobre a esteira.
+	map_timer.hide()
 
-	# Reutiliza o mesmo sprite de pacote que percorre a esteira didática.
+	# Pacote tecnológico exclusivo da estação de inspeção.
 	package_drawer = TextureButton.new()
 	package_drawer.texture_normal = INSPECTION_PACKAGE_TEXTURE
 	package_drawer.ignore_texture_size = true
@@ -232,9 +244,15 @@ func _build_inspection_screen() -> void:
 	info.add_child(status_label)
 
 	timer_label = Label.new()
+	timer_label.custom_minimum_size = Vector2(0, 44)
 	timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	timer_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	timer_label.add_theme_font_override("font", ThemeDB.fallback_font)
 	timer_label.add_theme_font_size_override("font_size", 28)
-	timer_label.add_theme_color_override("font_color", Color("ffd866"))
+	timer_label.add_theme_color_override("font_color", Color("fff1b0"))
+	timer_label.add_theme_color_override("font_outline_color", Color("2c1904"))
+	timer_label.add_theme_constant_override("outline_size", 2)
+	timer_label.add_theme_stylebox_override("normal", _panel_style(Color("3a2606"), Color("ffd866"), 2))
 	info.add_child(timer_label)
 
 	inspect_hint_label = Label.new()
@@ -379,8 +397,9 @@ func _prepare_packet_for_current_box() -> void:
 	var all_requests: Array = []
 	all_requests.append_array(TCP)
 	all_requests.append_array(UDP)
-	packet_request = all_requests.pick_random()
-	real_ip = "192.168.0." + str(randi_range(1, 254))
+	var rng := ChallengeSession.make_rng(&"inspecao_pacotes/packet", _round_index * BOX_TOTAL + queue_index)
+	packet_request = ChallengeSession.choose_unused(&"inspecao_pacotes/requests", all_requests, rng)
+	real_ip = "192.168.0." + str(rng.randi_range(1, 254))
 	expected_transport_protocol = "TCP" if TCP.has(packet_request) else "UDP"
 	if HTTP.has(packet_request):
 		expected_application_protocol = "HTTP"
@@ -396,14 +415,15 @@ func _prepare_packet_for_current_box() -> void:
 	_apply_packet_faults()
 
 func _apply_packet_faults() -> void:
+	var rng := ChallengeSession.make_rng(&"inspecao_pacotes/faults", _round_index * BOX_TOTAL + queue_index)
 	shown_request = packet_request
 	shown_ip = real_ip
 	shown_application_protocol = expected_application_protocol
 	shown_transport_protocol = expected_transport_protocol
 	if active_defects.has("Dados corrompidos/incompletos"):
-		shown_request = _damage_request_text(packet_request)
+		shown_request = _damage_request_text(packet_request, rng)
 	if active_defects.has("Endereço IP inválido ou incorreto"):
-		var invalid_octet := randi_range(1, 254)
+		var invalid_octet := rng.randi_range(1, 254)
 		if "192.168.0." + str(invalid_octet) == real_ip:
 			invalid_octet = 1 if invalid_octet == 254 else invalid_octet + 1
 		shown_ip = "192.168.0." + str(invalid_octet)
@@ -412,18 +432,18 @@ func _apply_packet_faults() -> void:
 	if active_defects.has("Caminho inacessível/congestionado"):
 		shown_transport_protocol = "UDP" if expected_transport_protocol == "TCP" else "TCP"
 
-func _damage_request_text(original: String) -> String:
+func _damage_request_text(original: String, rng: RandomNumberGenerator) -> String:
 	# Metade das vezes a perda de dados gera uma lacuna; na outra metade,
 	# caracteres do conteúdo são corrompidos sem exibir um rótulo explicativo.
-	if randi_range(0, 1) == 0:
+	if rng.randi_range(0, 1) == 0:
 		var start := maxi(1, original.length() / 3)
 		var amount := maxi(2, original.length() / 5)
 		return original.substr(0, start) + " --- " + original.substr(start + amount)
 	var damaged := original
 	var replacements := ["#", "@", "%", "?", "&"]
 	for index in range(2):
-		var character_index := randi_range(0, maxi(damaged.length() - 1, 0))
-		damaged = damaged.substr(0, character_index) + replacements.pick_random() + damaged.substr(character_index + 1)
+		var character_index := rng.randi_range(0, maxi(damaged.length() - 1, 0))
+		damaged = damaged.substr(0, character_index) + replacements[rng.randi_range(0, replacements.size() - 1)] + damaged.substr(character_index + 1)
 	return damaged
 
 func _refresh_packet_tab() -> void:
@@ -575,14 +595,20 @@ func _approve_box() -> void:
 	else:
 		_start_wait(INITIAL_WAIT, false)
 
+
 func _randomize_round_defects() -> void:
+	var rng := ChallengeSession.make_rng(&"inspecao_pacotes/defects", _round_index)
 	round_defects.clear()
+
 	for box_index in range(BOX_TOTAL):
-		var available := DEFECT_OPTIONS.duplicate()
-		available.shuffle()
+		var available: Array = DEFECT_OPTIONS.duplicate()
+		available = ChallengeSession.shuffled(&"inspecao_pacotes/defect_order_%s" % box_index, available, _round_index)
+
 		# Cada caixa recebe uma combinação independente de zero a quatro falhas.
-		var defect_count := randi_range(0, DEFECT_OPTIONS.size())
+		var defect_count := rng.randi_range(0, DEFECT_OPTIONS.size())
 		round_defects.append(available.slice(0, defect_count))
+
+	_round_index += 1
 
 func _restart_round() -> void:
 	queue_index = 0

@@ -1,10 +1,10 @@
 [gd_resource type="Theme" format=3 uid="uid://c15t75c0c1cb7"]
 
 [ext_resource type="FontFile" uid="uid://dd7pesxl03p7f" path="res://assets/fonts/press_start_2p/PressStart2P-Regular.ttf" id="1_font"]
-[ext_resource type="Texture2D" path="res://assets/ui/pixellab/ui-input.png" id="tex_input"]
-[ext_resource type="Texture2D" path="res://assets/ui/pixellab/ui-primary.png" id="tex_primary"]
-[ext_resource type="Texture2D" path="res://assets/ui/pixellab/ui-secondary.png" id="tex_secondary"]
-[ext_resource type="Texture2D" path="res://assets/ui/pixellab/ui-panel.png" id="tex_panel"]
+[ext_resource type="Texture2D" uid="uid://q4ye6wktfhii" path="res://assets/ui/pixellab/ui-input.png" id="tex_input"]
+[ext_resource type="Texture2D" uid="uid://ce27dnc6mgsax" path="res://assets/ui/pixellab/ui-panel.png" id="tex_panel"]
+[ext_resource type="Texture2D" uid="uid://dkdwqyeqd0533" path="res://assets/ui/pixellab/ui-primary.png" id="tex_primary"]
+[ext_resource type="Texture2D" uid="uid://bfwwr05btoe6a" path="res://assets/ui/pixellab/ui-secondary.png" id="tex_secondary"]
 
 [sub_resource type="StyleBoxFlat" id="ButtonDisabled"]
 content_margin_left = 20.0
@@ -78,17 +78,6 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxTexture" id="Panel"]
-content_margin_left = 34.0
-content_margin_top = 30.0
-content_margin_right = 34.0
-content_margin_bottom = 30.0
-texture = ExtResource("tex_panel")
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
 [sub_resource type="StyleBoxTexture" id="Input"]
 content_margin_left = 16.0
 content_margin_top = 10.0
@@ -99,6 +88,17 @@ texture_margin_left = 6.0
 texture_margin_top = 6.0
 texture_margin_right = 6.0
 texture_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxTexture" id="Panel"]
+content_margin_left = 34.0
+content_margin_top = 30.0
+content_margin_right = 34.0
+content_margin_bottom = 30.0
+texture = ExtResource("tex_panel")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
 
 [resource]
 default_font = ExtResource("1_font")
@@ -119,8 +119,8 @@ HSlider/styles/grabber_area_highlight = SubResource("SliderFill")
 HSlider/styles/slider = SubResource("Slider")
 Label/colors/font_color = Color(0.86, 0.98, 1, 1)
 Label/font_sizes/font_size = 17
-PanelContainer/styles/panel = SubResource("Panel")
 LineEdit/styles/normal = SubResource("Input")
-OptionButton/styles/normal = SubResource("ButtonNormal")
 OptionButton/styles/hover = SubResource("ButtonHover")
+OptionButton/styles/normal = SubResource("ButtonNormal")
 OptionButton/styles/pressed = SubResource("ButtonPressed")
+PanelContainer/styles/panel = SubResource("Panel")

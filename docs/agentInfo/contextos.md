@@ -10,7 +10,7 @@ deve ser iniciado em HTTP na porta 9080.
 A referência oficial agora é `main`, alinhada à `origin/main` em `adc3196` antes desta
 implementação. A arquitetura de estudo, contratos, inventário e próximos passos estão em
 [study-tasks.md](../architecture/study-tasks.md). Leia esse documento antes de mexer em
-mapa, missões ou progresso. A primeira rodada é um único tema: TCP/IP + Modelo OSI (`tcp_ip_modelo_osi`).
+mapa, missões ou progresso. A primeira rodada é um único tema: Protocolos e Endereçamento (`tcp_ip_modelo_osi`).
 As artes da missão agora são sem texto, com Labels editáveis no Godot; gravação em disco
 ainda não foi implementada.
 A task está em modo TABLET experimental: terminal provisório na sala, E abre, X/ESC/Tab

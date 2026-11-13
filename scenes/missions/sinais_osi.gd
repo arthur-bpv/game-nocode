@@ -4,28 +4,30 @@ signal completed
 signal mentor_message(message: String, duration: float)
 signal mentor_context(message: String)
 
-const BUTTON_ATLAS_PATH := "res://assets/sprites/Handshake.png"
+const BUTTON_ATLAS_PATH := "res://assets/sprites/sinais_osi_buttons_v2.svg"
+const COMPUTER_SPRITE_PATH := "res://assets/sprites/sinais_osi_console_v2.svg"
+const COMPUTER_COMPLETE_SPRITE_PATH := "res://assets/sprites/sinais_osi_console_complete_v2.svg"
 const PROJECT_FONT_PATH := "res://assets/fonts/press_start_2p/PressStart2P-Regular.ttf"
-const COMPUTER_ON_REGION := Rect2(114, 130, 168, 147)
-const COMPUTER_OFF_REGION := Rect2(117, 133, 162, 141)
+const COMPUTER_ON_REGION := Rect2(0, 0, 180, 155)
+const COMPUTER_OFF_REGION := Rect2(0, 0, 180, 155)
 const BUTTON_NORMAL_REGIONS := {
-	"Rede": Rect2(1070, 109, 151, 92), "Fisica": Rect2(1296, 109, 151, 92),
-	"Aplicacao": Rect2(1529, 109, 151, 92), "Enlace": Rect2(1759, 109, 151, 92),
-	"Apresentacao": Rect2(1987, 109, 151, 92), "Sessao": Rect2(2215, 109, 151, 92),
-	"Transporte": Rect2(2450, 109, 151, 92),
+	"Aplicacao": Rect2(0, 0, 90, 52), "Apresentacao": Rect2(90, 0, 90, 52), "Sessao": Rect2(180, 0, 90, 52), "Transporte": Rect2(270, 0, 90, 52), "Rede": Rect2(360, 0, 90, 52), "Enlace": Rect2(450, 0, 90, 52), "Fisica": Rect2(540, 0, 90, 52),
 }
 const BUTTON_PRESSED_REGIONS := {
-	"Rede": Rect2(1070, 250, 151, 96), "Fisica": Rect2(1296, 250, 151, 96),
-	"Aplicacao": Rect2(1529, 250, 151, 96), "Enlace": Rect2(1759, 250, 151, 96),
-	"Apresentacao": Rect2(1987, 250, 151, 96), "Sessao": Rect2(2215, 250, 151, 96),
-	"Transporte": Rect2(2450, 250, 151, 96),
+	"Aplicacao": Rect2(0, 52, 90, 52), "Apresentacao": Rect2(90, 52, 90, 52), "Sessao": Rect2(180, 52, 90, 52), "Transporte": Rect2(270, 52, 90, 52), "Rede": Rect2(360, 52, 90, 52), "Enlace": Rect2(450, 52, 90, 52), "Fisica": Rect2(540, 52, 90, 52),
 }
 
 const BUTTON_ERROR_REGIONS := {
-	"Rede": Rect2(1070, 395, 151, 96), "Fisica": Rect2(1296, 395, 151, 96),
-	"Aplicacao": Rect2(1529, 395, 151, 96), "Enlace": Rect2(1759, 395, 151, 96),
-	"Apresentacao": Rect2(1987, 395, 151, 96), "Sessao": Rect2(2215, 395, 151, 96),
-	"Transporte": Rect2(2450, 395, 151, 96),
+	"Aplicacao": Rect2(0, 104, 90, 52), "Apresentacao": Rect2(90, 104, 90, 52), "Sessao": Rect2(180, 104, 90, 52), "Transporte": Rect2(270, 104, 90, 52), "Rede": Rect2(360, 104, 90, 52), "Enlace": Rect2(450, 104, 90, 52), "Fisica": Rect2(540, 104, 90, 52),
+}
+const BUTTON_LABELS := {
+	"Aplicacao": "APLI\nCAÇÃO",
+	"Apresentacao": "APRE\nSENTAÇÃO",
+	"Sessao": "SESSÃO",
+	"Transporte": "TRANS\nPORTE",
+	"Rede": "REDE",
+	"Enlace": "ENLACE",
+	"Fisica": "FÍSICA",
 }
 
 const PROMPTS := [
@@ -53,6 +55,7 @@ var protocol_header: Label
 var feedback: Label
 var monitor: TextureRect
 var monitor_screen: ColorRect
+var prompt_backdrop: ColorRect
 var prompt_index := 0
 var prompt_order: Array = []
 var input_locked := false
@@ -68,6 +71,7 @@ func _ready() -> void:
 
 func _build_round() -> Array:
 	var selected := []
+	var rng := ChallengeSession.make_rng(&"sinais_osi/round")
 	for layer in BUTTON_NORMAL_REGIONS:
 		var choices := []
 		for item in PROMPTS:
@@ -76,8 +80,8 @@ func _build_round() -> Array:
 		if choices.is_empty():
 			push_error("Nenhum protocolo configurado para a camada %s." % layer)
 			continue
-		selected.append(choices.pick_random())
-	selected.shuffle()
+		selected.append(ChallengeSession.choose_unused(StringName("sinais_osi/" + String(layer)), choices, rng))
+	selected = ChallengeSession.shuffled(&"sinais_osi/order", selected)
 	if selected.size() != ROUND_LENGTH:
 		push_error("A rodada do decodificador precisa cobrir as sete camadas OSI.")
 	return selected
@@ -113,10 +117,10 @@ func _build() -> void:
 	feedback.hide()
 	_show_prompt()
 
-func _computer_atlas(off: bool = false) -> AtlasTexture:
+func _computer_atlas(completed_state: bool = false) -> AtlasTexture:
 	var texture := AtlasTexture.new()
-	texture.atlas = load(BUTTON_ATLAS_PATH)
-	texture.region = COMPUTER_OFF_REGION if off else COMPUTER_ON_REGION
+	texture.atlas = load(COMPUTER_COMPLETE_SPRITE_PATH if completed_state else COMPUTER_SPRITE_PATH)
+	texture.region = COMPUTER_OFF_REGION if completed_state else COMPUTER_ON_REGION
 	return texture
 
 func _build_computer() -> void:
@@ -143,32 +147,42 @@ func _build_computer() -> void:
 	protocol_header.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	monitor.add_child(protocol_header)
 	prompt_label = Label.new()
-	prompt_label.position = Vector2(15, 18)
-	prompt_label.size = Vector2(150, 96)
+	prompt_label.position = Vector2(25, 43)
+	prompt_label.size = Vector2(130, 61)
 	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	prompt_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	prompt_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	prompt_label.clip_text = true
 	prompt_label.add_theme_font_override("font", project_font)
-	prompt_label.add_theme_color_override("font_color", Color("172b78"))
-	prompt_label.add_theme_font_size_override("font_size", 17)
+	prompt_label.add_theme_color_override("font_color", Color("efffff"))
+	prompt_label.add_theme_color_override("font_outline_color", Color("06131d"))
+	prompt_label.add_theme_constant_override("outline_size", 3)
+	prompt_label.add_theme_font_size_override("font_size", 20)
 	prompt_subtitle = Label.new()
-	prompt_subtitle.position = Vector2(12, 91)
-	prompt_subtitle.size = Vector2(156, 22)
+	prompt_subtitle.position = Vector2(25, 86)
+	prompt_subtitle.size = Vector2(130, 18)
 	prompt_subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	prompt_subtitle.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	prompt_subtitle.clip_text = true
 	prompt_subtitle.add_theme_font_override("font", project_font)
-	prompt_subtitle.add_theme_font_size_override("font_size", 9)
-	prompt_subtitle.add_theme_color_override("font_color", Color("172b78"))
+	prompt_subtitle.add_theme_font_size_override("font_size", 10)
+	prompt_subtitle.add_theme_color_override("font_color", Color("9ffcff"))
+	prompt_subtitle.add_theme_color_override("font_outline_color", Color("06131d"))
+	prompt_subtitle.add_theme_constant_override("outline_size", 2)
 	prompt_subtitle.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	prompt_subtitle.hide()
+	prompt_backdrop = ColorRect.new()
+	prompt_backdrop.position = Vector2(22, 40)
+	prompt_backdrop.size = Vector2(136, 67)
+	prompt_backdrop.color = Color(0.02, 0.11, 0.16, 0.82)
+	prompt_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	monitor_screen = ColorRect.new()
 	monitor_screen.position = Vector2(9, 11)
 	monitor_screen.size = Vector2(162, 108)
 	monitor_screen.color = Color("39d83c")
 	monitor_screen.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	monitor_screen.hide()
+	monitor.add_child(prompt_backdrop)
 	monitor.add_child(monitor_screen)
 	monitor.add_child(prompt_label)
 	monitor.add_child(prompt_subtitle)
@@ -178,32 +192,64 @@ func _add_button(layer: String, button_position: Vector2) -> void:
 	normal.name = layer
 	normal.texture = _button_atlas(layer, &"normal")
 	normal.position = button_position
-	normal.size = Vector2(54, 32)
+	normal.size = Vector2(90, 52)
 	normal.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	normal.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	normal.stretch_mode = TextureRect.STRETCH_SCALE
 	normal.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	normal.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(normal)
+	_add_button_label(normal, layer)
 	var pressed := TextureRect.new()
 	pressed.texture = _button_atlas(layer, &"pressed")
 	pressed.position = button_position + Vector2(0, 3)
-	pressed.size = Vector2(54, 32)
+	pressed.size = Vector2(90, 52)
 	pressed.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	pressed.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	pressed.stretch_mode = TextureRect.STRETCH_SCALE
 	pressed.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	pressed.hide()
 	add_child(pressed)
+	_add_button_label(pressed, layer)
 	var error := TextureRect.new()
 	error.texture = _button_atlas(layer, &"error")
 	error.position = button_position
-	error.size = Vector2(54, 32)
+	error.size = Vector2(90, 52)
 	error.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	error.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	error.stretch_mode = TextureRect.STRETCH_SCALE
 	error.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	error.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	error.hide()
 	add_child(error)
+	_add_button_label(error, layer)
 	buttons[layer] = {"normal": normal, "pressed": pressed, "error": error}
+
+func _add_button_label(target: TextureRect, layer: String) -> void:
+	var lines: PackedStringArray = String(BUTTON_LABELS[layer]).split("\n")
+	var is_multiline := lines.size() > 1
+	for line_index in lines.size():
+		var label := Label.new()
+		label.text = lines[line_index]
+		label.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		if is_multiline:
+			label.position = Vector2(14, 12 + line_index * 9)
+			label.size = Vector2(62, 10)
+			if layer == "Apresentacao" and line_index == 1:
+				label.position = Vector2(1, 21)
+		else:
+			label.position = Vector2(14, 15)
+			label.size = Vector2(62, 18)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.clip_text = true
+		label.add_theme_font_override("font", load(PROJECT_FONT_PATH) as Font)
+		var font_size := 7
+		if is_multiline:
+			font_size = 6
+		label.add_theme_font_size_override("font_size", font_size)
+		label.add_theme_color_override("font_color", Color.WHITE)
+		label.add_theme_color_override("font_outline_color", Color("071018"))
+		label.add_theme_constant_override("outline_size", 1)
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		target.add_child(label)
 
 func _show_prompt() -> void:
 	if prompt_index >= prompt_order.size():
@@ -213,9 +259,10 @@ func _show_prompt() -> void:
 		feedback.text = "Sucesso! Painel de camadas concluido."
 		prompt_label.hide()
 		prompt_subtitle.hide()
-		monitor.texture = _computer_atlas(false)
+		monitor.texture = _computer_atlas(true)
 		monitor.modulate = Color.WHITE
-		monitor_screen.show()
+		monitor_screen.hide()
+		prompt_backdrop.hide()
 		mentor_context.emit("")
 		mentor_message.emit("Painel de camadas concluído!", 5.0)
 		completed.emit()
@@ -227,7 +274,7 @@ func _show_prompt() -> void:
 	var subtitle := String(item.get("subtitle", ""))
 	prompt_subtitle.text = subtitle
 	prompt_subtitle.visible = not subtitle.is_empty()
-	prompt_label.size.y = 70.0 if not subtitle.is_empty() else 96.0
+	prompt_label.size.y = 42.0 if not subtitle.is_empty() else 60.0
 	var text_length := prompt_label.text.length()
 	var font_size := 14 if text_length > 10 else 16 if text_length > 7 else 18
 	prompt_label.add_theme_font_size_override("font_size", font_size)
@@ -311,6 +358,7 @@ func restore_completed() -> void:
 	feedback.text = "Sucesso! Painel de camadas concluido."
 	prompt_label.hide()
 	prompt_subtitle.hide()
-	monitor.texture = _computer_atlas(false)
+	monitor.texture = _computer_atlas(true)
 	monitor.modulate = Color.WHITE
-	monitor_screen.show()
+	monitor_screen.hide()
+	prompt_backdrop.hide()

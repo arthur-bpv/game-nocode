@@ -61,7 +61,7 @@ func _run() -> void:
 	await process_frame
 	assert(menu._disciplines.item_count == 1)
 	assert(menu._topics.item_count == 1)
-	assert(menu._topics.get_item_text(menu._topics.selected) == "TCP/IP + Modelo OSI")
+	assert(menu._topics.get_item_text(menu._topics.selected) == "Protocolos e Endereçamento")
 	menu.queue_free()
 	await process_frame
 	# Um tema sem tasks não herda a missão que antes estava embutida no mapa.

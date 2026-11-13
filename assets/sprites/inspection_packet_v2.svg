@@ -1,0 +1,15 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g shape-rendering="crispEdges">
+    <!-- Compact data parcel: a simple metal box with an obvious amber seal. -->
+    <path fill="#06131f" d="M20 40l20-16h48l20 16v48l-20 16H40L20 88z"/>
+    <path fill="#274a62" d="M28 44l16-12h40l16 12v40l-16 12H44L28 84z"/>
+    <path fill="#5d8299" d="M36 44l12-8h32l12 8-28 12z"/>
+    <path fill="#8fb4c8" d="M44 44l8-4h24l8 4-20 8z"/>
+    <path fill="#163348" d="M28 56l36 16v20L28 80zm72 0L64 72v20l36-12z"/>
+    <path fill="#0a1c2b" d="M60 40h8v56h-8z"/>
+    <path fill="#bf7715" d="M48 68h32v24H48z"/>
+    <path fill="#ffb52e" d="M52 72h24v16H52z"/>
+    <path fill="#ffe172" d="M56 72h16v4H56z"/>
+    <path fill="#16dce8" d="M32 68h4v8h-4zm8 4h4v8h-4zm48-12h4v8h-4z"/>
+  </g>
+</svg>

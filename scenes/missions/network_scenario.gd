@@ -51,7 +51,18 @@ var _feedback_label: Label
 var _choices: Array[Button] = []
 
 func _ready() -> void:
-	_lesson = LESSONS[lesson_id]
+	# Mantém o conteúdo do módulo, mas troca a sequência dos cenários e das
+	# alternativas a cada sessão sem perder a resposta correspondente.
+	_lesson = (LESSONS[lesson_id] as Dictionary).duplicate(true)
+	var scope := StringName("network_scenario/" + lesson_id)
+	var shuffled_questions: Array = ChallengeSession.shuffled(scope, _lesson["questions"] as Array)
+	for question_value in shuffled_questions:
+		var question := question_value as Dictionary
+		var original_choices: Array = question["choices"] as Array
+		var correct_choice: Variant = original_choices[int(question["answer"])]
+		question["choices"] = ChallengeSession.shuffled(StringName(String(scope) + "/" + String(question["text"])), original_choices)
+		question["answer"] = (question["choices"] as Array).find(correct_choice)
+	_lesson["questions"] = shuffled_questions
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_build_ui()
 	_show_question()

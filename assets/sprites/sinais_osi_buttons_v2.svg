@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="630" height="156" viewBox="0 0 630 156" shape-rendering="crispEdges">
+  <defs>
+    <g id="chassis">
+      <path fill="#061019" d="M10 6h70l8 8v25l-8 8H10l-8-8V14z"/>
+      <path fill="#142e42" d="M12 5h66l9 9H3zM6 40h78l-7 7H13z"/>
+      <path fill="#31556d" d="M13 8h64l6 6v23l-6 6H13l-6-6V14z"/>
+      <path fill="#102436" d="M16 11h58l5 5v18l-5 5H16l-5-5V16z"/>
+      <rect x="2" y="20" width="3" height="13" fill="#20d7df"/>
+      <rect x="85" y="20" width="3" height="13" fill="#20d7df"/>
+      <rect x="10" y="43" width="70" height="2" fill="#537b8d"/>
+    </g>
+    <g id="button-base">
+      <path fill="#172634" d="M17 14h56l5 5v13l-5 5H17l-5-5V19z"/>
+      <path fill="#728fa1" d="M18 13h54l5 5H13z"/>
+      <path fill="#0c1721" d="M16 33h58l-4 4H20z"/>
+    </g>
+    <g id="lit-green">
+      <path fill="#0b402c" d="M17 14h56l5 5v13l-5 5H17l-5-5V19z"/>
+      <path fill="#239555" d="M19 17h52l3 3v10l-3 3H19l-3-3V20z"/>
+      <path fill="#72ffc0" d="M22 18h46l3 2H19z"/>
+      <rect x="15" y="22" width="3" height="8" fill="#b3ffcf"/>
+      <rect x="72" y="22" width="3" height="8" fill="#b3ffcf"/>
+    </g>
+    <g id="lit-red">
+      <path fill="#461017" d="M17 14h56l5 5v13l-5 5H17l-5-5V19z"/>
+      <path fill="#a12838" d="M19 17h52l3 3v10l-3 3H19l-3-3V20z"/>
+      <path fill="#ff8794" d="M22 18h46l3 2H19z"/>
+      <rect x="15" y="22" width="3" height="8" fill="#ffd1d6"/>
+      <rect x="72" y="22" width="3" height="8" fill="#ffd1d6"/>
+    </g>
+  </defs>
+  <g id="normal">
+    <use href="#chassis"/><use href="#button-base"/>
+  </g>
+  <g transform="translate(0 0)"><use href="#normal"/><path fill="#c82f38" d="M17 14h56l4 4v16l-4 4H17l-4-4V18z"/><path fill="#ff8f94" d="M20 16h50l3 2H17z"/></g>
+  <g transform="translate(90 0)"><use href="#normal"/><path fill="#dc7d29" d="M17 14h56l4 4v16l-4 4H17l-4-4V18z"/><path fill="#ffd08a" d="M20 16h50l3 2H17z"/></g>
+  <g transform="translate(180 0)"><use href="#normal"/><path fill="#2aad5b" d="M19 17h52l3 3v10l-3 3H19l-3-3V20z"/><path fill="#9dffb7" d="M22 18h46l3 2H19z"/></g>
+  <g transform="translate(270 0)"><use href="#normal"/><path fill="#bd3d9c" d="M17 14h56l4 4v16l-4 4H17l-4-4V18z"/><path fill="#ff9cdd" d="M20 16h50l3 2H17z"/></g>
+  <g transform="translate(360 0)"><use href="#normal"/><path fill="#7139bd" d="M19 17h52l3 3v10l-3 3H19l-3-3V20z"/><path fill="#cba1ff" d="M22 18h46l3 2H19z"/></g>
+  <g transform="translate(450 0)"><use href="#normal"/><path fill="#3566c7" d="M19 17h52l3 3v10l-3 3H19l-3-3V20z"/><path fill="#91c7ff" d="M22 18h46l3 2H19z"/></g>
+  <g transform="translate(540 0)"><use href="#normal"/><path fill="#c59a28" d="M19 17h52l3 3v10l-3 3H19l-3-3V20z"/><path fill="#ffe687" d="M22 18h46l3 2H19z"/></g>
+  <g transform="translate(0 52)"><use href="#chassis"/><use href="#lit-green"/><use href="#chassis" transform="translate(90)"/><use href="#lit-green" transform="translate(90)"/><use href="#chassis" transform="translate(180)"/><use href="#lit-green" transform="translate(180)"/><use href="#chassis" transform="translate(270)"/><use href="#lit-green" transform="translate(270)"/><use href="#chassis" transform="translate(360)"/><use href="#lit-green" transform="translate(360)"/><use href="#chassis" transform="translate(450)"/><use href="#lit-green" transform="translate(450)"/><use href="#chassis" transform="translate(540)"/><use href="#lit-green" transform="translate(540)"/></g>
+  <g transform="translate(0 104)"><use href="#chassis"/><use href="#lit-red"/><use href="#chassis" transform="translate(90)"/><use href="#lit-red" transform="translate(90)"/><use href="#chassis" transform="translate(180)"/><use href="#lit-red" transform="translate(180)"/><use href="#chassis" transform="translate(270)"/><use href="#lit-red" transform="translate(270)"/><use href="#chassis" transform="translate(360)"/><use href="#lit-red" transform="translate(360)"/><use href="#chassis" transform="translate(450)"/><use href="#lit-red" transform="translate(450)"/><use href="#chassis" transform="translate(540)"/><use href="#lit-red" transform="translate(540)"/></g>
+</svg>

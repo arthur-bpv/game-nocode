@@ -4,13 +4,22 @@ signal completed
 signal mentor_message(message: String, duration: float)
 signal mentor_context(message: String)
 
-const CABIN_TEXTURE_PATH := "res://assets/generated/esteira_cabine.png"
+const CABIN_TEXTURE_PATH := "res://assets/generated/tcpip_cabin.png"
+const TCPIP_U_CONVEYOR_PATH := "res://assets/generated/tcpip_u_conveyor.png"
 const CONVEYOR_SOURCE_PATH := "res://assets/sprites/Esteira.png"
 const SPRITESHEET_PATH := "res://assets/sprites/esteirasprites.png"
-const PACKAGE_TEXTURE_PATH := "res://assets/sprites/Pacote.png"
-const CABIN_SCALE := Vector2(0.86, 0.86)
-const PACKAGE_SCALE := Vector2(0.040, 0.040)
-# Coordenadas da arte composta depois do recorte para 720 × 532.
+const PACKAGE_TEXTURE_PATH := "res://assets/generated/tcpip_packet.png"
+const CABIN_SCALE := Vector2(1.25, 1.25)
+const PACKAGE_SCALE := Vector2(2.60, 2.60)
+const U_CABIN_REGIONS: Array[Rect2i] = [
+	Rect2i(34, 8, 428, 316), Rect2i(494, 8, 428, 316),
+	Rect2i(954, 8, 428, 316), Rect2i(1414, 8, 428, 316)
+]
+const U_BELT_HORIZONTAL := Rect2i(24, 352, 468, 270)
+const U_BELT_VERTICAL := Rect2i(560, 342, 188, 375)
+const U_CORNER_LEFT := Rect2i(770, 350, 330, 370)
+const U_CORNER_RIGHT := Rect2i(1110, 350, 330, 370)
+# Coordenadas legadas da arte composta depois do recorte para 720 × 532.
 const CABIN_BODIES: Array[Rect2] = [
 	Rect2(108, 2, 100, 111), Rect2(301, 3, 99, 111), Rect2(498, 3, 99, 111),
 	Rect2(222, 188, 334, 117), Rect2(201, 417, 99, 113),
@@ -50,67 +59,47 @@ enum TaskState { IDLE, MOVING, ENTERING, PROCESSING, SUCCESS, ERROR, LEAVING, CO
 
 const STAGES: Array[Dictionary] = [
 	{
-		"layer": "1. APLICAÇÃO", "tcp": "TCP/IP: Aplicação",
-		"concept": "Protocolos de aplicação definem como clientes e servidores trocam dados.",
-		"prompt": "Um navegador precisa buscar uma página com confidencialidade e autenticação do servidor. Qual protocolo deve usar?",
-		"choices": ["HTTPS", "DNS", "DHCP"], "answer": 1
+		"layer": "APLICAÇÃO", "tcp": "TCP/IP: Aplicação",
+		"concept": "Monte a mensagem que será entregue ao software de destino.",
+		"instruction": "Encaixe o conteúdo do pacote na ordem indicada: dados, protocolo e selo de segurança.",
+		"components": ["DADOS", "HTTP", "TLS"]
 	},
 	{
-		"layer": "2. APRESENTAÇÃO", "tcp": "TCP/IP: Aplicação",
-		"concept": "No modelo TCP/IP, codificação e formato dos dados fazem parte da aplicação.",
-		"prompt": "Uma API deve enviar “café ☕” sem perder acentos ou emoji. Qual codificação deve declarar na resposta?",
-		"choices": ["UTF-8", "ASCII", "Binário sem charset"], "answer": 1
+		"layer": "TRANSPORTE", "tcp": "TCP/IP: Transporte",
+		"concept": "Monte o segmento TCP antes de ele seguir pela rede.",
+		"instruction": "Adicione os campos do segmento: portas, sequência e checksum.",
+		"components": ["PORTAS", "SEQUÊNCIA", "CHECKSUM"]
 	},
 	{
-		"layer": "3. SESSÃO", "tcp": "TCP/IP: Aplicação",
-		"concept": "No TCP/IP, o controle de sessão é tratado pelos protocolos e aplicações.",
-		"prompt": "Após o login, o servidor precisa reconhecer as próximas requisições do mesmo usuário. O que identifica essa sessão?",
-		"choices": ["Cookie/token de sessão", "Endereço MAC do servidor", "Máscara de sub-rede"], "answer": 1
+		"layer": "INTERNET", "tcp": "TCP/IP: Internet",
+		"concept": "Monte o datagrama IP que levará o segmento até outra rede.",
+		"instruction": "Acople os campos do datagrama: origem, destino e tempo de vida.",
+		"components": ["IP ORIGEM", "IP DESTINO", "TTL"]
 	},
 	{
-		"layer": "4. TRANSPORTE", "tcp": "TCP/IP: Transporte",
-		"concept": "O TCP usa números de sequência para remontar dados recebidos fora de ordem.",
-		"prompt": "Chegaram segmentos TCP com início de sequência 3001, 1001 e 2001. Selecione a ordem para remontar os dados.",
-		"choices": ["Seq 1001", "Seq 2001", "Seq 3001"], "answer": 0, "segments": true
-	},
-	{
-		"layer": "5. REDE", "tcp": "TCP/IP: Internet",
-		"concept": "Roteadores escolhem a rota mais específica que corresponde ao IP de destino.",
-		"prompt": "Destino: 192.168.20.45. Rotas: 192.168.0.0/16 → GW-A; 192.168.20.0/24 → GW-B; padrão → GW-C. Qual gateway será usado?",
-		"choices": ["GW-A", "GW-B", "GW-C"], "answer": 2
-	},
-	{
-		"layer": "6. ENLACE", "tcp": "TCP/IP: Acesso à Rede",
-		"concept": "Em uma LAN, o quadro Ethernet é endereçado ao próximo salto, não ao host remoto.",
-		"prompt": "O servidor está em outra rede. Para enviar o primeiro quadro, qual MAC deve ser usado como destino?",
-		"choices": ["MAC do computador emissor", "MAC do gateway padrão", "MAC do servidor remoto"], "answer": 2
-	},
-	{
-		"layer": "7. FÍSICA", "tcp": "TCP/IP: Acesso à Rede",
-		"concept": "A camada física representa bits como sinais adequados ao meio de transmissão.",
-		"prompt": "Em um enlace de fibra óptica, qual forma física pode representar os bits transmitidos?",
-		"choices": ["Pulsos de luz", "Endereços IP", "Números de porta TCP"], "answer": 1
+		"layer": "ACESSO À REDE", "tcp": "TCP/IP: Acesso à Rede",
+		"concept": "Finalize o quadro que será enviado pelo meio físico.",
+		"instruction": "Feche o quadro: cabeçalho Ethernet, MAC do próximo salto e verificação FCS.",
+		"components": ["ETHERNET", "MAC", "FCS"]
 	}
 ]
 
 @export_category("Layout visual — Esteira")
-@export var use_composed_factory_art := true
+@export var use_composed_factory_art := false
 @export var cabin_centers: Array[Vector2] = [
-	Vector2(130, 109), Vector2(360, 109), Vector2(590, 109), Vector2(360, 230),
-	Vector2(130, 455), Vector2(360, 455), Vector2(590, 455)
+	Vector2(152, 148), Vector2(290, 335), Vector2(446, 335), Vector2(594, 148)
 ]
 @export var package_stops: Array[Vector2] = [
-	Vector2(130, 175), Vector2(360, 175), Vector2(590, 175), Vector2(360, 300),
-	Vector2(130, 520), Vector2(360, 520), Vector2(590, 520)
+	Vector2(122, 88), Vector2(215, 385), Vector2(390, 385), Vector2(624, 210)
 ]
-@export var top_belt_centers: Array[Vector2] = [Vector2(81, 175), Vector2(187, 175), Vector2(293, 175), Vector2(399, 175), Vector2(505, 175), Vector2(611, 175)]
-@export var middle_belt_centers: Array[Vector2] = [Vector2(160, 300), Vector2(266, 300), Vector2(372, 300), Vector2(478, 300), Vector2(584, 300)]
-@export var bottom_belt_centers: Array[Vector2] = [Vector2(182, 520), Vector2(288, 520), Vector2(394, 520), Vector2(500, 520), Vector2(606, 520)]
-@export var vertical_belt_centers: Array[Vector2] = [Vector2(690, 237), Vector2(130, 353), Vector2(130, 459)]
-@export var corner_centers: Array[Vector2] = [Vector2(690, 175), Vector2(690, 300), Vector2(130, 300), Vector2(130, 520)]
-@export var corner_rotations: Array[float] = [0.0, PI * 0.5, PI, PI * 1.5]
-var start_point := Vector2(28, 175)
-var delivery_point := Vector2(688, 520)
+@export var top_belt_centers: Array[Vector2] = []
+@export var middle_belt_centers: Array[Vector2] = []
+@export var bottom_belt_centers: Array[Vector2] = [Vector2(190, 385), Vector2(296, 385), Vector2(402, 385), Vector2(508, 385), Vector2(614, 385)]
+@export var vertical_belt_centers: Array[Vector2] = [Vector2(122, 174), Vector2(122, 280), Vector2(624, 280), Vector2(624, 174)]
+@export var corner_centers: Array[Vector2] = [Vector2(122, 385), Vector2(624, 385)]
+@export var corner_rotations: Array[float] = [PI, 0.0]
+var start_point := Vector2(122, 36)
+var delivery_point := Vector2(624, 38)
 @export var panel_rect := Rect2(12, 245, 112, 66)
 @export var green_button_rect := Rect2(28, 270, 80, 32)
 
@@ -173,23 +162,22 @@ func _sync_layout_markers() -> void:
 		green_button_rect.position = button_marker.position
 
 func _sync_package_route(using_composed_art: bool) -> void:
-	package_stops.clear()
 	cabin_window_points.clear()
 	cabin_exit_points.clear()
-	for index in STAGES.size():
-		var belt := top_belt_centers if index < 3 else (middle_belt_centers if index == 3 else bottom_belt_centers)
-		var center := Vector2(cabin_centers[index].x, belt[0].y)
-		var half_width := 60.0
-		if using_composed_art:
-			center = CABIN_WINDOWS[index].get_center()
-			half_width = CABIN_BODIES[index].size.x * 0.5
-		var direction := -1.0 if index == 3 else 1.0
-		var side := Vector2((half_width + 8.0) * direction, 0)
-		package_stops.append(center - side)
-		cabin_window_points.append(center)
-		cabin_exit_points.append(center + side)
-	start_point = Vector2(maxf(14.0, top_belt_centers[0].x - 53.0), package_stops[0].y)
-	delivery_point = Vector2(maxf(bottom_belt_centers[-1].x + 53.0, cabin_exit_points[-1].x), package_stops[-1].y)
+	# Percurso em U: entrada no trilho esquerdo, base da linha e saída pelo
+	# trilho direito. Os pontos permanecem expostos para ajuste no Inspector.
+	if using_composed_art:
+		return
+	cabin_window_points.append_array([
+		Vector2(122, 148), Vector2(290, 335),
+		Vector2(446, 335), Vector2(624, 148)
+	])
+	cabin_exit_points.append_array([
+		Vector2(122, 226), Vector2(350, 385),
+		Vector2(510, 385), Vector2(624, 48)
+	])
+	start_point = Vector2(122, 36)
+	delivery_point = Vector2(624, 38)
 
 func _marker_positions(prefix: String, defaults: Array[Vector2]) -> Array[Vector2]:
 	var positions: Array[Vector2] = []
@@ -204,17 +192,16 @@ func _keep_player_in_front() -> void:
 		player.z_index = maxi(player.z_index, 5)
 
 func mentor_intro() -> String:
-	return "Aproxime-se do console verde e pressione [E]. Acompanhe as sete cabines pelo painel lateral."
+	return "Aproxime-se do console verde e pressione [E]. Monte o pacote pelas quatro camadas TCP/IP."
 
 func _build_visuals() -> void:
-	_build_conveyor_collision()
-	var using_composed_art := use_composed_factory_art and _build_factory_sprite()
-	_sync_package_route(using_composed_art)
-	if using_composed_art:
-		_build_cabin_lights()
-	else:
-		_build_original_sprite_belts()
-		_build_cabins()
+	# A esteira é somente visual: o jogador precisa conseguir aproximar-se das
+	# quatro cabines sem um corpo de colisão bloqueando o caminho.
+	# Arte exclusiva desta missão, criada no PixelLab. A esteira é uma peça única
+	# em U, evitando os recortes e as quinas desalinhadas da folha anterior.
+	_sync_package_route(false)
+	_build_original_sprite_belts()
+	_build_cabins()
 	_build_package()
 	_build_challenge_panel()
 	queue_redraw()
@@ -245,6 +232,19 @@ func _load_runtime_texture(path: String) -> Texture2D:
 	if image == null or image.is_empty():
 		return null
 	return ImageTexture.create_from_image(image)
+
+func _load_assembly_sprite(region: Rect2i, target_size: Vector2i) -> Texture2D:
+	# Esteira.png é uma folha exclusiva desta atividade. Recortamos seus módulos
+	# diretamente, sem reusar a antiga arte composta da esteira anterior.
+	var source := Image.load_from_file(CONVEYOR_SOURCE_PATH)
+	if source == null or source.is_empty():
+		return null
+	var safe_region := region.intersection(Rect2i(Vector2i.ZERO, source.get_size()))
+	if safe_region.size.x <= 0 or safe_region.size.y <= 0:
+		return null
+	var crop := source.get_region(safe_region)
+	crop.resize(target_size.x, target_size.y, Image.INTERPOLATE_NEAREST)
+	return ImageTexture.create_from_image(crop)
 
 func _load_original_region(region: Rect2i, target_size: Vector2i) -> Texture2D:
 	var source := Image.load_from_file(CONVEYOR_SOURCE_PATH)
@@ -326,35 +326,15 @@ func _build_cabin_lights() -> void:
 		cabin_lights.append(light)
 
 func _build_original_sprite_belts() -> void:
-	# Peças proporcionais extraídas diretamente de Esteira.png. O desenho-base
-	# abaixo apenas fecha os cantos do percurso em S entre esses módulos.
-	var horizontal := _load_original_region(ORIGINAL_HORIZONTAL_BELT, Vector2i(106, 70))
-	if horizontal != null:
-		var belt_centers: Array[Vector2] = []
-		belt_centers.append_array(top_belt_centers)
-		belt_centers.append_array(middle_belt_centers)
-		belt_centers.append_array(bottom_belt_centers)
-		for belt_position in belt_centers:
-			_sheet_sprite(horizontal, belt_position)
-	var vertical := _load_original_region(ORIGINAL_VERTICAL_BELT, Vector2i(58, 106))
-	if vertical != null:
-		for index in vertical_belt_centers.size():
-			var vertical_piece := _sheet_sprite(vertical, vertical_belt_centers[index])
-			# VerticalBelt1 e VerticalBelt2 acompanham o sentido do percurso em S.
-			vertical_piece.flip_v = index < 2
-	# Uma curva por dobra real do percurso em S. O projeto contém Esteira.png,
-	# mas não o arquivo esteirasprites.png; portanto os quatro cantos são
-	# recortes da própria esteira, sem um fallback vazio.
-	var corner := _load_original_region(ORIGINAL_TOP_RIGHT_CURVE, Vector2i(74, 74))
-	if corner != null:
-		for index in mini(corner_centers.size(), corner_rotations.size()):
-			var corner_piece := _sheet_sprite(corner, corner_centers[index])
-			corner_piece.rotation = corner_rotations[index]
-			# Mantém as quinas na camada da missão (não atrás do mapa), mas antes
-			# dos outros sprites da esteira para que sejam cobertas pelas retas,
-			# cabines e pelo painel.
-			corner_piece.z_index = 0
-			move_child(corner_piece, 0)
+	var conveyor_texture := _load_runtime_texture(TCPIP_U_CONVEYOR_PATH)
+	if conveyor_texture == null:
+		return
+	var conveyor := _sheet_sprite(conveyor_texture, Vector2(373, 211))
+	conveyor.name = "PixelLabUConveyor"
+	# A instalação é o ponto focal da task no mapa; a escala maior preserva a
+	# leitura dos roletes e das curvas do U mesmo com a câmera afastada.
+	conveyor.scale = Vector2(3.0, 3.0)
+	conveyor.z_index = 0
 
 func _load_sheet_region(region: Rect2i, target_size: Vector2i) -> Texture2D:
 	var sheet := Image.load_from_file(SPRITESHEET_PATH)
@@ -419,12 +399,10 @@ func _build_source_belts() -> void:
 		add_child(belt)
 
 func _build_cabins() -> void:
-	var cabin_texture := _load_original_region(ORIGINAL_SMALL_MACHINE, Vector2i(142, 154))
-	if cabin_texture == null:
-		cabin_texture = _load_runtime_texture(CABIN_TEXTURE_PATH)
 	for index in STAGES.size():
+		var cabin_texture := _load_runtime_texture(CABIN_TEXTURE_PATH)
 		var cabin := Sprite2D.new()
-		# Todas as etapas usam o mesmo gabinete, sem distorção de escala.
+		# Quatro gabinetes próprios, diferenciados pela luz de cada camada.
 		cabin.texture = cabin_texture
 		cabin.position = cabin_centers[index]
 		cabin.scale = CABIN_SCALE if cabin_texture != null else Vector2.ONE
@@ -441,8 +419,8 @@ func _build_cabins() -> void:
 			add_child(fallback)
 		var name_label := Label.new()
 		name_label.text = str(STAGES[index]["layer"]).trim_prefix(str(index + 1) + ". ")
-		name_label.position = cabin_centers[index] + Vector2(-70, 68)
-		name_label.size = Vector2(140, 16)
+		name_label.position = cabin_centers[index] + Vector2(-84, 87)
+		name_label.size = Vector2(168, 18)
 		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		name_label.add_theme_font_size_override("font_size", 8)
 		name_label.add_theme_color_override("font_color", Color.WHITE)
@@ -450,9 +428,10 @@ func _build_cabins() -> void:
 		name_label.add_theme_constant_override("outline_size", 2)
 		name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(name_label)
-		name_label.hide()
+		# As cabines representam diretamente as quatro camadas TCP/IP.
+		name_label.show()
 		var light := ColorRect.new()
-		light.position = cabin_centers[index] + Vector2(-9, 55)
+		light.position = cabin_centers[index] + Vector2(-11, 71)
 		light.size = Vector2(18, 8)
 		light.color = Color("d72e2e")
 		light.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -505,7 +484,7 @@ func _build_challenge_panel() -> void:
 	var header := HBoxContainer.new()
 	header.add_theme_constant_override("separation", 12)
 	layout.add_child(header)
-	var caption := _panel_label("ESTEIRA DE PACOTES  /  OSI + TCP/IP", 20, Color("79d7df"))
+	var caption := _panel_label("MONTAGEM DE PACOTE  /  TCP/IP", 20, Color("79d7df"))
 	caption.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(caption)
 	var close_button := Button.new()
@@ -532,12 +511,12 @@ func _build_challenge_panel() -> void:
 		choice.add_theme_font_size_override("font_size", 23)
 		layout.add_child(choice)
 		choice_labels.append(choice)
-		choice.pressed.connect(_choose_answer.bind(option_index + 1))
+		choice.pressed.connect(_insert_component.bind(option_index + 1))
 
 	status_label = _panel_label("", 21, Color("9fbdc9"))
 	status_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	layout.add_child(status_label)
-	layout.add_child(_panel_label("[1] [2] [3]  Responder     •     [R]  Reiniciar", 17, Color("9fbdc9")))
+	layout.add_child(_panel_label("[1] [2] [3]  Encaixar componente     •     [R]  Reiniciar", 17, Color("9fbdc9")))
 
 	challenge_camera = Camera2D.new()
 	challenge_camera.name = "ConveyorCamera"
@@ -658,17 +637,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not is_challenge_open() or state != TaskState.PROCESSING or not (event is InputEventKey) or not event.pressed:
 		return
 	if event.keycode in [KEY_1, KEY_2, KEY_3]:
-		_choose_answer(event.keycode - KEY_1 + 1)
+		_insert_component(event.keycode - KEY_1 + 1)
 		get_viewport().set_input_as_handled()
 
-func _choose_answer(option: int) -> void:
+func _insert_component(component: int) -> void:
 	if state != TaskState.PROCESSING:
 		return
-	var stage: Dictionary = STAGES[stage_index]
-	if bool(stage.get("segments", false)):
-		_handle_segment_choice(option)
-	else:
-		_validate_answer(option)
+	_handle_component_choice(component)
 
 func _turn_conveyor_on() -> void:
 	if state == TaskState.COMPLETED or conveyor_on:
@@ -703,42 +678,41 @@ func _show_challenge() -> void:
 	var stage: Dictionary = STAGES[stage_index]
 	challenge_step.text = "CABINE %02d DE %02d  /  %s" % [stage_index + 1, STAGES.size(), stage["tcp"]]
 	challenge_title.text = String(stage["layer"])
-	challenge_text.text = String(stage["prompt"])
+	challenge_text.text = String(stage["instruction"])
 	for index in choice_labels.size():
 		var choice := choice_labels[index]
-		choice.text = "[%d]  %s" % [index + 1, stage["choices"][index]]
+		choice.text = "[%d]  %s" % [index + 1, stage["components"][index]]
 		choice.modulate = Color.WHITE
 		choice.disabled = false
 		choice.show()
 	status_label.text = String(stage["concept"])
 
-func _handle_segment_choice(segment: int) -> void:
-	if segment_order.has(segment):
-		_feedback_error("Esse segmento já foi escolhido. Monte a sequência novamente.")
+func _handle_component_choice(component: int) -> void:
+	if segment_order.has(component):
+		_feedback_error("Esse componente já foi encaixado. Recomece a montagem desta camada.")
 		segment_order.clear()
-		_refresh_segment_text()
+		_refresh_assembly_text()
 		return
-	segment_order.append(segment)
-	_refresh_segment_text()
+	segment_order.append(component)
+	_refresh_assembly_text()
 	if segment_order.size() == 3:
 		if segment_order == [1, 2, 3]:
 			_feedback_success()
 		else:
-			_feedback_error("Ordem incorreta. Selecione os segmentos em ordem crescente.")
+			_feedback_error("A ordem de montagem não encaixou. Monte os componentes novamente.")
 			segment_order.clear()
-			_refresh_segment_text()
+			_refresh_assembly_text()
 
-func _refresh_segment_text() -> void:
-	challenge_text.text = "Ordem escolhida: " + str(segment_order) + ". Ordene os segmentos do menor para o maior."
+func _refresh_assembly_text() -> void:
+	var stage: Dictionary = STAGES[stage_index]
+	var installed_text := ""
+	for component in segment_order:
+		if not installed_text.is_empty():
+			installed_text += ", "
+		installed_text += String(stage["components"][component - 1])
+	challenge_text.text = "Componentes encaixados: " + (installed_text if not installed_text.is_empty() else "nenhum") + "."
 	for index in choice_labels.size():
 		choice_labels[index].modulate = Color("4cf475") if segment_order.has(index + 1) else Color.WHITE
-
-func _validate_answer(option: int) -> void:
-	var stage: Dictionary = STAGES[stage_index]
-	if option == int(stage["answer"]):
-		_feedback_success()
-	else:
-		_feedback_error("Resposta incorreta. O pacote ficou retido para correção.")
 
 func _feedback_success() -> void:
 	if state != TaskState.PROCESSING:
@@ -767,7 +741,7 @@ func _feedback_error(message: String) -> void:
 	_set_light(stage_index, Color("f4c842"), true)
 	state = TaskState.PROCESSING
 	_show_challenge()
-	status_label.text = "Tente novamente com [1], [2] ou [3]."
+	status_label.text = "Tente montar novamente com [1], [2] ou [3]."
 
 func _leave_cabin() -> void:
 	state = TaskState.LEAVING
@@ -781,14 +755,12 @@ func _leave_cabin() -> void:
 			_finish_task()
 		)
 		return
-	# O pacote deixa o visor e sai pelo lado oposto, seguindo o sentido da correia.
+	# O pacote deixa cada cabine seguindo a correia em U.
 	var points: Array[Vector2] = [package.position, cabin_exit_points[old_stage]]
-	if old_stage == 2:
-		points.append(Vector2(corner_centers[0].x, cabin_exit_points[old_stage].y))
-		points.append(Vector2(corner_centers[0].x, package_stops[stage_index].y))
-	elif old_stage == 3:
-		points.append(Vector2(corner_centers[2].x, cabin_exit_points[old_stage].y))
-		points.append(Vector2(corner_centers[2].x, package_stops[stage_index].y))
+	if old_stage == 0:
+		points.append(Vector2(122, 385))
+	elif old_stage == 2:
+		points.append(Vector2(624, 385))
 	points.append(package_stops[stage_index])
 	_move_package(points, 0.65, func() -> void:
 		if state != TaskState.LEAVING:
@@ -817,7 +789,7 @@ func _finish_task() -> void:
 	queue_redraw()
 	stage_index = STAGES.size()
 	_close_challenge()
-	status_label.text = "Entrega concluída! O pacote passou pelas sete camadas."
+	status_label.text = "Pacote concluído! As quatro camadas TCP/IP foram montadas."
 	mentor_context.emit("")
 	mentor_message.emit(status_label.text + " Pressione [R] para repetir.", 5.0)
 	if not completed_once:

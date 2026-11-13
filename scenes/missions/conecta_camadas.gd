@@ -81,6 +81,7 @@ func _ready() -> void:
 	_build()
 
 func _build() -> void:
+	_connected.clear()
 	var osi_cabinet := $OsiCabinet as TextureRect
 	var tcp_cabinet := $TcpCabinet as TextureRect
 
@@ -108,6 +109,16 @@ func _build() -> void:
 	for camada in TCP_CAMADAS:
 		var hole: Rect2 = TCP_BURACOS[camada]
 		_tcp_jacks[camada] = Rect2(tcp_cabinet.position + hole.position * tcp_scale, hole.size * tcp_scale)
+
+	# Cada sessão preserva o mesmo mapeamento OSI → TCP/IP, mas pode iniciar
+	# com um pequeno subconjunto de fios já configurado. Assim, a atividade
+	# continua sendo de associação prática e varia sem inventar equivalências.
+	var rng := ChallengeSession.make_rng(&"conecta_camadas/preconfigurados")
+	var ordered_layers: Array = ChallengeSession.shuffled(&"conecta_camadas/camadas", OSI_CAMADAS)
+	var configured_count: int = rng.randi_range(0, mini(2, ordered_layers.size()))
+	for index in configured_count:
+		var configured_layer: String = String(ordered_layers[index])
+		_connected[configured_layer] = MAPA_OSI_TCP[configured_layer]
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:

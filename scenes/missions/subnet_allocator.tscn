@@ -1,5 +1,8 @@
-[gd_scene load_steps=2 format=3]
-[ext_resource type="Script" path="res://scenes/missions/network_matcher.gd" id="1"]
-[node name="SubnetAllocator" type="Control"]
+[gd_scene format=3 uid="uid://xjjf6xorskiq"]
+
+[ext_resource type="Script" uid="uid://bomaoguwug5rt" path="res://scenes/missions/network_matcher.gd" id="1"]
+
+[node name="SubnetAllocator" type="Control" unique_id=1011776142]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1")
-lab_id = "subnet"

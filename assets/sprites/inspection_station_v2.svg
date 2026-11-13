@@ -1,0 +1,27 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <g shape-rendering="crispEdges">
+    <!-- Simple packet scanner: cyan display, dark arch and clear conveyor rollers. -->
+    <path fill="#06131f" d="M32 40h192v16h16v136h-24v24H40v-24H16V56h16z"/>
+    <path fill="#173247" d="M40 48h176v16h16v120h-24v24H48v-24H24V64h16z"/>
+    <path fill="#3e6680" d="M48 48h160v8H48zm-8 24h16v104H40zm160 0h16v104h-16z"/>
+    <path fill="#0b1f2e" d="M64 56h128l16 16v48H48V72z"/>
+    <path fill="#31536a" d="M72 64h112l12 12v12H60V76z"/>
+    <path fill="#5c8499" d="M76 68h104l8 8H68z"/>
+    <path fill="#07131d" d="M88 88h80v24H88z"/>
+    <path fill="#16dce8" d="M96 96h64v8H96z"/>
+    <path fill="#82ffff" d="M100 96h56v3h-56z"/>
+    <path fill="#07131d" d="M56 120h144v56H56z"/>
+    <path fill="#123246" d="M64 128h128v40H64z"/>
+    <path fill="#0a202e" d="M72 136h112v24H72z"/>
+    <path fill="#14526a" d="M72 156h112v4H72z"/>
+    <path fill="#16dce8" d="M64 128h8v4h-8zm120 0h8v4h-8z"/>
+    <path fill="#081721" d="M32 176h192v40H32z"/>
+    <path fill="#2b4a5e" d="M40 184h176v24H40z"/>
+    <path fill="#7292a3" d="M44 188h16v16H44zm20 0h16v16H64zm20 0h16v16H84zm20 0h16v16h-16zm20 0h16v16h-16zm20 0h16v16h-16zm20 0h16v16h-16zm20 0h16v16h-16z"/>
+    <path fill="#b7d1dc" d="M44 188h16v3H44zm20 0h16v3H64zm20 0h16v3H84zm20 0h16v3h-16zm20 0h16v3h-16zm20 0h16v3h-16zm20 0h16v3h-16zm20 0h16v3h-16z"/>
+    <path fill="#07131d" d="M48 216h32v12H48zm128 0h32v12h-32z"/>
+    <path fill="#173247" d="M56 216h16v8H56zm112 0h16v8h-16z"/>
+    <path fill="#0b1f2e" d="M96 212h64v16H96z"/>
+    <path fill="#16dce8" d="M108 216h40v4h-40z"/>
+  </g>
+</svg>

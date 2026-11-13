@@ -1,0 +1,26 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g shape-rendering="crispEdges">
+    <!-- Caixa de carga tecnológica: leitura clara em escala pequena. -->
+    <path fill="#07121e" d="M16 44L32 28h64l16 16v48l-16 16H32L16 92z"/>
+    <path fill="#10283a" d="M20 46l16-14h56l16 14v42l-16 12H36l-16-12z"/>
+    <!-- Tampa em perspectiva. -->
+    <path fill="#31566f" d="M28 44l12-10h48l12 10-16 12H44z"/>
+    <path fill="#5f90a8" d="M40 36h48l6 5H34z"/>
+    <path fill="#17384e" d="M26 51l18 12v31l-18-9zm76 0L84 63v31l18-9z"/>
+    <!-- Frente reforçada. -->
+    <path fill="#294a61" d="M44 62h40v34H44z"/>
+    <path fill="#0a1b2a" d="M48 66h32v26H48z"/>
+    <path fill="#557b91" d="M52 70h24v18H52z"/>
+    <!-- Etiqueta de inspeção. -->
+    <path fill="#7a3c05" d="M54 72h20v14H54z"/>
+    <path fill="#f39b16" d="M56 74h16v10H56z"/>
+    <path fill="#ffd45a" d="M58 76h12v3H58z"/>
+    <!-- Correias e fechos. -->
+    <path fill="#081520" d="M32 42h8v56h-8zm56 0h8v56h-8z"/>
+    <path fill="#67bed0" d="M34 48h4v10h-4zm56 0h4v10h-4z"/>
+    <path fill="#17ddeb" d="M34 76h4v10h-4zm56 0h4v10h-4z"/>
+    <path fill="#0b1a29" d="M20 92h88v6H20z"/>
+    <path fill="#486b82" d="M28 98h12v6H28zm60 0h12v6H88z"/>
+    <path fill="#a3d6e5" d="M48 38h32v3H48z"/>
+  </g>
+</svg>

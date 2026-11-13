@@ -30,6 +30,8 @@ const CASES := [
 const CHOICES := ["Rota estática", "OSPF dinâmico", "Protocolo dinâmico"]
 
 var _case_index := 0
+var _case_order: Array = []
+var _choice_order: Array = []
 var _case_label: Label
 var _goal_label: Label
 var _feedback: Label
@@ -37,6 +39,7 @@ var _buttons: Array[Button] = []
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_case_order = ChallengeSession.shuffled(&"routing_policy/cases", [0, 1, 2])
 	_build_ui()
 	_show_case()
 
@@ -75,7 +78,6 @@ func _build_ui() -> void:
 	content.add_child(buttons)
 	for index in CHOICES.size():
 		var button := Button.new()
-		button.text = CHOICES[index]
 		button.custom_minimum_size = Vector2(165, 64)
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		button.pressed.connect(func() -> void: _configure(index))
@@ -88,16 +90,19 @@ func _build_ui() -> void:
 	content.add_child(_feedback)
 
 func _show_case() -> void:
-	var current: Dictionary = CASES[_case_index]
+	var current: Dictionary = CASES[int(_case_order[_case_index])]
+	_choice_order = ChallengeSession.shuffled(&"routing_policy/choices", CHOICES, _case_index)
 	_case_label.text = "%s\n%s" % [String(current["title"]), String(current["topology"])]
 	_goal_label.text = "%d/%d — %s" % [_case_index + 1, CASES.size(), String(current["goal"])]
 	_feedback.text = "Selecione a configuração mais adequada."
-	for button in _buttons:
+	for index in _buttons.size():
+		var button := _buttons[index]
+		button.text = String(_choice_order[index])
 		button.disabled = false
 
 func _configure(index: int) -> void:
-	var current: Dictionary = CASES[_case_index]
-	if CHOICES[index] != String(current["answer"]):
+	var current: Dictionary = CASES[int(_case_order[_case_index])]
+	if String(_choice_order[index]) != String(current["answer"]):
 		_feedback.text = "Essa decisão não atende ao cenário. Reavalie a estabilidade e a redundância da topologia."
 		_feedback.add_theme_color_override("font_color", Color("ff8a8a"))
 		return

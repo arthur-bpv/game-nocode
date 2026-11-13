@@ -8,8 +8,13 @@ var _topology: Label
 var _status: Label
 var _action_a: Button
 var _action_b: Button
+var _routers: Array[String] = ["R1", "R2", "R3"]
 
 func _ready() -> void:
+	var ordered: Array = ChallengeSession.shuffled(&"route_recovery/routers", _routers)
+	_routers.clear()
+	for router_name in ordered:
+		_routers.append(String(router_name))
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_build_ui()
 	_show_phase()
@@ -62,17 +67,17 @@ func _build_ui() -> void:
 func _show_phase() -> void:
 	match _phase:
 		0:
-			_topology.text = "CLIENTE ─── R1 ─── R3 ─── SERVIDOR\n             ╲          ╱\n              └── R2 ──┘"
-			_action_a.text = "Instalar rota estática\nvia R1 → R3"
+			_topology.text = "CLIENTE ─── %s ─── %s ─── SERVIDOR\n             ╲          ╱\n              └── %s ──┘" % [_routers[0], _routers[2], _routers[1]]
+			_action_a.text = "Instalar rota estática\nvia %s → %s" % [_routers[0], _routers[2]]
 			_action_b.text = "Ativar OSPF nos três roteadores"
 			_status.text = "A rede tem dois caminhos possíveis. Qual configuração aprende ambos?"
 		1:
-			_topology.text = "CLIENTE ─── R1  ✕  R3 ─── SERVIDOR\n             ╲          ╱\n              └── R2 ──┘"
+			_topology.text = "CLIENTE ─── %s  ✕  %s ─── SERVIDOR\n             ╲          ╱\n              └── %s ──┘" % [_routers[0], _routers[2], _routers[1]]
 			_action_a.text = "Editar manualmente\na rota estática"
 			_action_b.text = "Aguardar OSPF\nconvergir por R2"
 			_status.text = "O enlace principal falhou. Escolha a reação automática correta."
 		2:
-			_topology.text = "CLIENTE ─── R1 ─── R2 ─── R3 ─── SERVIDOR\n\nROTA ALTERNATIVA ATIVA"
+			_topology.text = "CLIENTE ─── %s ─── %s ─── %s ─── SERVIDOR\n\nROTA ALTERNATIVA ATIVA" % [_routers[0], _routers[1], _routers[2]]
 			_action_a.hide()
 			_action_b.hide()
 			_status.text = "OSPF convergiu: os roteadores anunciaram a falha e instalaram o caminho alternativo."

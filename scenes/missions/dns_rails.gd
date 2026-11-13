@@ -25,6 +25,7 @@ var _lever_status: Label
 var _travel: Label
 var _send_button: Button
 var _title: Label
+var _round_index := 0
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -37,7 +38,8 @@ func mentor_intro() -> String:
 	return "Há cinco ramais: quatro fazem parte da consulta e um é um desvio. Eles mudam de lugar a cada rodada: leia os rótulos e guie o pacote-trem do servidor raiz ao TLD, servidor autoritativo e site."
 
 func _setup_round() -> void:
-	_query = QUERIES.pick_random()
+	var rng := ChallengeSession.make_rng(&"dns_rails/query", _round_index)
+	_query = ChallengeSession.choose_unused(&"dns_rails/queries", QUERIES, rng)
 	_route = [
 		"ROOT SERVER",
 		String(_query["tld"]),
@@ -49,11 +51,12 @@ func _setup_round() -> void:
 	for station in DECOY_STATIONS:
 		if station not in _route:
 			decoys.append(station)
-	decoys.shuffle()
+	decoys = ChallengeSession.shuffled(&"dns_rails/decoys", decoys, _round_index)
 	for index in 1:
 		_stations.append(decoys[index])
-	_stations.shuffle()
-	_selected_track = randi_range(0, _stations.size() - 1)
+		_stations = ChallengeSession.shuffled(&"dns_rails/stations", _stations, _round_index)
+	_selected_track = rng.randi_range(0, _stations.size() - 1)
+	_round_index += 1
 	if _title != null:
 		_title.text = "TRILHOS DNS: " + String(_query["site"])
 

@@ -73,4 +73,7 @@ func reset_singleplayer() -> void:
 	progress = TaskProgress.new()
 	discipline_id = DEFAULT_DISCIPLINE_ID
 	topic_id = DEFAULT_TOPIC_ID
+	var challenge_session: Node = get_node_or_null("/root/ChallengeSession")
+	if challenge_session != null:
+		challenge_session.start_new_session()
 	progress_changed.emit()

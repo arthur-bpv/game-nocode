@@ -36,8 +36,16 @@ var _feedback: Label
 var _preview: Control
 var _moving := false
 var _completed_once := false
+var _steps: Array = []
 
 func _ready() -> void:
+	_steps = STEPS.duplicate(true)
+	for step_value in _steps:
+		var step := step_value as Dictionary
+		var original_choices: Array = step["choices"] as Array
+		var correct_choice: Variant = original_choices[int(step["answer"])]
+		step["choices"] = ChallengeSession.shuffled(StringName("packet_tablet/" + String(step["name"])), original_choices)
+		step["answer"] = (step["choices"] as Array).find(correct_choice)
 	var columns := HBoxContainer.new()
 	columns.add_theme_constant_override("separation", 22)
 	add_child(columns)
@@ -118,9 +126,9 @@ func _window_style() -> StyleBoxFlat:
 	return style
 
 func _choose(index: int) -> void:
-	if _moving or step_index >= STEPS.size():
+	if _moving or step_index >= _steps.size():
 		return
-	var step: Dictionary = STEPS[step_index]
+	var step: Dictionary = _steps[step_index]
 	if index != step["answer"]:
 		_feedback.text = "Tente novamente. " + String(step["hint"])
 		SoundEffects.play_error()
@@ -136,14 +144,14 @@ func _choose(index: int) -> void:
 	step_index += 1
 	_moving = false
 	_refresh()
-	if step_index == STEPS.size():
+	if step_index == _steps.size():
 		SoundEffects.play_task_complete()
 		if not _completed_once:
 			_completed_once = true
 			completed.emit()
 
 func _refresh() -> void:
-	var finished := step_index == STEPS.size()
+	var finished := step_index == _steps.size()
 	for button in answers:
 		button.visible = not finished
 		button.disabled = finished
@@ -154,8 +162,8 @@ func _refresh() -> void:
 		_question.text = "Você resolveu o domínio, encaminhou o pacote e escolheu uma conexão segura."
 		_feedback.text = "Entrega concluída."
 		return
-	var step: Dictionary = STEPS[step_index]
-	_step_label.text = "%d / %d  ·  %s" % [step_index + 1, STEPS.size(), step["name"]]
+	var step: Dictionary = _steps[step_index]
+	_step_label.text = "%d / %d  ·  %s" % [step_index + 1, _steps.size(), step["name"]]
 	_question.text = step["question"]
 	for index in answers.size():
 		answers[index].text = step["choices"][index]
@@ -170,6 +178,6 @@ func restore_completed() -> void:
 	if _completed_once:
 		return
 	_completed_once = true
-	step_index = STEPS.size()
+	step_index = _steps.size()
 	packet.position = stops[step_index]
 	_refresh()
