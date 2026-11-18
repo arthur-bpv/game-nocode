@@ -4,6 +4,7 @@ func _initialize() -> void:
 	_run.call_deferred()
 
 func _run() -> void:
+	var session := root.get_node("StudySession")
 	var world := (load("res://scenes/world/world.tscn") as PackedScene).instantiate()
 	root.add_child(world)
 	await process_frame
@@ -11,21 +12,22 @@ func _run() -> void:
 	assert(not dialogue.visible)
 	var panel := dialogue.get_node("Panel") as Control
 	assert(panel.position.x >= 0.0 and panel.position.y > dialogue.size.y * 0.5)
-	assert(dialogue.get_node("Panel/Row/Portrait").texture != null)
 	var player := world.get_node("Entities/player/Player") as CharacterBody2D
 	var rack_slot := world.get_node("Entities/sala_inferior_central_principal") as Node2D
 	assert(not (rack_slot._mission.get_node("StatusLabel") as Label).visible)
-	player.global_position = rack_slot.global_position + Vector2(340, 230)
+	player.global_position = Vector2(0, 1160)
 	await physics_frame
 	await physics_frame
 	await create_timer(0.2).timeout
 	assert(dialogue.visible)
-	assert("rack OSI" in dialogue.message_label.text)
+	assert("baias" in dialogue.message_label.text)
+	assert(not dialogue.get_node("Panel/Row/Portrait").visible)
 	rack_slot._mission.mentor_message.emit("Teste de dica futura.", 3.0)
 	assert(dialogue.message_label.text == "Teste de dica futura.")
+	assert(session.restore_progress({"version": 1, "completed": {"redes": {"tcp_ip_modelo_osi": ["rack_osi"]}}}))
 	var signal_slot := world.get_node("Entities/sala_inferior_esquerda_principal") as Node2D
 	assert(not signal_slot._mission.feedback.visible)
-	player.global_position = signal_slot.global_position + Vector2(340, 0)
+	player.global_position = Vector2(-1320, 1000)
 	await physics_frame
 	await physics_frame
 	await create_timer(0.2).timeout
@@ -39,8 +41,12 @@ func _run() -> void:
 	await create_timer(0.2).timeout
 	assert("[E]" in dialogue.message_label.text)
 	dialogue.clear()
+	assert("monitor" in dialogue.message_label.text)
+	player.global_position = Vector2.ZERO
+	await physics_frame
+	await process_frame
 	assert(not dialogue.visible)
 	world.queue_free()
 	await process_frame
-	print("Player dialogue checks passed: portrait, room intro, mission message and clear.")
+	print("Room guide checks passed: instruction, temporary feedback and exit.")
 	quit()

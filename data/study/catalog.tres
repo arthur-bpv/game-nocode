@@ -3,7 +3,12 @@
 [ext_resource type="Script" uid="uid://ddl23hg1heea7" path="res://scripts/study/study_catalog.gd" id="1"]
 [ext_resource type="Script" uid="uid://dgxwfeyu6o1mt" path="res://scripts/study/discipline_definition.gd" id="2"]
 [ext_resource type="Script" uid="uid://blnin0c1qg8wi" path="res://scripts/study/topic_definition.gd" id="3"]
-[ext_resource type="Script" uid="uid://ddra4k4atnvv" path="res://scripts/study/task_definition.gd" id="4"]
+[ext_resource type="Script" uid="uid://1lydqiktj48s" path="res://scripts/study/task_definition.gd" id="4"]
+
+[ext_resource type="Texture2D" path="res://assets/ui/story/networks.png" id="networks"]
+[ext_resource type="Texture2D" path="res://assets/ui/story/protocols.png" id="protocols"]
+[ext_resource type="Texture2D" path="res://assets/ui/story/routing.png" id="routing"]
+[ext_resource type="Texture2D" path="res://assets/ui/story/networks_badge.png" id="networks_badge"]
 
 [sub_resource type="Resource" id="task_sinais_osi"]
 script = ExtResource("4")
@@ -17,8 +22,10 @@ script = ExtResource("4")
 id = &"conecta_camadas"
 title = "Correspondência OSI e TCP/IP"
 mission_scene = "res://scenes/missions/conecta_camadas.tscn"
-map_slot = &"sala_superior_direita_principal"
+map_slot = &"sala_superior_esquerda_principal"
 presentation = 1
+terminal_offset = Vector2(0, 0)
+show_task_beacon = true
 
 [sub_resource type="Resource" id="task_rack_osi"]
 script = ExtResource("4")
@@ -27,29 +34,53 @@ title = "Montagem do Rack OSI"
 mission_scene = "res://scenes/missions/rack_osi.tscn"
 map_slot = &"sala_inferior_central_principal"
 
-[sub_resource type="Resource" id="Resource_33vwa"]
+[sub_resource type="Resource" id="task_encapsulamento_esteira"]
 script = ExtResource("4")
-id = &"esteira_pacotes"
-title = "Esteira de Pacotes"
-always_available = true
-mission_scene = "res://scenes/missions/esteira.tscn"
-map_slot = &"sala_superior_esquerda_principal"
+id = &"encapsulamento_esteira"
+title = "Da página ao cabo"
+mission_scene = "res://scenes/missions/encapsulamento_esteira.tscn"
+map_slot = &"sala_central_principal"
+presentation = 1
+terminal_offset = Vector2(0, 0)
+show_task_beacon = true
 
 [sub_resource type="Resource" id="Resource_uf8ad"]
 script = ExtResource("4")
 id = &"inspecao_pacotes"
 title = "Inspeção de Pacotes"
-always_available = true
 mission_scene = "res://scenes/missions/inspecao_esteira.tscn"
 map_slot = &"sala_inferior_centro_direita_principal"
+presentation = 1
+
+[sub_resource type="Resource" id="task_escolher_transporte"]
+script = ExtResource("4")
+id = &"escolher_transporte"
+title = "Restaurar transporte"
+mission_scene = "res://scenes/missions/escolher_transporte.tscn"
+map_slot = &"sala_superior_direita_principal"
+presentation = 1
+terminal_offset = Vector2(0, 0)
+show_task_beacon = true
+
+[sub_resource type="Resource" id="task_reparar_encapsulamento"]
+script = ExtResource("4")
+id = &"reparar_encapsulamento"
+title = "Reparar encapsulamento"
+mission_scene = "res://scenes/missions/reparar_encapsulamento.tscn"
+map_slot = &"sala_inferior_direita_principal"
+presentation = 1
+terminal_offset = Vector2(0, 0)
+show_task_beacon = true
 
 [sub_resource type="Resource" id="tcp_osi"]
 script = ExtResource("3")
 id = &"tcp_ip_modelo_osi"
 title = "Protocolos e Endereçamento"
+icon = ExtResource("protocols")
+description = "Explore as camadas OSI e TCP/IP, acompanhe um envio e inspecione os pacotes da rede."
 map_scene = "res://scenes/world/world.tscn"
-sequential = false
-tasks = Array[ExtResource("4")]([SubResource("task_sinais_osi"), SubResource("task"), SubResource("task_rack_osi"), SubResource("Resource_33vwa"), SubResource("Resource_uf8ad")])
+sequential = true
+tasks = Array[ExtResource("4")]([SubResource("task_rack_osi"), SubResource("task_sinais_osi"), SubResource("task"), SubResource("task_encapsulamento_esteira"), SubResource("task_escolher_transporte"), SubResource("task_reparar_encapsulamento"), SubResource("Resource_uf8ad")])
 
 [sub_resource type="Resource" id="task_routing_diagnostics"]
 script = ExtResource("4")
@@ -79,6 +110,8 @@ presentation = 1
 script = ExtResource("3")
 id = &"routing"
 title = "Roteamento Estático e Dinâmico"
+icon = ExtResource("routing")
+description = "Configure rotas, encaminhe solicitações DNS e restabeleça conexões após uma falha."
 map_scene = "res://scenes/world/world_routing.tscn"
 sequential = false
 tasks = Array[ExtResource("4")]([SubResource("task_routing_diagnostics"), SubResource("task_routing_table_lab"), SubResource("task_route_forwarding")])
@@ -87,6 +120,8 @@ tasks = Array[ExtResource("4")]([SubResource("task_routing_diagnostics"), SubRes
 script = ExtResource("2")
 id = &"redes"
 title = "Redes de Computadores"
+icon = ExtResource("networks")
+badge_icon = ExtResource("networks_badge")
 map_scene = "res://scenes/world/world.tscn"
 topics = Array[ExtResource("3")]([SubResource("tcp_osi"), SubResource("routing")])
 

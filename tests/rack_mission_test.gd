@@ -19,6 +19,13 @@ func _run() -> void:
 	mission.completed.connect(func(): _completed_count += 1)
 	await process_frame
 
+	var expected_starts := [
+		Vector2(62, 85), Vector2(494, 85), Vector2(62, 185), Vector2(494, 185),
+		Vector2(62, 285), Vector2(494, 285), Vector2(278, 438),
+	]
+	for position in expected_starts:
+		_check(position in mission.start_positions.values(), "O rack deve manter as bandejas alinhadas ao gabinete.")
+
 	for block_name in mission.BLOCK_ORDER:
 		var block := mission.get_node(block_name) as TextureRect
 		var start_position := block.position

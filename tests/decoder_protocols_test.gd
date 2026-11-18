@@ -55,6 +55,12 @@ func _run() -> void:
 		if protocol == "PPP":
 			assert(mission.prompt_subtitle.text == "POINT-TO-POINT")
 	assert(seen.size() == EXPECTED.size())
+	for layer in mission.buttons:
+		for button: TextureRect in mission.buttons[layer].values():
+			var label := button.get_child(0) as Label
+			assert(not "\n" in label.text)
+			assert(is_equal_approx(label.get_rect().get_center().x, button.size.x * 0.5))
+			assert(Rect2(Vector2.ZERO, button.size).encloses(label.get_rect()))
 	mission.prompt_order = round
 	mission.prompt_index = 0
 	mission._show_prompt()

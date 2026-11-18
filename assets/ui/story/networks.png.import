@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b405ta5a7snl1"
-path="res://.godot/imported/tcpip_cabin.png-fbc5acdf4d33c4a22f7461b5ff614c6d.ctex"
+uid="uid://dnxb7e7wd0m81"
+path="res://.godot/imported/networks.png-df04a8b1bdafe0e1d943c80199c01836.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/generated/tcpip_cabin.png"
-dest_files=["res://.godot/imported/tcpip_cabin.png-fbc5acdf4d33c4a22f7461b5ff614c6d.ctex"]
+source_file="res://assets/ui/story/networks.png"
+dest_files=["res://.godot/imported/networks.png-df04a8b1bdafe0e1d943c80199c01836.ctex"]
 
 [params]
 

@@ -56,7 +56,7 @@ func _on_settings_pressed() -> void:
 
 func _on_return_to_menu_pressed() -> void:
 	_pending_action = PendingAction.RETURN_TO_MENU
-	confirmation.ask("VOLTAR AO MENU", "O progresso não salvo será perdido.", "VOLTAR")
+	confirmation.ask("VOLTAR AO MENU", "As atividades concluídas ficam salvas no perfil local.", "VOLTAR")
 
 func _on_quit_pressed() -> void:
 	_pending_action = PendingAction.QUIT_GAME

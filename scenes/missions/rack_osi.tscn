@@ -4,9 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://1xaq83ecxiu2" path="res://assets/sprites/Rack_Osi.png" id="2_rack"]
 [ext_resource type="Texture2D" uid="uid://cg2ebkkvfufps" path="res://assets/sprites/rackosi_layer_cards_v2.svg" id="3_cards"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j7p0y"]
-radius = 77.0
-height = 370.0
+[sub_resource type="RectangleShape2D" id="RackFootprint"]
+size = Vector2(144, 54)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aplicacao"]
 atlas = ExtResource("3_cards")
@@ -97,78 +96,77 @@ position = Vector2(129, 290)
 position = Vector2(129, 328)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Rack" unique_id=1582381279]
-position = Vector2(5, 3)
+position = Vector2(130, 346)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rack/StaticBody2D" unique_id=1645392152]
-position = Vector2(125, 195)
-shape = SubResource("CapsuleShape2D_j7p0y")
+shape = SubResource("RackFootprint")
 
 [node name="Aplicacao" type="TextureRect" parent="." unique_id=445239147]
 layout_mode = 0
-offset_left = 201.0
-offset_top = 626.0
-offset_right = 325.0
-offset_bottom = 664.0
+offset_left = 62.0
+offset_top = 85.0
+offset_right = 186.0
+offset_bottom = 123.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_aplicacao")
 expand_mode = 1
 
 [node name="Apresentacao" type="TextureRect" parent="." unique_id=153535418]
 layout_mode = 0
-offset_left = 472.0
-offset_top = 588.0
-offset_right = 596.0
-offset_bottom = 626.0
+offset_left = 494.0
+offset_top = 85.0
+offset_right = 618.0
+offset_bottom = 123.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_apresentacao")
 expand_mode = 1
 
 [node name="Sessao" type="TextureRect" parent="." unique_id=445065656]
 layout_mode = 0
-offset_left = 61.0
-offset_top = -101.0
-offset_right = 185.0
-offset_bottom = -63.0
+offset_left = 62.0
+offset_top = 185.0
+offset_right = 186.0
+offset_bottom = 223.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_sessao")
 expand_mode = 1
 
 [node name="Transporte" type="TextureRect" parent="." unique_id=680736469]
 layout_mode = 0
-offset_left = 487.0
-offset_top = -83.0
-offset_right = 611.0
-offset_bottom = -45.0
+offset_left = 494.0
+offset_top = 185.0
+offset_right = 618.0
+offset_bottom = 223.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_transporte")
 expand_mode = 1
 
 [node name="Rede" type="TextureRect" parent="." unique_id=1123806389]
 layout_mode = 0
-offset_left = 46.0
-offset_top = 140.0
-offset_right = 170.0
-offset_bottom = 178.0
+offset_left = 62.0
+offset_top = 285.0
+offset_right = 186.0
+offset_bottom = 323.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_rede")
 expand_mode = 1
 
 [node name="Enlace" type="TextureRect" parent="." unique_id=1546439318]
 layout_mode = 0
-offset_left = 488.0
-offset_top = 290.0
-offset_right = 612.0
-offset_bottom = 328.0
+offset_left = 494.0
+offset_top = 285.0
+offset_right = 618.0
+offset_bottom = 323.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_enlace")
 expand_mode = 1
 
 [node name="Fisica" type="TextureRect" parent="." unique_id=1506476303]
 layout_mode = 0
-offset_left = 82.0
-offset_top = 378.0
-offset_right = 206.0
-offset_bottom = 416.0
+offset_left = 278.0
+offset_top = 438.0
+offset_right = 402.0
+offset_bottom = 476.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_fisica")
 expand_mode = 1

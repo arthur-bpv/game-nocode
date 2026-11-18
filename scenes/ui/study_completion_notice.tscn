@@ -1,0 +1,58 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/netbot_theme.tres" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="PanelStyle"]
+content_margin_left = 18.0
+content_margin_top = 14.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
+bg_color = Color(0.043, 0.081, 0.115, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.24, 0.68, 0.72, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+
+[node name="StudyCompletionNotice" type="PanelContainer"]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -474.0
+offset_top = 24.0
+offset_right = -24.0
+mouse_filter = 2
+theme = ExtResource("1")
+theme_override_styles/panel = SubResource("PanelStyle")
+
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Heading" type="Label" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.44, 0.94, 0.75, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="CompletedTitle" type="Label" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 3
+
+[node name="NextRoom" type="Label" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.89, 0.92, 1)
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true

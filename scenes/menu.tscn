@@ -119,10 +119,20 @@ theme_override_font_sizes/font_size = 13
 text = "CONFIGURAÇÃO DE SALA"
 horizontal_alignment = 1
 
-[node name="QuitButton" type="Button" parent="Center/Panel/Content" unique_id=602865319]
-custom_minimum_size = Vector2(300, 68)
+[node name="MenuActions" type="HBoxContainer" parent="Center/Panel/Content"]
 layout_mode = 2
-size_flags_horizontal = 4
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="ProfileButton" type="Button" parent="Center/Panel/Content/MenuActions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 58)
+layout_mode = 2
+text = "PERFIL"
+
+[node name="QuitButton" type="Button" parent="Center/Panel/Content/MenuActions" unique_id=602865319]
+custom_minimum_size = Vector2(200, 58)
+layout_mode = 2
 text = "SAIR"
 
 [node name="ConfirmationModal" parent="." unique_id=1155733284 instance=ExtResource("3_confirm")]
@@ -132,4 +142,5 @@ layout_mode = 1
 
 [connection signal="pressed" from="Center/Panel/Content/ModeButtons/SingleplayerColumn/SingleplayerButton" to="." method="_on_singleplayer_pressed"]
 [connection signal="pressed" from="Center/Panel/Content/ModeButtons/MultiplayerColumn/MultiplayerButton" to="." method="_on_multiplayer_pressed"]
-[connection signal="pressed" from="Center/Panel/Content/QuitButton" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Center/Panel/Content/MenuActions/QuitButton" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Center/Panel/Content/MenuActions/ProfileButton" to="." method="_on_profile_pressed"]

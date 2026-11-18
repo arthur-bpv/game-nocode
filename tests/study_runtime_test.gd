@@ -10,24 +10,25 @@ func _run() -> void:
 	session.current_topic().find_task(&"conecta_camadas").presentation = 0
 	assert(not session.select(&"missing", &"tcp_ip_modelo_osi"))
 	assert(session.select(&"redes", &"tcp_ip_modelo_osi"))
+	assert(session.complete(&"rack_osi"))
+	assert(session.complete(&"sinais_osi"))
 	var world = load("res://scenes/world/world.tscn").instantiate()
 	root.add_child(world)
 	await process_frame
-	var slot = world.get_node("Entities/sala_superior_direita_principal")
-	assert(slot.get_child_count() == 1)
-	var mission = slot.get_child(0)
+	var slot = world.get_node("Entities/sala_superior_esquerda_principal")
+	var mission = slot._mission
 	assert(mission.position == Vector2.ZERO)
 	assert(mission.size == Vector2(680, 460))
-	assert(slot.global_position == world.get_node("MapLayout/Pieces/UpperRightRoom/MissionSlots/Primary").global_position)
+	assert(slot.global_position == world.get_node("MapLayout/Pieces/UpperLeftRoom/MissionSlots/Primary").global_position)
 	assert(mission.visible)
-	# Exercita os eventos reais de arrastar/soltar, incluindo resposta incorreta.
-	_drag(mission, "aplicacao", "internet")
+	assert(mission._connected.is_empty(), "A atividade deve começar sem fios conectados.")
+	var source: String = mission.OSI_CAMADAS[0]
+	var wrong_target: String = "internet" if mission.MAPA_OSI_TCP[source] != "internet" else "transporte"
+	_drag(mission, source, wrong_target)
 	assert(session.task_state(&"conecta_camadas") == &"available")
 	assert(mission._connected.is_empty())
-	assert(mission.get_node("FeedbackPanel").visible)
-	assert("TENTE DE NOVO" in mission.get_node("FeedbackPanel/FeedbackLabel").text)
-	assert(mission.get_node("FeedbackPanel").position.y == 0.0)
-	var wire_layer: Control = mission.get_node("WireLayer")
+	assert("Tente de novo" in mission.get_node("%Feedback").text)
+	var wire_layer: Control = mission.get_node("%Interaction/ConnectionBoard/WireLayer")
 	var sample_curve: PackedVector2Array = wire_layer._curve(
 		mission._osi_jacks["aplicacao"].get_center(), mission._tcp_jacks["aplicacao"].get_center()
 	)
@@ -37,10 +38,7 @@ func _run() -> void:
 	for layer in mission.OSI_CAMADAS:
 		_drag(mission, layer, mission.MAPA_OSI_TCP[layer])
 	assert(session.task_state(&"conecta_camadas") == &"completed")
-	assert(mission.get_node("FeedbackPanel").visible)
-	assert("MISSÃO COMPLETA" in mission.get_node("FeedbackPanel/FeedbackLabel").text)
-	assert(mission.get_node("VictorySound").bus == &"SFX")
-	assert(mission.get_node("VictorySound").playing)
+	assert("Missão completa" in mission.get_node("%Feedback").text)
 	assert(not session.complete(&"conecta_camadas"))
 	var saved: Dictionary = session.progress.snapshot()
 	world.queue_free()
@@ -49,9 +47,9 @@ func _run() -> void:
 	world = load("res://scenes/world/world.tscn").instantiate()
 	root.add_child(world)
 	await process_frame
-	mission = world.get_node("Entities/sala_superior_direita_principal").get_child(0)
+	mission = world.get_node("Entities/sala_superior_esquerda_principal")._mission
 	assert(mission._connected.size() == 7)
-	assert(mission.get_node("StatusLabel").text == "Missão completa!")
+	assert("Missão completa" in mission.get_node("%Feedback").text)
 	world.queue_free()
 	await process_frame
 	assert(not session.select(&"redes", &"tcp_ip"))
@@ -59,9 +57,14 @@ func _run() -> void:
 	var menu = load("res://scenes/menu.tscn").instantiate()
 	root.add_child(menu)
 	await process_frame
-	assert(menu._disciplines.item_count == 1)
-	assert(menu._topics.item_count == 1)
-	assert(menu._topics.get_item_text(menu._topics.selected) == "Protocolos e Endereçamento")
+	menu.get_node("%SingleplayerButton").pressed.emit()
+	var discipline_card := menu.find_child("Discipline_redes", true, false) as Button
+	assert(discipline_card != null)
+	discipline_card.pressed.emit()
+	var topic_card := menu.find_child("Topic_tcp_ip_modelo_osi", true, false) as Button
+	assert(topic_card != null)
+	topic_card.pressed.emit()
+	assert(menu.find_child("LaunchButton", true, false).text == "Continuar")
 	menu.queue_free()
 	await process_frame
 	# Um tema sem tasks não herda a missão que antes estava embutida no mapa.
@@ -71,7 +74,7 @@ func _run() -> void:
 	world = load("res://scenes/world/world.tscn").instantiate()
 	root.add_child(world)
 	await process_frame
-	assert(world.get_node("Entities/sala_superior_direita_principal").get_child_count() == 0)
+	assert(world.get_node("Entities/sala_superior_esquerda_principal").get_child_count() == 0)
 	world.queue_free()
 	await process_frame
 	session.catalog = original_catalog
@@ -83,8 +86,8 @@ func _drag(mission: Control, source: String, target: String) -> void:
 	press.button_index = MOUSE_BUTTON_LEFT
 	press.pressed = true
 	press.position = mission._osi_jacks[source].get_center()
-	mission._gui_input(press)
+	mission._handle_board_input(press)
 	var release := InputEventMouseButton.new()
 	release.button_index = MOUSE_BUTTON_LEFT
 	release.position = mission._tcp_jacks[target].get_center()
-	mission._gui_input(release)
+	mission._handle_board_input(release)

@@ -5,6 +5,7 @@ func _initialize() -> void:
 
 func _run() -> void:
 	var session := root.get_node("StudySession")
+	assert(session.complete(&"rack_osi"))
 	var world := (load("res://scenes/world/world.tscn") as PackedScene).instantiate()
 	root.add_child(world)
 	await process_frame
@@ -25,7 +26,8 @@ func _run() -> void:
 	mission._unhandled_input(interact)
 	await create_timer(0.65).timeout
 	assert(session.task_state(&"sinais_osi") == &"completed")
-	assert(mission.solved and mission.monitor_screen.visible)
+	assert(mission.solved and not mission.monitor_screen.visible)
+	assert(mission.monitor.texture.region == mission._computer_atlas(true).region)
 	var saved: Dictionary = session.progress.snapshot()
 	world.queue_free()
 	await process_frame
@@ -34,7 +36,8 @@ func _run() -> void:
 	root.add_child(world)
 	await process_frame
 	mission = world.get_node("Entities/sala_inferior_esquerda_principal")._mission
-	assert(mission.solved and mission.monitor_screen.visible)
+	assert(mission.solved and not mission.monitor_screen.visible)
+	assert(mission.monitor.texture.region == mission._computer_atlas(true).region)
 	world.queue_free()
 	await process_frame
 	print("Sinais OSI world checks passed: physical button, completion and restore.")

@@ -286,10 +286,18 @@ O catálogo `data/study/catalog.tres` define as atividades do tema TCP/IP e Mode
 | Task | Sala | Apresentação |
 | --- | --- | --- |
 | `sinais_osi` | inferior esquerda | física no mapa |
-| `conecta_camadas` | superior direita | terminal e tablet |
+| `conecta_camadas` | superior direita | terminal e painel de conexões OSI e TCP/IP |
 | `rack_osi` | inferior central | física no mapa |
-| `esteira_pacotes` | octogonal superior esquerda | terminal e janela animada no tablet |
-| `inspecao_pacotes` | inferior centro-direita | estação física de inspeção |
+| `encapsulamento_esteira` | octogonal superior esquerda | terminal sinalizado com atividade de encapsulamento no tablet |
+| `inspecao_pacotes` | inferior centro-direita | estação física com painel no tablet compartilhado |
+| `escolher_transporte` | central | três decisões TCP ou UDP com confirmação |
+| `reparar_encapsulamento` | inferior direita | quatro cartões e animação de estruturas aninhadas |
+
+Os minigames de reparo e a correspondência de camadas compartilham o painel `network_repair_panel.tscn`.
+O terminal abre a instância criada pelo slot, que mantém seu estado enquanto a partida estiver ativa.
+O painel emite `completed` uma única vez após o envio bem-sucedido. O slot registra a conclusão na sessão de estudo.
+O protótipo usa as três primeiras transmissões do banco e uma ordem inicial de cartões fixa, diferente da solução.
+A meta de 20 a 40 segundos segue pendente de observação com alunos.
 
 O progresso continua associado ao ID da task. O slot é apenas a posição física no
 mapa. Para adicionar outra atividade, declare uma âncora de sala com `slot_id` único

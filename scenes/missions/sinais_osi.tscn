@@ -10,28 +10,28 @@ script = ExtResource("1_xpgps")
 [node name="Layout" type="Node2D" parent="." unique_id=619532314]
 
 [node name="Fisica" type="Marker2D" parent="Layout" unique_id=569700497]
-position = Vector2(-47, -130)
+position = Vector2(-58, -78)
 
 [node name="Transporte" type="Marker2D" parent="Layout" unique_id=302818108]
-position = Vector2(-47, -12)
+position = Vector2(-58, 40)
 
 [node name="Monitor" type="Marker2D" parent="Layout" unique_id=498150978]
-position = Vector2(110, -55)
+position = Vector2(110, -98)
 
 [node name="Rede" type="Marker2D" parent="Layout" unique_id=2112606532]
-position = Vector2(339, -126)
+position = Vector2(346, -78)
 
 [node name="Aplicacao" type="Marker2D" parent="Layout" unique_id=1423775777]
-position = Vector2(-41, 139)
+position = Vector2(-58, 166)
 
 [node name="Enlace" type="Marker2D" parent="Layout" unique_id=862075842]
-position = Vector2(145, 138)
+position = Vector2(144, 166)
 
 [node name="Apresentacao" type="Marker2D" parent="Layout" unique_id=928793133]
-position = Vector2(348, 141)
+position = Vector2(346, 166)
 
 [node name="Sessao" type="Marker2D" parent="Layout" unique_id=1027031016]
-position = Vector2(343, 0)
+position = Vector2(346, 40)
 
 [node name="Feedback" type="Marker2D" parent="Layout" unique_id=338544574]
-position = Vector2(88, -139)
+position = Vector2(70, -161)

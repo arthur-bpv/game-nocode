@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3]
-
-[ext_resource type="PackedScene" path="res://scenes/missions/esteira_tcpip_rebuild.tscn" id="1_rebuild"]
-
-[node name="esteira" instance=ExtResource("1_rebuild")]

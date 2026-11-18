@@ -14,3 +14,4 @@ enum Presentation { MAP, TABLET }
 @export var presentation: Presentation = Presentation.MAP
 
 @export var terminal_offset := Vector2(340, 230)
+@export var show_task_beacon := false

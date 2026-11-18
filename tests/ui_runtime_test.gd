@@ -31,8 +31,8 @@ func _run() -> void:
 	menu._review_room(true)
 	assert("Prévia local" in menu._feedback.text)
 	menu._on_singleplayer_pressed()
-	assert(menu._topics.item_count > 0 and menu._trail.get_child_count() > 1,
-		"A trilha deve refletir o tema do catálogo.")
+	assert(menu.find_child("Discipline_redes", true, false) is Button,
+		"A tela de história deve abrir os cards de disciplina.")
 	menu.queue_free()
 	await process_frame
 	var settings_scene := load("res://scenes/configurações.tscn") as PackedScene

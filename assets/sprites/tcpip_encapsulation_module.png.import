@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ovg2k4w0gaej"
-path="res://.godot/imported/esteira_cabine.png-5dfc3a371945651bd1f0c379172071d8.ctex"
+uid="uid://dfdwh6jwntg7l"
+path="res://.godot/imported/tcpip_encapsulation_module.png-9efaf5f40e9c33aca74bfe5664444f2b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/generated/esteira_cabine.png"
-dest_files=["res://.godot/imported/esteira_cabine.png-5dfc3a371945651bd1f0c379172071d8.ctex"]
+source_file="res://assets/sprites/tcpip_encapsulation_module.png"
+dest_files=["res://.godot/imported/tcpip_encapsulation_module.png-9efaf5f40e9c33aca74bfe5664444f2b.ctex"]
 
 [params]
 

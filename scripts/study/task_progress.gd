@@ -6,18 +6,16 @@ var _completed: Dictionary = {}
 
 func state(discipline_id: StringName, topic: StudyTopic, task_id: StringName) -> StringName:
 	var task := topic.find_task(task_id)
-	if task == null or not task.enabled:
+	if not topic.enabled or task == null or not task.enabled:
 		return &"unavailable"
-	if _is_completed(discipline_id, topic.id, task_id):
-		return &"completed"
-	if task.always_available:
-		return &"available"
-	if topic.sequential:
+	if topic.sequential and not task.always_available:
 		for previous in topic.tasks:
 			if previous.id == task_id:
 				break
 			if not _is_completed(discipline_id, topic.id, previous.id):
 				return &"locked"
+	if _is_completed(discipline_id, topic.id, task_id):
+		return &"completed"
 	return &"available"
 
 func complete(discipline_id: StringName, topic: StudyTopic, task_id: StringName) -> bool:

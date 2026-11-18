@@ -20,6 +20,7 @@ func _render() -> void:
 	root.size = Vector2i(1920, 1080)
 	var pause_menu := (load("res://scenes/Pause.tscn") as PackedScene).instantiate()
 	root.add_child(pause_menu)
+	current_scene = pause_menu
 	pause_menu.open_pause()
 	await process_frame
 	await process_frame
@@ -33,6 +34,7 @@ func _render() -> void:
 	assert(root.get_texture().get_image().save_png("res://.godot/ui_confirmation_1920x1080.png") == OK)
 	pause_menu.handle_cancel()
 	pause_menu.resume_game()
+	current_scene = null
 	pause_menu.queue_free()
 	await process_frame
 

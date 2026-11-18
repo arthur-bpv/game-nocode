@@ -161,6 +161,7 @@ area_id = &"sala_superior_esquerda"
 [node name="Primary" type="Marker2D" parent="Pieces/UpperLeftRoom/MissionSlots" unique_id=1488044310]
 script = ExtResource("3_em7l8")
 slot_id = &"sala_superior_esquerda_principal"
+floor_bounds = Rect2(-224, -160, 448, 320)
 
 [node name="UpperRightRoom" type="Node2D" parent="Pieces" unique_id=174514266]
 position = Vector2(1054, -230)
@@ -183,6 +184,7 @@ area_id = &"sala_inferior_esquerda"
 [node name="Primary" type="Marker2D" parent="Pieces/LowerLeftRoom/MissionSlots" unique_id=1877444922]
 script = ExtResource("3_em7l8")
 slot_id = &"sala_inferior_esquerda_principal"
+floor_bounds = Rect2(-96, -192, 512, 416)
 
 [node name="LowerCentralRoom" type="Node2D" parent="Pieces" unique_id=636064348]
 position = Vector2(-146, 860)
@@ -195,6 +197,7 @@ area_id = &"sala_inferior_central"
 position = Vector2(-340, -235)
 script = ExtResource("3_em7l8")
 slot_id = &"sala_inferior_central_principal"
+floor_bounds = Rect2(96, 320, 608, 448)
 
 [node name="SmallLowerRightRoom" type="Node2D" parent="Pieces" unique_id=1210043707]
 position = Vector2(809, 1098)

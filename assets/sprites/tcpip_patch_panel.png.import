@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6awia2vwjhx3"
-path="res://.godot/imported/Esteira.png-98070e259778ae46d49ed911e42630b4.ctex"
+uid="uid://c6k00lc6xa2um"
+path="res://.godot/imported/tcpip_patch_panel.png-ff79a4b43722f09f9ca81fb0e7e03fa6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Esteira.png"
-dest_files=["res://.godot/imported/Esteira.png-98070e259778ae46d49ed911e42630b4.ctex"]
+source_file="res://assets/sprites/tcpip_patch_panel.png"
+dest_files=["res://.godot/imported/tcpip_patch_panel.png-ff79a4b43722f09f9ca81fb0e7e03fa6.ctex"]
 
 [params]
 

@@ -10,6 +10,7 @@ const COMPUTER_COMPLETE_SPRITE_PATH := "res://assets/sprites/sinais_osi_console_
 const PROJECT_FONT_PATH := "res://assets/fonts/press_start_2p/PressStart2P-Regular.ttf"
 const COMPUTER_ON_REGION := Rect2(0, 0, 180, 155)
 const COMPUTER_OFF_REGION := Rect2(0, 0, 180, 155)
+const BUTTON_SIZE := Vector2(112, 56)
 const BUTTON_NORMAL_REGIONS := {
 	"Aplicacao": Rect2(0, 0, 90, 52), "Apresentacao": Rect2(90, 0, 90, 52), "Sessao": Rect2(180, 0, 90, 52), "Transporte": Rect2(270, 0, 90, 52), "Rede": Rect2(360, 0, 90, 52), "Enlace": Rect2(450, 0, 90, 52), "Fisica": Rect2(540, 0, 90, 52),
 }
@@ -21,10 +22,10 @@ const BUTTON_ERROR_REGIONS := {
 	"Aplicacao": Rect2(0, 104, 90, 52), "Apresentacao": Rect2(90, 104, 90, 52), "Sessao": Rect2(180, 104, 90, 52), "Transporte": Rect2(270, 104, 90, 52), "Rede": Rect2(360, 104, 90, 52), "Enlace": Rect2(450, 104, 90, 52), "Fisica": Rect2(540, 104, 90, 52),
 }
 const BUTTON_LABELS := {
-	"Aplicacao": "APLI\nCAÇÃO",
-	"Apresentacao": "APRE\nSENTAÇÃO",
+	"Aplicacao": "APLICAÇÃO",
+	"Apresentacao": "APRESENTAÇÃO",
 	"Sessao": "SESSÃO",
-	"Transporte": "TRANS\nPORTE",
+	"Transporte": "TRANSPORTE",
 	"Rede": "REDE",
 	"Enlace": "ENLACE",
 	"Fisica": "FÍSICA",
@@ -165,7 +166,7 @@ func _build_computer() -> void:
 	prompt_subtitle.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	prompt_subtitle.clip_text = true
 	prompt_subtitle.add_theme_font_override("font", project_font)
-	prompt_subtitle.add_theme_font_size_override("font_size", 10)
+	prompt_subtitle.add_theme_font_size_override("font_size", 9)
 	prompt_subtitle.add_theme_color_override("font_color", Color("9ffcff"))
 	prompt_subtitle.add_theme_color_override("font_outline_color", Color("06131d"))
 	prompt_subtitle.add_theme_constant_override("outline_size", 2)
@@ -192,7 +193,7 @@ func _add_button(layer: String, button_position: Vector2) -> void:
 	normal.name = layer
 	normal.texture = _button_atlas(layer, &"normal")
 	normal.position = button_position
-	normal.size = Vector2(90, 52)
+	normal.size = BUTTON_SIZE
 	normal.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	normal.stretch_mode = TextureRect.STRETCH_SCALE
 	normal.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -202,7 +203,7 @@ func _add_button(layer: String, button_position: Vector2) -> void:
 	var pressed := TextureRect.new()
 	pressed.texture = _button_atlas(layer, &"pressed")
 	pressed.position = button_position + Vector2(0, 3)
-	pressed.size = Vector2(90, 52)
+	pressed.size = BUTTON_SIZE
 	pressed.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	pressed.stretch_mode = TextureRect.STRETCH_SCALE
 	pressed.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -212,7 +213,7 @@ func _add_button(layer: String, button_position: Vector2) -> void:
 	var error := TextureRect.new()
 	error.texture = _button_atlas(layer, &"error")
 	error.position = button_position
-	error.size = Vector2(90, 52)
+	error.size = BUTTON_SIZE
 	error.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	error.stretch_mode = TextureRect.STRETCH_SCALE
 	error.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -223,33 +224,19 @@ func _add_button(layer: String, button_position: Vector2) -> void:
 	buttons[layer] = {"normal": normal, "pressed": pressed, "error": error}
 
 func _add_button_label(target: TextureRect, layer: String) -> void:
-	var lines: PackedStringArray = String(BUTTON_LABELS[layer]).split("\n")
-	var is_multiline := lines.size() > 1
-	for line_index in lines.size():
-		var label := Label.new()
-		label.text = lines[line_index]
-		label.set_anchors_preset(Control.PRESET_TOP_LEFT)
-		if is_multiline:
-			label.position = Vector2(14, 12 + line_index * 9)
-			label.size = Vector2(62, 10)
-			if layer == "Apresentacao" and line_index == 1:
-				label.position = Vector2(1, 21)
-		else:
-			label.position = Vector2(14, 15)
-			label.size = Vector2(62, 18)
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		label.clip_text = true
-		label.add_theme_font_override("font", load(PROJECT_FONT_PATH) as Font)
-		var font_size := 7
-		if is_multiline:
-			font_size = 6
-		label.add_theme_font_size_override("font_size", font_size)
-		label.add_theme_color_override("font_color", Color.WHITE)
-		label.add_theme_color_override("font_outline_color", Color("071018"))
-		label.add_theme_constant_override("outline_size", 1)
-		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		target.add_child(label)
+	var label := Label.new()
+	label.text = BUTTON_LABELS[layer]
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_override("font", load(PROJECT_FONT_PATH) as Font)
+	label.add_theme_font_size_override("font_size", 6 if label.text.length() > 10 else 8)
+	label.add_theme_color_override("font_color", Color.WHITE)
+	label.add_theme_color_override("font_outline_color", Color("071018"))
+	label.add_theme_constant_override("outline_size", 1)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	target.add_child(label)
+	label.position = Vector2(16, 17)
+	label.size = Vector2(80, 20)
 
 func _show_prompt() -> void:
 	if prompt_index >= prompt_order.size():
@@ -292,14 +279,13 @@ func _process(_delta: float) -> void:
 	else:
 		feedback.text = "[E] Pressionar " + nearby_layer
 		if nearby_layer != previous_layer:
-			mentor_context.emit("Pressione [E] para selecionar %s." % nearby_layer)
+			mentor_context.emit("Pressione [E] para selecionar %s." % BUTTON_LABELS[nearby_layer].capitalize())
 
 func _layer_under_player() -> String:
 	var player := get_tree().get_first_node_in_group("player") as Node2D
-	var slot := get_parent() as Node2D
-	if player == null or slot == null:
+	if player == null:
 		return ""
-	var player_local := player.global_position - slot.global_position
+	var player_local := get_global_transform().affine_inverse() * player.global_position
 	for layer in buttons:
 		var normal := buttons[layer]["normal"] as TextureRect
 		var hitbox := Rect2(normal.position, normal.size).grow(6.0)

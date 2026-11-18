@@ -1,13 +1,14 @@
 extends Control
 
-const ATLAS := preload("res://assets/ui/pixellab/ui-atlas.png")
-const STORY_ART := preload("res://assets/ui/pixellab/modo-historia.png")
+const STORY_BROWSER := preload("res://scripts/ui/story_browser.gd")
+const PROFILE_SCREEN := preload("res://scripts/ui/player_profile.gd")
 const MULTIPLAYER_ART := preload("res://assets/ui/pixellab/modo-multiplayer.png")
 
 var _form: VBoxContainer
 var _disciplines: OptionButton
 var _topics: OptionButton
-var _trail: VBoxContainer
+var _story: Control
+var _profile: Control
 var _feedback: Label
 var _nickname: LineEdit
 var _room_field: LineEdit
@@ -28,27 +29,50 @@ func _ready() -> void:
 	_form.hide()
 	singleplayer_button.grab_focus()
 	confirmation.confirmed.connect(_quit_game)
+	if PlayerData.story_topic != &"":
+		var discipline := PlayerData.story_discipline
+		var topic := PlayerData.story_topic
+		PlayerData.story_discipline = &""
+		PlayerData.story_topic = &""
+		_open_story.call_deferred(discipline, topic)
 
 func _on_singleplayer_pressed() -> void:
-	_open_form("MODO HISTÓRIA", STORY_ART)
-	_build_study_selection()
-	_trail = VBoxContainer.new()
-	_trail.add_theme_constant_override("separation", 6)
-	_form.add_child(_trail)
-	_refresh_trail()
-	var start := _add_button(_form, "INICIAR PARTIDA", _start_story)
-	start.disabled = _topics.item_count == 0
-	_topics.item_selected.connect(func(_index: int) -> void: start.disabled = false)
-	_disciplines.item_selected.connect(func(_index: int) -> void: start.disabled = _topics.item_count == 0)
-	_add_button(_form, "VOLTAR", _show_modes)
-	_disciplines.grab_focus()
+	_open_story()
 
-func _start_story() -> void:
-	var discipline := StudySession.catalog.disciplines[_disciplines.selected]
-	var topic := discipline.topics[_topics.selected]
+func _open_story(discipline_id: StringName = &"", topic_id: StringName = &"") -> void:
+	$Center.hide()
+	if _story == null:
+		_story = STORY_BROWSER.new()
+		add_child(_story)
+		_story.back_requested.connect(_return_from_story)
+		_story.launch_requested.connect(_start_story)
+	_story.open(discipline_id, topic_id)
+
+func _return_from_story() -> void:
+	_story.hide()
+	_show_modes()
+
+func _start_story(discipline: StudyDiscipline, topic: StudyTopic) -> void:
+	if StudySession.topic_summary(discipline, topic).state == &"unavailable":
+		return
 	if StudySession.select(discipline.id, topic.id):
+		PlayerData.story_discipline = discipline.id
+		PlayerData.story_topic = topic.id
 		BackgroundMusic.stop_menu()
 		SceneTransition.change_scene(topic.map_scene if not topic.map_scene.is_empty() else discipline.map_scene)
+
+func _on_profile_pressed() -> void:
+	$Center.hide()
+	if _profile == null:
+		_profile = PROFILE_SCREEN.new()
+		add_child(_profile)
+		_profile.back_requested.connect(_return_from_profile)
+	_profile.open()
+
+func _return_from_profile() -> void:
+	_profile.hide()
+	_show_modes()
+	%ProfileButton.grab_focus()
 
 func _on_multiplayer_pressed() -> void:
 	_open_form("MULTIPLAYER / IDENTIFICAÇÃO", MULTIPLAYER_ART)
@@ -106,6 +130,7 @@ func _review_room(creating: bool) -> void:
 func _open_form(title: String, texture: Texture2D) -> void:
 	_clear_form()
 	_modes.hide()
+	$Center/Panel/Content/MenuActions.hide()
 	$Center/Panel/Content/Subtitle.text = title
 	_form.show()
 	var art := TextureRect.new()
@@ -116,7 +141,6 @@ func _open_form(title: String, texture: Texture2D) -> void:
 	_form.add_child(art)
 
 func _clear_form() -> void:
-	_trail = null
 	for child in _form.get_children():
 		_form.remove_child(child)
 		child.queue_free()
@@ -124,7 +148,9 @@ func _clear_form() -> void:
 func _show_modes() -> void:
 	_clear_form()
 	_form.hide()
+	$Center.show()
 	_modes.show()
+	$Center/Panel/Content/MenuActions.show()
 	$Center/Panel/Content/Subtitle.text = "SELECIONE UM MODO DE JOGO"
 	singleplayer_button.grab_focus()
 
@@ -135,11 +161,15 @@ func _quit_game() -> void:
 	get_tree().quit()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not event.is_action_pressed("ui_cancel"):
+	if not event.is_action_pressed("ui_cancel") or event.is_echo():
 		return
 	if confirmation.visible:
 		confirmation.cancel()
-	elif _form.visible:
+	elif _story != null and _story.visible:
+		_story.go_back()
+	elif _profile != null and _profile.visible:
+		_return_from_profile()
+	elif _form.is_visible_in_tree():
 		_show_modes()
 	else:
 		return
@@ -159,7 +189,6 @@ func _build_study_selection() -> void:
 		if discipline.id == StudySession.discipline_id:
 			_disciplines.select(_disciplines.item_count - 1)
 	_disciplines.item_selected.connect(_populate_topics)
-	_topics.item_selected.connect(func(_index: int) -> void: _refresh_trail())
 	_populate_topics(_disciplines.selected)
 
 func _populate_topics(index: int) -> void:
@@ -169,44 +198,6 @@ func _populate_topics(index: int) -> void:
 			_topics.add_item(topic.title)
 			if topic.id == StudySession.topic_id:
 				_topics.select(_topics.item_count - 1)
-	_refresh_trail()
-
-func _refresh_trail() -> void:
-	if _trail == null:
-		return
-	for child in _trail.get_children():
-		_trail.remove_child(child)
-		child.queue_free()
-	if _topics.selected < 0:
-		return
-	var discipline := StudySession.catalog.disciplines[_disciplines.selected]
-	var topic := discipline.topics[_topics.selected]
-	var completed := StudySession.topic_completed(discipline.id, topic.id)
-	for task in topic.tasks:
-		if not task.enabled:
-			continue
-		var optional := task.always_available
-		var marker := Rect2(167, 126, 34, 34) if completed and not optional else Rect2(108, 126, 34, 34)
-		_add_trail_row(task.title + (" (opcional)" if optional else ""), marker)
-	_add_trail_row("Distintivo conquistado" if completed else "Conclua as missões obrigatórias na mesma partida", Rect2(237, 122, 42, 42))
-
-func _add_trail_row(text: String, region: Rect2) -> void:
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
-	_trail.add_child(row)
-	var icon := TextureRect.new()
-	var texture := AtlasTexture.new()
-	texture.atlas = ATLAS
-	texture.region = region
-	icon.texture = texture
-	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.custom_minimum_size = Vector2(32, 30)
-	row.add_child(icon)
-	var label := Label.new()
-	label.text = text
-	label.add_theme_font_size_override("font_size", 13)
-	row.add_child(label)
 
 func _add_field(placeholder: String, max_length: int) -> LineEdit:
 	var input := LineEdit.new()

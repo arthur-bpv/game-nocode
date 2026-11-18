@@ -1,8 +1,9 @@
 extends Control
 
-# Desenha acima dos armários e dos labels sem alterar as áreas de clique.
+var mission: Control
+
+# Desenha os fios sem interceptar o mouse.
 func _draw() -> void:
-	var mission := get_parent()
 	for osi_layer in mission._connected:
 		var tcp_layer: String = mission._connected[osi_layer]
 		_draw_wire(

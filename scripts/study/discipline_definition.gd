@@ -3,6 +3,8 @@ extends Resource
 
 @export var id: StringName
 @export var title: String
+@export var icon: Texture2D
+@export var badge_icon: Texture2D
 @export_file("*.tscn") var map_scene: String
 @export var topics: Array[StudyTopic] = []
 

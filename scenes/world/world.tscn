@@ -11,6 +11,10 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/player_dialogue.tscn" id="10_dialogue"]
 [ext_resource type="AudioStream" uid="uid://cjyrnkt23ekvr" path="res://assets/audio/Jogo.mp3" id="10_gb53w"]
 
+[ext_resource type="PackedScene" path="res://scenes/ui/task_progress_hud.tscn" id="11_progress_hud"]
+
+[ext_resource type="Script" path="res://scenes/world/tcpip_route.gd" id="12_route"]
+
 [node name="World" type="Node2D" unique_id=60291279]
 
 [node name="MapTopLeft" type="Marker2D" parent="." unique_id=2005635001 groups=["map_top_left"]]
@@ -35,6 +39,28 @@ position = Vector2(0, 0)
 [node name="MapLayout" parent="." unique_id=2015112372 instance=ExtResource("8_modular")]
 z_index = -2
 
+[node name="Primary" parent="MapLayout/Pieces/CentralRoom/MissionSlots" index="0"]
+position = Vector2(16, -420)
+
+[node name="Primary" parent="MapLayout/Pieces/UpperLeftRoom/MissionSlots" index="0"]
+position = Vector2(50, -40)
+
+[node name="Primary" parent="MapLayout/Pieces/UpperRightRoom/MissionSlots" index="0"]
+position = Vector2(354, 246)
+
+[node name="Primary" parent="MapLayout/Pieces/LowerRightRoom/MissionSlots" index="0"]
+position = Vector2(46, 100)
+
+[node name="Primary" parent="MapLayout/Pieces/LowerCentralRoom/MissionSlots" index="0"]
+floor_bounds = Rect2(341, 313, 300, 454)
+
+[node name="Primary" parent="MapLayout/Pieces/LowerLeftRoom/MissionSlots" index="0"]
+floor_bounds = Rect2(-84, -184, 568, 452)
+
+[node name="TcpIpRoute" type="Node2D" parent="."]
+process_mode = 3
+script = ExtResource("12_route")
+
 [node name="ModularWorldSetup" type="Node" parent="." unique_id=1431200938]
 script = ExtResource("9_setup")
 
@@ -43,6 +69,8 @@ script = ExtResource("9_setup")
 [node name="UiController" type="Node" parent="CanvasLayer" unique_id=1392685600]
 process_mode = 3
 script = ExtResource("1_t5ptc")
+
+[node name="TaskProgressHud" parent="CanvasLayer" instance=ExtResource("11_progress_hud")]
 
 [node name="PlayerDialogue" parent="CanvasLayer" unique_id=1655860413 instance=ExtResource("10_dialogue")]
 
@@ -62,4 +90,5 @@ autoplay = true
 bus = &"Music"
 parameters/looping = true
 
+[editable path="MapLayout"]
 [editable path="CanvasLayer/Pause"]

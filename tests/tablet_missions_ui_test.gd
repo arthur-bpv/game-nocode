@@ -28,12 +28,15 @@ func _run() -> void:
 	var first_card := tablet.get_node("%MissionList").get_child(0)
 	assert(first_card.get_node("Content/Details/Title").text == session.current_topic().tasks[0].title)
 	assert(first_card.get_node("Content/Details/State").text == "DISPONÍVEL")
+	for index in range(1, total):
+		assert(tablet.get_node("%MissionList").get_child(index).get_meta("state") == &"locked")
 
 	assert(session.complete(session.current_topic().tasks[0].id))
 	await process_frame
 	assert(tablet.get_node("%MissionProgress").value == 1, "A barra não acompanhou a primeira conclusão.")
 	first_card = tablet.get_node("%MissionList").get_child(0)
 	assert(first_card.get_node("Content/Details/State").text == "CONCLUÍDA")
+	assert(tablet.get_node("%MissionList").get_child(1).get_meta("state") == &"available")
 
 	for index in range(1, total):
 		assert(session.complete(session.current_topic().tasks[index].id))

@@ -16,6 +16,7 @@ const MISSION_STATE_COLORS := {
 const StationMinimap := preload("res://scenes/tablet/station_minimap.gd")
 
 var _active_mission: Control
+var _replay_button: Button
 
 @onready var map_button: Button = %MapButton
 @onready var status_label: Label = %StatusLabel
@@ -30,6 +31,13 @@ var _active_mission: Control
 func _ready() -> void:
 	hide()
 	StudySession.progress_changed.connect(_refresh_missions)
+	var header := $ScreenCenter/Screen/Content/Header
+	_replay_button = Button.new()
+	_replay_button.text = "Refazer"
+	_replay_button.hide()
+	_replay_button.pressed.connect(_replay_mission)
+	header.add_child(_replay_button)
+	header.move_child(_replay_button, header.get_child_count() - 2)
 
 func open_ui() -> void:
 	if visible:
@@ -230,8 +238,15 @@ func _make_progress_style(color: Color) -> StyleBoxFlat:
 
 
 func open_mission(mission: Control) -> void:
+	var task_id: StringName = mission.get_meta("study_task_id", &"")
+	if task_id != &"" and StudySession.task_state(task_id) not in [&"available", &"completed"]:
+		return
 	open_ui()
 	_active_mission = mission
+	_replay_button.visible = (
+		StudySession.topic_id == StudySession.DEFAULT_TOPIC_ID
+		and task_id != &"" and StudySession.task_state(task_id) == &"completed"
+	)
 	$ScreenCenter/Screen/Content/Body.hide()
 	var host := $ScreenCenter/Screen/Content/MissionHost
 	host.show()
@@ -245,9 +260,23 @@ func open_mission(mission: Control) -> void:
 		local_close.hide()
 	$ScreenCenter/Screen/Content/Header/CloseButton.grab_focus()
 
+func _replay_mission() -> void:
+	if not is_instance_valid(_active_mission):
+		return
+	var slot: Node = _active_mission.get_meta("study_task_slot", null)
+	if not is_instance_valid(slot):
+		return
+	var previous := _active_mission
+	_leave_mission()
+	previous.reparent(slot, false)
+	var mission: Control = slot.restart_mission()
+	if mission != null:
+		open_mission(mission)
+
 func _leave_mission() -> void:
 	if is_instance_valid(_active_mission):
 		_active_mission.hide()
 	_active_mission = null
+	_replay_button.hide()
 	$ScreenCenter/Screen/Content/MissionHost.hide()
 	$ScreenCenter/Screen/Content/Body.show()

@@ -1,7 +1,6 @@
 extends Control
 
 signal completed
-signal close_requested
 signal mentor_message(message: String, duration: float)
 signal mentor_context(message: String)
 
@@ -48,9 +47,6 @@ const DEFECT_OPTIONS := [
 	"Protocolo de aplicação incorreto",
 	"Caminho inacessível/congestionado"
 ]
-const CONVEYOR_WALL_TEXTURE := preload("res://assets/sprites/Analisar_Pacotes.png")
-const TABLET_FRAME_TEXTURE := preload("res://assets/sprites/tablet_frame.png")
-const INSPECTION_PACKAGE_TEXTURE := preload("res://assets/sprites/Pacote.png")
 
 var queue_index := 0
 var active_defects: Array = []
@@ -72,14 +68,10 @@ var expected_transport_protocol := ""
 var shown_transport_protocol := ""
 var _round_index := 0
 
-var map_sprite: Sprite2D
-var map_timer: Label
 var status_label: Label
 var timer_label: Label
 var package_label: Label
-var inspect_hint_label: Label
-var inspection_tab: PanelContainer
-var package_label_panel: PanelContainer
+var inspection_tab: VBoxContainer
 var tab_request_label: Label
 var tab_destination_label: Label
 var tab_application_label: Label
@@ -89,28 +81,13 @@ var defect_menu: VBoxContainer
 var submit_button: Button
 var approve_button: Button
 var feedback_label: Label
-var package_drawer: TextureButton
+var package_drawer: Button
 var defect_toggles: Dictionary = {}
 
 func _ready() -> void:
-	add_to_group("inspection_tasks")
-	# Tamanho da atividade ajustado à abertura útil da moldura do tablet.
-	size = Vector2(1120, 734)
-	mouse_filter = Control.MOUSE_FILTER_STOP
 	_build_inspection_screen()
 	_randomize_round_defects()
 	_start_wait(INITIAL_WAIT, false)
-
-func _unhandled_input(event: InputEvent) -> void:
-	if visible and event.is_action_pressed("ui_cancel"):
-		close_task()
-		get_viewport().set_input_as_handled()
-
-func is_inspection_active() -> bool:
-	return visible
-
-func close_task() -> void:
-	close_requested.emit()
 
 func mentor_intro() -> String:
 	return "A esteira de inspeção fica na parede. O contador verde mostra quando o próximo pacote chegará. Pressione [E] para abrir a inspeção."
@@ -128,267 +105,100 @@ func is_package_ready() -> bool:
 	return phase == "inspection"
 
 func _build_inspection_screen() -> void:
-	var backdrop := ColorRect.new()
-	backdrop.color = Color("101b20")
-	backdrop.position = Vector2(160, 100)
-	backdrop.size = Vector2(800, 534)
-	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(backdrop)
-
-	# A abertura transparente da arte é a área útil da task. A moldura deve
-	# acompanhar esse retângulo, não o tamanho reduzido do MissionHost.
-	var tablet_frame := Sprite2D.new()
-	tablet_frame.texture = TABLET_FRAME_TEXTURE
-	const TASK_WINDOW := Rect2(160, 100, 800, 534)
-	const TABLET_OPENING_SIZE := Vector2(815, 561)
-	const TABLET_OPENING_CENTER := Vector2(908.5, 479.5)
-	var texture_center := TABLET_FRAME_TEXTURE.get_size() / 2.0
-	tablet_frame.scale = TASK_WINDOW.size / TABLET_OPENING_SIZE
-	tablet_frame.position = TASK_WINDOW.get_center() - (
-		TABLET_OPENING_CENTER - texture_center
-	) * tablet_frame.scale
-	tablet_frame.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	tablet_frame.z_index = 1
-	add_child(tablet_frame)
-
-	# A moldura do tablet é o único contorno externo da atividade.
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 12)
+	add_child(content)
+	content.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
 
 	var title := Label.new()
-	title.text = "LINHA DE INSPEÇÃO DE PACOTES"
-	title.position = Vector2(194, 112)
-	title.size = Vector2(690, 36)
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 24)
-	title.add_theme_color_override("font_color", Color("40e4ff"))
-	add_child(title)
+	title.text = "Inspeção de pacotes"
+	title.add_theme_font_size_override("font_size", 18)
+	title.add_theme_color_override("font_color", Color("69edf0"))
+	content.add_child(title)
 
-	var machine := PanelContainer.new()
-	machine.position = Vector2(180, 160)
-	machine.size = Vector2(430, 338)
-	machine.add_theme_stylebox_override("panel", _panel_style(Color("0b1217"), Color("40e4ff")))
-	add_child(machine)
-	var machine_view := Control.new()
-	# O PNG da estação é quadrado e grande; recorta qualquer excedente para
-	# ele nunca escapar do painel esquerdo da tela do tablet.
-	machine_view.clip_contents = true
-	machine.add_child(machine_view)
+	var header := HBoxContainer.new()
+	content.add_child(header)
+	status_label = _body_label(17)
+	status_label.size_flags_horizontal = SIZE_EXPAND_FILL
+	header.add_child(status_label)
+	timer_label = _body_label(19)
+	timer_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	timer_label.add_theme_color_override("font_color", Color("69edf0"))
+	header.add_child(timer_label)
 
-	var machine_label := Label.new()
-	machine_label.text = "ESTEIRA — SAÍDA NA PAREDE"
-	machine_label.position = Vector2(24, 18)
-	machine_label.size = Vector2(382, 28)
-	machine_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	machine_label.add_theme_font_size_override("font_size", 16)
-	machine_label.add_theme_color_override("font_color", Color("e8fcff"))
-	machine_view.add_child(machine_label)
+	package_label = _body_label(17)
+	package_label.custom_minimum_size.y = 44
+	content.add_child(package_label)
 
-	# Sprite2D evita que o Container redimensione o PNG de 1024px.
-	map_sprite = Sprite2D.new()
-	map_sprite.texture = CONVEYOR_WALL_TEXTURE
-	# A arte é quadrada (1024px); 0.185 deixa uma estação de ~190px no painel.
-	map_sprite.position = Vector2(215, 165)
-	map_sprite.scale = Vector2(0.185, 0.185)
-	map_sprite.centered = true
-	map_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	machine_view.add_child(map_sprite)
+	var columns := HBoxContainer.new()
+	columns.add_theme_constant_override("separation", 24)
+	content.add_child(columns)
 
-	map_timer = Label.new()
-	# Visor ciano do sprite Analisar_Pacotes.png.
-	map_timer.position = Vector2(132, 122)
-	map_timer.size = Vector2(166, 32)
-	map_timer.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	map_timer.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	map_timer.add_theme_font_override("font", ThemeDB.fallback_font)
-	map_timer.add_theme_font_size_override("font_size", 18)
-	map_timer.add_theme_color_override("font_color", Color("e9ffff"))
-	map_timer.add_theme_color_override("font_outline_color", Color("061018"))
-	map_timer.add_theme_constant_override("outline_size", 2)
-	map_timer.add_theme_stylebox_override("normal", _panel_style(Color("0b2533"), Color("17ddeb"), 2))
-	map_timer.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	machine_view.add_child(map_timer)
-	# O estado do pacote já é mostrado no painel amarelo do terminal.
-	# Mantemos o nó para a lógica de atualização, mas sem duplicá-lo sobre a esteira.
-	map_timer.hide()
+	var packet := VBoxContainer.new()
+	packet.custom_minimum_size.x = 315
+	packet.size_flags_horizontal = SIZE_EXPAND_FILL
+	columns.add_child(packet)
+	package_drawer = _button("Ver dados do pacote")
+	package_drawer.pressed.connect(_toggle_package_tab)
+	packet.add_child(package_drawer)
 
-	# Pacote tecnológico exclusivo da estação de inspeção.
-	package_drawer = TextureButton.new()
-	package_drawer.texture_normal = INSPECTION_PACKAGE_TEXTURE
-	package_drawer.ignore_texture_size = true
-	package_drawer.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
-	package_drawer.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	package_drawer.position = Vector2(145, 204)
-	package_drawer.size = Vector2(142, 112)
-	package_drawer.tooltip_text = "Clique no pacote para inspecioná-lo"
-	package_drawer.pressed.connect(_open_package_tab)
-	machine_view.add_child(package_drawer)
-	package_drawer.name = "Package"
-	package_drawer.hide()
-
-	var info := VBoxContainer.new()
-	info.position = Vector2(630, 160)
-	info.size = Vector2(276, 338)
-	info.add_theme_constant_override("separation", 10)
-	add_child(info)
-
-	var terminal_title := Label.new()
-	terminal_title.text = "TERMINAL DE INSPEÇÃO"
-	terminal_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	terminal_title.add_theme_font_size_override("font_size", 19)
-	terminal_title.add_theme_color_override("font_color", Color("40e4ff"))
-	info.add_child(terminal_title)
-
-	status_label = Label.new()
-	status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	status_label.add_theme_font_size_override("font_size", 14)
-	info.add_child(status_label)
-
-	timer_label = Label.new()
-	timer_label.custom_minimum_size = Vector2(0, 44)
-	timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	timer_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	timer_label.add_theme_font_override("font", ThemeDB.fallback_font)
-	timer_label.add_theme_font_size_override("font_size", 28)
-	timer_label.add_theme_color_override("font_color", Color("fff1b0"))
-	timer_label.add_theme_color_override("font_outline_color", Color("2c1904"))
-	timer_label.add_theme_constant_override("outline_size", 2)
-	timer_label.add_theme_stylebox_override("normal", _panel_style(Color("3a2606"), Color("ffd866"), 2))
-	info.add_child(timer_label)
-
-	inspect_hint_label = Label.new()
-	inspect_hint_label.text = "Clique no pacote para inspecioná-lo."
-	inspect_hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	inspect_hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	inspect_hint_label.add_theme_font_size_override("font_size", 12)
-	inspect_hint_label.add_theme_color_override("font_color", Color("d8eff3"))
-	inspect_hint_label.hide()
-	info.add_child(inspect_hint_label)
-
-	package_label = Label.new()
-	package_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	package_label.add_theme_font_size_override("font_size", 13)
-	info.add_child(package_label)
-
-	defect_menu = VBoxContainer.new()
-	defect_menu.add_theme_constant_override("separation", 1)
-	info.add_child(defect_menu)
-
-	submit_button = Button.new()
-	submit_button.text = "REENVIAR PARA CORREÇÃO"
-	submit_button.pressed.connect(_submit_defects)
-	info.add_child(submit_button)
-
-	approve_button = Button.new()
-	approve_button.text = "APROVAR PACOTE"
-	approve_button.pressed.connect(_approve_box)
-	info.add_child(approve_button)
-
-	feedback_label = Label.new()
-	feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	feedback_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	feedback_label.add_theme_font_size_override("font_size", 12)
-	feedback_label.add_theme_color_override("font_color", Color("d8eff3"))
-	info.add_child(feedback_label)
-
-	var close_button := Button.new()
-	close_button.text = "X"
-	close_button.position = Vector2(920, 108)
-	close_button.size = Vector2(34, 34)
-	close_button.z_index = 2
-	close_button.add_theme_font_size_override("font_size", 18)
-	close_button.tooltip_text = "Fechar inspeção"
-	close_button.pressed.connect(func() -> void: close_requested.emit())
-	add_child(close_button)
-
-	_build_package_tab()
-
-func _build_package_tab() -> void:
-	# Painel central com moldura externa e moldura interna.
-	inspection_tab = PanelContainer.new()
-	inspection_tab.position = Vector2(260, 232)
-	inspection_tab.size = Vector2(600, 270)
-	inspection_tab.add_theme_stylebox_override("panel", _panel_style(Color("0a151a"), Color("40e4ff"), 3))
-	add_child(inspection_tab)
-
-	var outer_content := Control.new()
-	inspection_tab.add_child(outer_content)
-	var inner_panel := PanelContainer.new()
-	inner_panel.position = Vector2(8, 8)
-	inner_panel.size = Vector2(584, 254)
-	inner_panel.add_theme_stylebox_override("panel", _panel_style(Color("101b20"), Color("2cc8d8"), 2))
-	outer_content.add_child(inner_panel)
-	var tab_content := Control.new()
-	inner_panel.add_child(tab_content)
-
-	var tab_title := Label.new()
-	tab_title.text = "DADOS DA TRANSMISSÃO"
-	tab_title.position = Vector2(20, 18)
-	tab_title.size = Vector2(330, 24)
-	tab_title.add_theme_font_size_override("font_size", 17)
-	tab_title.add_theme_color_override("font_color", Color("40e4ff"))
-	tab_content.add_child(tab_title)
-
-	tab_request_label = _tab_data_label(Vector2(20, 58), Vector2(320, 58))
-	tab_destination_label = _tab_data_label(Vector2(20, 120), Vector2(320, 28))
-	tab_application_label = _tab_data_label(Vector2(20, 152), Vector2(320, 40))
-	tab_transport_label = _tab_data_label(Vector2(20, 198), Vector2(320, 28))
-	tab_content.add_child(tab_request_label)
-	tab_content.add_child(tab_destination_label)
-	tab_content.add_child(tab_application_label)
-	tab_content.add_child(tab_transport_label)
-
-	package_label_panel = PanelContainer.new()
-	package_label_panel.position = Vector2(366, 58)
-	package_label_panel.size = Vector2(194, 132)
-	package_label_panel.add_theme_stylebox_override("panel", _panel_style(Color("18242b"), Color("ede0b5"), 2))
-	tab_content.add_child(package_label_panel)
-	var label_content := Control.new()
-	package_label_panel.add_child(label_content)
-	var label_title := Label.new()
-	label_title.text = "ETIQUETA DO PACOTE"
-	label_title.position = Vector2(8, 14)
-	label_title.size = Vector2(178, 22)
-	label_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label_title.add_theme_font_size_override("font_size", 13)
-	label_title.add_theme_color_override("font_color", Color("ede0b5"))
-	label_content.add_child(label_title)
-	packet_label_value = Label.new()
-	packet_label_value.position = Vector2(8, 52)
-	packet_label_value.size = Vector2(178, 52)
-	packet_label_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	packet_label_value.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	packet_label_value.add_theme_font_size_override("font_size", 13)
-	packet_label_value.add_theme_color_override("font_color", Color.WHITE)
-	label_content.add_child(packet_label_value)
-
-	var close_tab := Button.new()
-	close_tab.text = "X"
-	close_tab.position = Vector2(544, 10)
-	close_tab.size = Vector2(30, 30)
-	close_tab.add_theme_font_size_override("font_size", 16)
-	close_tab.tooltip_text = "Fechar aba"
-	close_tab.pressed.connect(func() -> void: _close_package_tab())
-	tab_content.add_child(close_tab)
+	inspection_tab = VBoxContainer.new()
+	inspection_tab.add_theme_constant_override("separation", 6)
+	packet.add_child(inspection_tab)
+	tab_request_label = _body_label(16)
+	tab_destination_label = _body_label(16)
+	tab_application_label = _body_label(16)
+	tab_transport_label = _body_label(16)
+	packet_label_value = _body_label(16)
+	for item in [tab_request_label, tab_destination_label, tab_application_label, tab_transport_label, packet_label_value]:
+		inspection_tab.add_child(item)
 	inspection_tab.hide()
 
-func _tab_data_label(label_position: Vector2, label_size: Vector2) -> Label:
+	var decision := VBoxContainer.new()
+	decision.custom_minimum_size.x = 315
+	decision.size_flags_horizontal = SIZE_EXPAND_FILL
+	decision.add_theme_constant_override("separation", 6)
+	columns.add_child(decision)
+	defect_menu = VBoxContainer.new()
+	decision.add_child(defect_menu)
+	submit_button = _button("Reenviar para correção")
+	submit_button.pressed.connect(_submit_defects)
+	decision.add_child(submit_button)
+	approve_button = _button("Aprovar pacote")
+	approve_button.pressed.connect(_approve_box)
+	decision.add_child(approve_button)
+	feedback_label = _body_label(16)
+	feedback_label.add_theme_color_override("font_color", Color("69edf0"))
+	content.add_child(feedback_label)
+
+func _body_label(font_size: int) -> Label:
 	var label := Label.new()
-	label.position = label_position
-	label.size = label_size
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.add_theme_font_size_override("font_size", 13)
-	label.add_theme_color_override("font_color", Color("e8fcff"))
+	label.add_theme_font_override("font", ThemeDB.fallback_font)
+	label.add_theme_font_size_override("font_size", font_size)
 	return label
 
-func _open_package_tab() -> void:
-	if phase != "inspection" or inspection_tab == null:
+func _button(caption: String) -> Button:
+	var button := Button.new()
+	button.text = caption
+	button.add_theme_font_override("font", ThemeDB.fallback_font)
+	button.add_theme_font_size_override("font_size", 16)
+	return button
+
+func _toggle_package_tab() -> void:
+	if phase != "inspection":
+		return
+	if inspection_tab.visible:
+		_close_package_tab()
 		return
 	_refresh_packet_tab()
 	inspection_tab.show()
+	package_drawer.text = "Ocultar dados do pacote"
 
 func _close_package_tab() -> void:
 	if inspection_tab != null:
 		inspection_tab.hide()
+		package_drawer.text = "Ver dados do pacote"
 
 func _prepare_packet_for_current_box() -> void:
 	if packet_generated_for == queue_index:
@@ -455,17 +265,6 @@ func _refresh_packet_tab() -> void:
 	tab_transport_label.text = "Protocolo de Transporte: " + shown_transport_protocol
 	packet_label_value.text = "Destinatário real:\n" + real_ip
 
-func _panel_style(background: Color, border: Color, border_width: int = 2) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = background
-	style.border_color = border
-	style.set_border_width_all(border_width)
-	style.corner_radius_top_left = 8
-	style.corner_radius_top_right = 8
-	style.corner_radius_bottom_left = 8
-	style.corner_radius_bottom_right = 8
-	return style
-
 func _process(delta: float) -> void:
 	if phase == "waiting":
 		remaining = maxf(0.0, remaining - delta)
@@ -491,15 +290,16 @@ func _start_wait(duration: float, is_return: bool) -> void:
 	feedback_label.text = ""
 	submit_button.disabled = true
 	approve_button.disabled = true
-	mentor_context.emit("Pacote retorna em 01:00." if is_return else "Próximo pacote chega em 02:00.")
+	var countdown := get_map_timer_text()
+	mentor_context.emit(("Pacote retorna em %s." if is_return else "Próximo pacote chega em %s.") % countdown)
 	_refresh_ui()
 
 func _open_inspection() -> void:
 	active_defects = pending_return_defects.duplicate() if returning else round_defects[queue_index].duplicate()
 	_prepare_packet_for_current_box()
 	var current_box := queue_index + 1
-	status_label.text = "PACOTE %d DE %d — ANALISE VISUALMENTE" % [current_box, BOX_TOTAL]
-	package_label.text = "O pacote saiu da abertura. Revise os dados e marque as falhas que encontrar."
+	status_label.text = "PACOTE %d DE %d" % [current_box, BOX_TOTAL]
+	package_label.text = "Abra os dados do pacote e marque as falhas que encontrar."
 	feedback_label.text = ""
 	# As opções permanecem disponíveis mesmo para pacotes corretos:
 	# cabe ao jogador decidir se aprova ou se reenvia.
@@ -513,15 +313,14 @@ func _refresh_ui() -> void:
 	if timer_label == null:
 		return
 	var map_time := get_map_timer_text()
-	map_timer.text = map_time
 	timer_label.text = map_time
 	if package_drawer != null:
 		package_drawer.visible = package_visible
-	if inspect_hint_label != null:
-		inspect_hint_label.visible = phase == "inspection"
+	submit_button.visible = phase == "inspection"
+	approve_button.visible = phase == "inspection"
 	if phase == "waiting":
 		status_label.text = "PACOTE EM CORREÇÃO" if returning else "PRÓXIMO PACOTE EM TRIAGEM"
-		package_label.text = "A esteira está livre. O temporizador da faixa verde continua contando."
+		package_label.text = "A esteira está livre. O contador indica quando chega o próximo pacote."
 	elif phase == "arriving":
 		status_label.text = "ALÇAPÃO ABERTO"
 		package_label.text = "O pacote está saindo da parede."
@@ -529,7 +328,6 @@ func _refresh_ui() -> void:
 		status_label.text = "TURNO CONCLUÍDO"
 		package_label.text = "As três caixas foram analisadas e liberadas."
 		timer_label.text = "3/3"
-		map_timer.text = "3/3"
 
 func _configure_choices(enabled: bool) -> void:
 	if defect_menu == null:
@@ -541,14 +339,14 @@ func _configure_choices(enabled: bool) -> void:
 		defect_menu.hide()
 		return
 	defect_menu.show()
-	var heading := Label.new()
+	var heading := _body_label(16)
 	heading.text = "Falhas encontradas:"
-	heading.add_theme_font_size_override("font_size", 13)
 	defect_menu.add_child(heading)
 	for defect in DEFECT_OPTIONS:
 		var toggle := CheckButton.new()
 		toggle.text = defect
-		toggle.add_theme_font_size_override("font_size", 12)
+		toggle.add_theme_font_override("font", ThemeDB.fallback_font)
+		toggle.add_theme_font_size_override("font_size", 15)
 		defect_menu.add_child(toggle)
 		defect_toggles[defect.to_lower()] = toggle
 

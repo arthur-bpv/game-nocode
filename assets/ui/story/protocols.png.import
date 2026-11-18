@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://phodun0mqibh"
-path="res://.godot/imported/esteira_cabine_central.png-8876959744d2c074957f6881ff0fff4f.ctex"
+uid="uid://drkda2pdfeouc"
+path="res://.godot/imported/protocols.png-68a3709d82e219dec9b27202665097ca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/generated/esteira_cabine_central.png"
-dest_files=["res://.godot/imported/esteira_cabine_central.png-8876959744d2c074957f6881ff0fff4f.ctex"]
+source_file="res://assets/ui/story/protocols.png"
+dest_files=["res://.godot/imported/protocols.png-68a3709d82e219dec9b27202665097ca.ctex"]
 
 [params]
 

@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/player_dialogue.tscn" id="10_dialogue"]
 [ext_resource type="AudioStream" uid="uid://cjyrnkt23ekvr" path="res://assets/audio/Jogo.mp3" id="10_gb53w"]
 
+[ext_resource type="PackedScene" path="res://scenes/ui/task_progress_hud.tscn" id="11_progress_hud"]
+
 [node name="WorldIpv4Subnets" type="Node2D" unique_id=280871161]
 
 [node name="MapTopLeft" type="Marker2D" parent="." unique_id=836501928 groups=["map_top_left"]]
@@ -43,6 +45,8 @@ script = ExtResource("9_setup")
 [node name="UiController" type="Node" parent="CanvasLayer" unique_id=1811407738]
 process_mode = 3
 script = ExtResource("1_t5ptc")
+
+[node name="TaskProgressHud" parent="CanvasLayer" instance=ExtResource("11_progress_hud")]
 
 [node name="PlayerDialogue" parent="CanvasLayer" unique_id=1426694199 instance=ExtResource("10_dialogue")]
 

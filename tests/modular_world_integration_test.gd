@@ -2,10 +2,12 @@ extends SceneTree
 
 const TASK_ROOMS := {
 	&"sinais_osi": "LowerLeftRoom",
-	&"conecta_camadas": "UpperRightRoom",
+	&"conecta_camadas": "UpperLeftRoom",
 	&"rack_osi": "LowerCentralRoom",
-	&"esteira_pacotes": "UpperLeftRoom",
+	&"encapsulamento_esteira": "CentralRoom",
 	&"inspecao_pacotes": "SmallLowerRightRoom",
+	&"escolher_transporte": "UpperRightRoom",
+	&"reparar_encapsulamento": "LowerRightRoom",
 }
 
 func _initialize() -> void:
@@ -28,6 +30,26 @@ func _run() -> void:
 		anchors[anchor.slot_id] = anchor
 		var slot := entities.get_node(String(anchor.slot_id)) as Node2D
 		assert(slot.global_position.distance_to(anchor.global_position) < 0.01)
+		var platform := slot.get_node_or_null("TaskFloor") as Polygon2D
+		assert(platform != null and platform.z_index == -1 and not platform.z_as_relative)
+		assert(platform.draw.get_connections().size() == 1)
+		assert(platform.polygon.size() == 8, "O rodapé deve contornar toda a base chanfrada.")
+		if anchor.slot_id == &"sala_inferior_central_principal":
+			var rack := slot._mission.rack as TextureRect
+			var footprint := Rect2(platform.to_global(platform.polygon[0]), Vector2.ZERO)
+			for vertex in platform.polygon:
+				footprint = footprint.expand(platform.to_global(vertex))
+			assert(footprint.encloses(rack.get_global_rect()))
+			assert(is_equal_approx(footprint.get_center().x, rack.get_global_rect().get_center().x))
+			for block_name in slot._mission.BLOCK_ORDER:
+				var card := slot._mission.get_node(block_name) as TextureRect
+				assert(not footprint.intersects(card.get_global_rect()), "O destaque deve ficar só sob o rack.")
+		var floor_tiles := world.get_node("MapLayout/Floor") as TileMapLayer
+		var wall_tiles := world.get_node("MapLayout/Walls") as TileMapLayer
+		for vertex in platform.polygon:
+			var point := platform.to_global(vertex)
+			assert(floor_tiles.get_cell_source_id(floor_tiles.local_to_map(floor_tiles.to_local(point))) >= 0)
+			assert(wall_tiles.get_cell_source_id(wall_tiles.local_to_map(wall_tiles.to_local(point))) == -1)
 	assert(anchors.size() == 7)
 	var session := root.get_node("StudySession")
 	for task in session.current_topic().tasks:
@@ -38,20 +60,6 @@ func _run() -> void:
 		assert(slot.global_position == (layout.get_node(room_name).get_node("MissionSlots/Primary") as Marker2D).global_position)
 	var player := entities.get_node("player/Player") as CharacterBody2D
 	assert(player.global_position.distance_to(Vector2.ZERO) < 0.01)
-	await physics_frame
-	var factory_room := layout.get_node("UpperLeftRoom") as Node2D
-	var factory_slot = entities.get_node("sala_superior_esquerda_principal")
-	var console := factory_room.to_local(factory_slot.global_position + factory_slot._task.terminal_offset - Vector2(0, 26))
-	var approaches := [
-		[Vector2(215, 14), Vector2(console.x, 14), console],
-		[Vector2(86, 238), Vector2(86, console.y), console],
-	]
-	for route in approaches:
-		for index in range(1, route.size()):
-			var start := factory_room.to_global(route[index - 1])
-			var target := factory_room.to_global(route[index])
-			assert(not player.test_move(Transform2D(0, start), target - start, null, 0.001),
-				"O caminho até o terminal precisa estar livre a partir dos dois corredores.")
 	var camera := player.get_node("Camera2D") as Camera2D
 	assert(camera.limit_left == -1800 and camera.limit_right == 2400)
 	assert(camera.limit_top == -500 and camera.limit_bottom == 1800)
@@ -73,5 +81,5 @@ func _run() -> void:
 	tablet.close_ui()
 	world.queue_free()
 	await process_frame
-	print("Modular world integration checks passed: seven room anchors, five tasks, spawn, camera and tablet map.")
+	print("Modular world integration checks passed: seven room anchors, seven tasks and seven floor platforms, spawn, camera and tablet map.")
 	quit()

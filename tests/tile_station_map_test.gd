@@ -84,7 +84,11 @@ func _run() -> void:
 	assert(visited.size() == floor.get_used_cells().size(), "Todos os setores devem ser conectados.")
 	for room in layout.get_node("Pieces").get_children():
 		var anchor: Marker2D = room.get_node("MissionSlots/Primary")
-		assert(visited.has(floor.local_to_map(floor.to_local(anchor.global_position))),
+		var task_position := anchor.global_position
+		if anchor.slot_id == &"sala_inferior_central_principal":
+			var rack := world.get_node("Entities/sala_inferior_central_principal")._mission.get_node("Rack") as Control
+			task_position = rack.get_global_rect().get_center()
+		assert(visited.has(floor.local_to_map(floor.to_local(task_position))),
 			"A missão precisa estar sobre piso acessível: %s" % room.name)
 	await physics_frame
 	var player := world.get_node("Entities/player/Player") as CharacterBody2D
@@ -92,8 +96,11 @@ func _run() -> void:
 		"A parede norte deve bloquear a cápsula.")
 	var capsule := player.get_node("CollisionShape2D") as CollisionShape2D
 	var east_lane_center := Vector2(0, 48) - capsule.position
-	assert(not player.test_move(Transform2D(0, east_lane_center), Vector2(1050, 0)),
-		"O corredor leste deve comportar a cápsula do jogador.")
+	assert(not player.test_move(Transform2D(0, east_lane_center), Vector2(880, 0)),
+		"O corredor leste deve comportar a cápsula até a entrada da sala.")
+	var gate_hit := KinematicCollision2D.new()
+	assert(player.test_move(Transform2D(0, east_lane_center), Vector2(1050, 0), gate_hit))
+	assert(gate_hit.get_collider().name == &"Sala05_Porta1")
 	for y in range(31, 41):
 		for x in range(53, 60):
 			assert(floor.get_cell_source_id(Vector2i(x, y)) == 0, "O corredor central deve manter o mesmo eixo.")

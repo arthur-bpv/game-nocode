@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cd4yj4xn4rnpe"
-path="res://.godot/imported/EsteiraParede.png-923c8d7e8f27a13de236de8e21a9891e.ctex"
+uid="uid://1tlfplwnkirh"
+path="res://.godot/imported/networks_badge.png-964ba7c3a0485b33984d1b8a211ec751.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/EsteiraParede.png"
-dest_files=["res://.godot/imported/EsteiraParede.png-923c8d7e8f27a13de236de8e21a9891e.ctex"]
+source_file="res://assets/ui/story/networks_badge.png"
+dest_files=["res://.godot/imported/networks_badge.png-964ba7c3a0485b33984d1b8a211ec751.ctex"]
 
 [params]
 
