@@ -5,7 +5,7 @@
 Jogo top-down estilo Among Us ambientado dentro de uma placa-mãe vista de cima.
 O jogador é um robô que transita por trilhas, corredores e salas — a estrutura física representa uma infraestrutura de rede.
 
-Suporta **single player** e **multiplayer** (listen server).
+Suporta **single player** e **multiplayer LAN cooperativo** com servidor dedicado.
 
 ---
 
@@ -102,11 +102,11 @@ Dividida em dois painéis:
 - A visualização lê esse estado e atualiza os cabos/ícones
 - Quando o jogador resolve um problema físico no mapa, o estado é atualizado e a topologia reflete
 
-### Multiplayer
-- Lógica de movimento já separada (handle_movement_deceleration recebe direction como parâmetro)
-- Estado da rede compartilhado via MultiplayerSynchronizer
-- Cada jogador tem autoridade sobre o próprio personagem
-- Host = listen server com autoridade sobre o estado do mundo
+### Multiplayer LAN
+
+Duas contas SUAP IFRN entram em uma sala privada por código. O servidor dedicado decide movimento, colisões, etapas da atividade e desfechos. O cliente Godot envia intenções e representa as posições recebidas. Na inspeção inicial, um jogador lê o terminal e o outro registra o diagnóstico.
+
+[Implantação, restauração e testes do multiplayer LAN](multiplayer_lan.md)
 
 ---
 

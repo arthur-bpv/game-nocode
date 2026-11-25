@@ -1,0 +1,10 @@
+**
+!server/
+!server/*.go
+!server/go.mod
+!server/go.sum
+!server/migrations/
+!server/migrations/*.sql
+!data/
+!data/lan/
+!data/lan/inspection.json

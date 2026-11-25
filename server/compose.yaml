@@ -1,0 +1,58 @@
+services:
+  proxy:
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    environment:
+      PUBLIC_URL: ${PUBLIC_URL:?set PUBLIC_URL}
+    ports:
+      - "${LAN_BIND_IP:?set LAN_BIND_IP}:443:443/tcp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - "${TLS_DIRECTORY:?set TLS_DIRECTORY}:/etc/netbot/tls:ro"
+    networks: [lan]
+    depends_on: [netbot]
+  netbot:
+    build:
+      context: ..
+      dockerfile: server/Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "postgresql://netbot:${NETBOT_DB_PASSWORD:?set NETBOT_DB_PASSWORD}@db/netbot?sslmode=disable"
+      PUBLIC_URL: ${PUBLIC_URL:?set PUBLIC_URL}
+      OAUTH_ISSUER: ${OAUTH_ISSUER:?set OAUTH_ISSUER}
+      OAUTH_AUTHORIZE_URL: ${OAUTH_AUTHORIZE_URL:?set OAUTH_AUTHORIZE_URL}
+      OAUTH_TOKEN_URL: ${OAUTH_TOKEN_URL:?set OAUTH_TOKEN_URL}
+      OAUTH_IDENTITY_URL: ${OAUTH_IDENTITY_URL:?set OAUTH_IDENTITY_URL}
+      OAUTH_IDENTITY_FIELD: ${OAUTH_IDENTITY_FIELD:?set OAUTH_IDENTITY_FIELD}
+      OAUTH_SCOPE: ${OAUTH_SCOPE:-}
+      OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID:?set OAUTH_CLIENT_ID}
+      OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET:?set OAUTH_CLIENT_SECRET}
+      OAUTH_TOKEN_AUTH: ${OAUTH_TOKEN_AUTH:?set OAUTH_TOKEN_AUTH}
+      IDENTITY_KEY: ${IDENTITY_KEY:?set IDENTITY_KEY}
+    networks: [lan, storage]
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: netbot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?set POSTGRES_ADMIN_PASSWORD}
+      NETBOT_DB_PASSWORD: ${NETBOT_DB_PASSWORD:?set NETBOT_DB_PASSWORD}
+    volumes:
+      - netbot-db:/var/lib/postgresql
+      - ./postgres/01-role.sh:/docker-entrypoint-initdb.d/01-role.sh:ro
+    networks: [storage]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "netbot", "-d", "netbot"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
+networks:
+  lan:
+  storage:
+    internal: true
+volumes:
+  netbot-db:

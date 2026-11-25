@@ -1,0 +1,9 @@
+{
+  "version": "inspection-1",
+  "width": 720,
+  "height": 420,
+  "spawns": [[120, 170], [120, 250]],
+  "terminal": [575, 210],
+  "walls": [[300, 80, 44, 210]],
+  "interaction_radius": 85
+}

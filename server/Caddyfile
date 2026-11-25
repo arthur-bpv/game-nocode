@@ -1,0 +1,18 @@
+{
+	auto_https disable_redirects
+	servers {
+		protocols h1 h2
+	}
+	log {
+		exclude http.log.error http.log.access
+	}
+}
+
+{$PUBLIC_URL} {
+	tls /etc/netbot/tls/fullchain.pem /etc/netbot/tls/privkey.pem
+	@metrics path /metrics
+	respond @metrics 404
+	reverse_proxy netbot:8080 {
+		header_up X-Netbot-Client {remote_host}
+	}
+}
